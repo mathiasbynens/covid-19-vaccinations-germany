@@ -1,0 +1,39 @@
+name: 'Update data'
+
+on:
+  schedule:
+    # Run daily at 11:30 UTC, i.e. 12:30 in Germany. The RKI updates the
+    # spreadsheet “every working day by noon”:
+    # https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html
+    - cron: '30 11 * * *'
+  workflow_dispatch:
+
+jobs:
+  import-markers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Read .nvmrc
+        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+        id: nvm
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '${{ steps.nvm.outputs.NVMRC }}'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Update data
+        run: |
+          npm run build
+          git config user.name 'Mathias Bynens'
+          git config user.email 'mathias@qiwi.be'
+          date=$(node -p 'new Date().toISOString().slice(0, 10)')
+          git commit data -m "Import latest data @ ${date}"
+          git push
