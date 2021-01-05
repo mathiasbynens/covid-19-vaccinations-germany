@@ -44,11 +44,7 @@ const schema = {
 // ISO 8601 4 lyfe.
 const isoDate = () => {
   const now = new Date();
-  const yyyy = now.getFullYear();
-  const mm = `${now.getMonth() + 1}`.padStart(2, '0');
-  const dd = `${now.getDate()}`.padStart(2, '0');
-  const date = `${yyyy}-${mm}-${dd}`;
-  return date;
+  return now.toISOString().slice(0, 10);
 };
 
 const updateCsv = (file, data) => {
