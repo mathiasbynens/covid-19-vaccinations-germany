@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<title>COVID-19 vaccination doses administered in Germany, per state</title>
+<style>
+  html {
+    font: 1rem/1.6 sans-serif;
+  }
+  /* Ideally, we’d make the chart responsive. Google Charts doesn’t seem
+     to support this. */
+  #chart {
+    width: 100%;
+    min-height: 800px;
+  }
+</style>
+<h1>COVID-19 vaccination doses administered in Germany, per state</h1>
+<div id="chart"></div>
+<p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data.</a></p>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    const data = new google.visualization.DataTable();
+    data.addColumn('date', 'Day');
+    /* Generated data starts here: */
+    <%= code %>
+    /* Generated data ends here. */
+
+    const element = document.querySelector('#chart');
+    const chart = new google.visualization.LineChart(element);
+    chart.draw(data, {
+      hAxis: { format: 'MMM d' },
+    });
+  }
+</script>

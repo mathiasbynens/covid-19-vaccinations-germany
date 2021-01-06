@@ -4,7 +4,11 @@
     "build": "./update-csv.sh"
   },
   "dependencies": {
+    "csv-parse": "^4.14.2",
     "csv-stringify": "^5.6.0",
+    "html-minifier": "^4.0.0",
+    "jsesc": "^3.0.2",
+    "lodash.template": "^4.5.0",
     "read-excel-file": "^5.0.0"
   }
 }
