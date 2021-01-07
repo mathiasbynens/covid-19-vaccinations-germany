@@ -6,32 +6,54 @@
   html {
     font: 1rem/1.6 sans-serif;
   }
-  /* Ideally, we’d make the chart responsive. Google Charts doesn’t seem
-     to support this. */
-  #chart {
+  /* Ideally, we’d make the charts responsive. Google Charts doesn’t
+     seem to support this. */
+  .chart {
     width: 100%;
     min-height: 800px;
   }
 </style>
 <h1>COVID-19 vaccination doses administered in Germany, per state</h1>
-<div id="chart"></div>
+<h2 id="per-mille">COVID-19 vaccination doses administered per 1,000 inhabitants</h2>
+<div id="chart-per-mille" class="chart"></div>
+<h2 id="cumulative">Total absolute number of COVID-19 vaccination doses administered</h2>
+<div id="chart-cumulative" class="chart"></div>
 <p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data.</a></p>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
   google.charts.load('current', { 'packages': ['corechart'] });
-  google.charts.setOnLoadCallback(drawChart);
+  google.charts.setOnLoadCallback(drawCharts);
 
-  function drawChart() {
+  function drawVaccinationsPerMilleChart() {
     const data = new google.visualization.DataTable();
     data.addColumn('date', 'Day');
     /* Generated data starts here: */
-    <%= code %>
+    <%= codePerMille %>
     /* Generated data ends here. */
 
-    const element = document.querySelector('#chart');
+    const element = document.querySelector('#chart-per-mille');
     const chart = new google.visualization.LineChart(element);
     chart.draw(data, {
       hAxis: { format: 'MMM d' },
     });
+  }
+
+  function drawCumulativeVaccinationsChart() {
+    const data = new google.visualization.DataTable();
+    data.addColumn('date', 'Day');
+    /* Generated data starts here: */
+    <%= codeCumulative %>
+    /* Generated data ends here. */
+
+    const element = document.querySelector('#chart-cumulative');
+    const chart = new google.visualization.LineChart(element);
+    chart.draw(data, {
+      hAxis: { format: 'MMM d' },
+    });
+  }
+
+  function drawCharts() {
+    drawVaccinationsPerMilleChart();
+    drawCumulativeVaccinationsChart();
   }
 </script>

@@ -17,37 +17,51 @@ const records = parseCsv(csv, {
 
 const states = new Set();
 const map = new Map();
-for (const {date, state, vaccinationsCumulative} of records) {
+for (const {date, state, vaccinationsCumulative, vaccinationsPerMille} of records) {
   states.add(state);
   const count = Number(vaccinationsCumulative);
+  const perMille = Number(vaccinationsPerMille);
   if (!map.has(date)) {
     map.set(date, new Map());
   }
-  map.get(date).set(state, count);
+  map.get(date).set(state, {
+    cumulative: count,
+    perMille: perMille,
+  });
 }
 
-const header = [];
-for (const state of states) {
-  header.push(`
-    data.addColumn('number', ${ jsesc(state, { wrap: true }) });
-  `.trim());
-}
-
-const body = [`data.addRows([`];
-for (const [date, entry] of map) {
-  const counts = [];
-  for (const state of states) { // Guarantee consistent ordering.
-    const count = entry.get(state);
-    counts.push(count);
+function generateScript(type) {
+  if (type !== 'cumulative' && type !== 'perMille') {
+    throw new Error();
   }
-  body.push(`
-    [new Date(${ jsesc(date, { wrap: true }) }), ${counts.join(', ')}],
-  `.trim());
-}
-body.push(`]);`)
+  const header = [];
+  for (const state of states) {
+    header.push(`
+      data.addColumn('number', ${ jsesc(state, { wrap: true }) });
+    `.trim());
+  }
 
-const output = header.join('\n') + '\n' + body.join('\n');
-const html = createHtml({ code: output });
+  const body = [`data.addRows([`];
+  for (const [date, entry] of map) {
+    const counts = [];
+    for (const state of states) { // Guarantee consistent ordering.
+      const count = entry.get(state);
+      counts.push(count[type]);
+    }
+    body.push(`
+      [new Date(${ jsesc(date, { wrap: true }) }), ${counts.join(', ')}],
+    `.trim());
+  }
+  body.push(`]);`)
+
+  const output = header.join('\n') + '\n' + body.join('\n');
+  return output;
+}
+
+const html = createHtml({
+  codeCumulative: generateScript('cumulative'),
+  codePerMille: generateScript('perMille'),
+});
 const minified = minifyHtml(html, {
   collapseBooleanAttributes: true,
   collapseInlineTagWhitespace: false,
