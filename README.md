@@ -7,3 +7,5 @@ This repository aims to…
 1. [extract the data into CSV](https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv) for easier machine-readability
 1. pull in daily, automated updates
 1. preserve the historical data for each German state
+
+There’s also [a chart visualizing the data](https://mathiasbynens.github.io/covid-19-vaccinations-germany/). [Hopefully someone can build a prettier one.](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/1)

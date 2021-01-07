@@ -6,7 +6,11 @@ const template = require('lodash.template');
 
 const HTML_TEMPLATE = fs.readFileSync('./templates/chart.template', 'utf8');
 const createHtml = template(HTML_TEMPLATE, {
-	interpolate: /<%=([\s\S]+?)%>/g,
+  interpolate: /<%=([\s\S]+?)%>/g,
+  imports: {
+    generateScript: generateScript,
+    perMille: perMille,
+  },
 });
 
 const csv = fs.readFileSync('./data/data.csv', 'utf8');
@@ -17,9 +21,17 @@ const records = parseCsv(csv, {
 
 const states = new Set();
 const map = new Map();
+let maxCount = 0;
+let latestDate = '1970-01-01';
 for (const {date, state, vaccinationsCumulative, vaccinationsPerMille} of records) {
   states.add(state);
   const count = Number(vaccinationsCumulative);
+  if (count > maxCount) {
+    maxCount = count;
+  }
+  if (date > latestDate) {
+    latestDate = date;
+  }
   const perMille = Number(vaccinationsPerMille);
   if (!map.has(date)) {
     map.set(date, new Map());
@@ -30,12 +42,25 @@ for (const {date, state, vaccinationsCumulative, vaccinationsPerMille} of record
   });
 }
 
-function generateScript(type) {
-  if (type !== 'cumulative' && type !== 'perMille') {
-    throw new Error();
-  }
+const formatter = new Intl.NumberFormat('en', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+function perMille(state) {
+  const latestEntries = map.get(latestDate);
+  const latestStateEntries = latestEntries.get(state);
+  const perMille = latestStateEntries.perMille;
+  return formatter.format(perMille);
+}
+
+function generateScript(desiredState = '') {
+  const isCumulativeStateChart = Boolean(desiredState);
+  const type = isCumulativeStateChart ? 'cumulative' : 'perMille';
   const header = [];
   for (const state of states) {
+    if (isCumulativeStateChart && state !== desiredState) {
+      continue;
+    }
     header.push(`
       data.addColumn('number', ${ jsesc(state, { wrap: true }) });
     `.trim());
@@ -45,11 +70,14 @@ function generateScript(type) {
   for (const [date, entry] of map) {
     const counts = [];
     for (const state of states) { // Guarantee consistent ordering.
+      if (isCumulativeStateChart && state !== desiredState) {
+        continue;
+      }
       const count = entry.get(state);
       counts.push(count[type]);
     }
     body.push(`
-      [new Date(${ jsesc(date, { wrap: true }) }), ${counts.join(', ')}],
+      [${ jsesc(date, { wrap: true }) }, ${counts.join(', ')}],
     `.trim());
   }
   body.push(`]);`)
@@ -59,8 +87,8 @@ function generateScript(type) {
 }
 
 const html = createHtml({
-  codeCumulative: generateScript('cumulative'),
-  codePerMille: generateScript('perMille'),
+  states: states,
+  max: Number(`1${'0'.repeat(String(maxCount).length)}`),
 });
 const minified = minifyHtml(html, {
   collapseBooleanAttributes: true,

@@ -16,8 +16,11 @@
 <h1>COVID-19 vaccination doses administered in Germany, per state</h1>
 <h2 id="per-mille">COVID-19 vaccination doses administered per 1,000 inhabitants</h2>
 <div id="chart-per-mille" class="chart"></div>
-<h2 id="cumulative">Total absolute number of COVID-19 vaccination doses administered</h2>
-<div id="chart-cumulative" class="chart"></div>
+<% for (const state of states) { %>
+<h2 id="<% print(state.toLowerCase()) %>">Total number of COVID-19 vaccination doses administered in <%= state %></h2>
+<p>In <%= state %>, <%= perMille(state) %> vaccination doses have been administered per 1,000 inhabitants.</p>
+<div id="chart-cumulative-<% print(state.toLowerCase()) %>" class="chart"></div>
+<% } %>
 <p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data.</a></p>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
@@ -28,32 +31,36 @@
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'Day');
     /* Generated data starts here: */
-    <%= codePerMille %>
+    <%= generateScript() %>
     /* Generated data ends here. */
-
     const element = document.querySelector('#chart-per-mille');
     const chart = new google.visualization.LineChart(element);
-    chart.draw(data, {
-      hAxis: { format: 'MMM d' },
-    });
-  }
-
-  function drawCumulativeVaccinationsChart() {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Day');
-    /* Generated data starts here: */
-    <%= codeCumulative %>
-    /* Generated data ends here. */
-
-    const element = document.querySelector('#chart-cumulative');
-    const chart = new google.visualization.LineChart(element);
-    chart.draw(data, {
-      hAxis: { format: 'MMM d' },
-    });
+    chart.draw(data);
   }
 
   function drawCharts() {
     drawVaccinationsPerMilleChart();
-    drawCumulativeVaccinationsChart();
+
+  <% for (const state of states) { %>
+    {
+      const data = new google.visualization.DataTable();
+      data.addColumn('string', 'Day');
+      /* Generated data starts here: */
+      <%= generateScript(state) %>
+      /* Generated data ends here. */
+      const element = document.querySelector('#chart-cumulative-<% print(state.toLowerCase()) %>');
+      const chart = new google.visualization.LineChart(element);
+      chart.draw(data, {
+        vAxis: {
+          viewWindowMode: 'explicit',
+          viewWindow: {
+            max: <%= max %>,
+            min: 0,
+          },
+        },
+      });
+    }
+  <% } %>
+
   }
 </script>
