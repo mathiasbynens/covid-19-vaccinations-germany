@@ -35,5 +35,5 @@ jobs:
           git config user.name 'Mathias Bynens'
           git config user.email 'mathias@qiwi.be'
           date=$(node -p 'new Date().toISOString().slice(0, 10)')
-          git commit data -m "Import latest data @ ${date}"
+          git commit index.html data -m "Import latest data @ ${date}"
           git push

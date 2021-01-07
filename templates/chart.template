@@ -10,6 +10,9 @@
      seem to support this. */
   .chart {
     width: 100%;
+    min-height: 400px;
+  }
+  #chart-per-mille {
     min-height: 800px;
   }
 </style>
