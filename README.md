@@ -9,3 +9,5 @@ This repository aims to…
 1. preserve the historical data for each German state
 
 There’s also [a chart visualizing the data](https://mathiasbynens.github.io/covid-19-vaccinations-germany/). [Hopefully someone can build a prettier one.](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/1)
+
+This repository complements [the incredible covid-19-data project](https://github.com/owid/covid-19-data/blob/master/public/data/vaccinations/country_data/Germany.csv), which includes vaccination data for Germany as a whole, but not for individual German states.
