@@ -17,6 +17,7 @@
     min-height: 800px;
   }
 </style>
+<link rel="icon" href="favicon.svg">
 <h1>COVID-19 vaccination doses administered in Germany, per state</h1>
 <h2 id="per-mille">COVID-19 vaccination doses administered per 1,000 inhabitants</h2>
 <div id="chart-per-mille" class="chart"></div>
