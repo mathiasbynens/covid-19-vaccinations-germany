@@ -88,7 +88,7 @@ function generateScript(desiredState = '') {
 
 const html = createHtml({
   states: states,
-  max: Number(`1${'0'.repeat(String(maxCount).length)}`),
+  max: Math.round(maxCount * 1.05),
 });
 const minified = minifyHtml(html, {
   collapseBooleanAttributes: true,
