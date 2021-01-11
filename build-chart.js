@@ -77,7 +77,7 @@ function generateScript(desiredState = '') {
       counts.push(count[type]);
     }
     body.push(`
-      [${ jsesc(date, { wrap: true }) }, ${counts.join(', ')}],
+      [${ jsesc(date, { wrap: true }) }, ${counts.map(count => count.toFixed(2)).join(', ')}],
     `.trim());
   }
   body.push(`]);`)
