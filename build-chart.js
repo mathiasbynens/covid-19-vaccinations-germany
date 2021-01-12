@@ -1,6 +1,5 @@
 const fs = require('fs');
-const jsesc = require('jsesc');
-const minifyHtml = require('html-minifier').minify;
+const minifyHtml = require('html-minifier-terser').minify;
 const parseCsv = require('csv-parse/lib/sync');
 const template = require('lodash.template');
 
@@ -8,8 +7,9 @@ const HTML_TEMPLATE = fs.readFileSync('./templates/chart.template', 'utf8');
 const createHtml = template(HTML_TEMPLATE, {
   interpolate: /<%=([\s\S]+?)%>/g,
   imports: {
-    generateScript: generateScript,
     perMille: perMille,
+    generatePerMilleData: generatePerMilleData,
+    generateStateData: generateStateData,
   },
 });
 
@@ -53,42 +53,117 @@ function perMille(state) {
   return formatter.format(perMille);
 }
 
-function generateScript(desiredState = '') {
-  const isCumulativeStateChart = Boolean(desiredState);
-  const type = isCumulativeStateChart ? 'cumulative' : 'perMille';
-  const header = [];
-  for (const state of states) {
-    if (isCumulativeStateChart && state !== desiredState) {
-      continue;
-    }
-    header.push(`
-      data.addColumn('number', ${ jsesc(state, { wrap: true }) });
-    `.trim());
-  }
+function generatePerMilleData() {
+  const labels = [
+    // '2021-01-05',
+    // '2021-01-06',
+    // '2021-01-07',
+    ...map.keys(),
+  ];
+  const datasets = [
+    // {
+    //   name: 'Bavaria',
+    //   type: 'line',
+    //   values: [2.9,5.93,8.28],
+    // },
+  ];
 
-  const body = [`data.addRows([`];
-  for (const [date, entry] of map) {
+  for (const state of states) { // Guarantee consistent ordering.
     const counts = [];
-    for (const state of states) { // Guarantee consistent ordering.
-      if (isCumulativeStateChart && state !== desiredState) {
-        continue;
-      }
-      const count = entry.get(state);
-      counts.push(count[type]);
+    for (const entry of map.values()) {
+      const count = Number(entry.get(state).perMille.toFixed(2));
+      counts.push(count);
     }
-    body.push(`
-      [${ jsesc(date, { wrap: true }) }, ${counts.map(count => count.toFixed(2)).join(', ')}],
-    `.trim());
+    datasets.push({
+      name: state,
+      type: 'line',
+      values: counts,
+    });
   }
-  body.push(`]);`)
 
-  const output = header.join('\n') + '\n' + body.join('\n');
-  return output;
+  const data = {
+    labels,
+    datasets,
+    // This is a workaround that effectively sets minY=0.
+    // https://github.com/frappe/charts/issues/86
+    yMarkers: [
+      {
+        label: '',
+        value: 0,
+        type: 'solid'
+      },
+    ],
+  };
+  const stringified = JSON.stringify(data, null, 2);
+  return stringified;
+}
+
+function generateStateData(desiredState) {
+  const labels = [
+    // '2021-01-05',
+    // '2021-01-06',
+    // '2021-01-07',
+    ...map.keys(),
+  ];
+  const datasets = [
+    // {
+    //   name: 'Bavaria',
+    //   type: 'line',
+    //   values: [77876, 82749, 84349],
+    // },
+  ];
+
+  const counts = [];
+  for (const entry of map.values()) {
+    const count = entry.get(desiredState).cumulative;
+    counts.push(count);
+  }
+  datasets.push({
+    name: desiredState,
+    type: 'line',
+    values: counts,
+  });
+
+  const data = {
+    labels,
+    datasets,
+    // This is a workaround that effectively sets minY and maxY.
+    // https://github.com/frappe/charts/issues/86
+    yMarkers: [
+      {
+        label: '',
+        value: 0,
+        type: 'solid'
+      },
+      {
+        label: '',
+        value: Math.round(maxCount * 1.05),
+        type: 'solid'
+      },
+    ],
+  };
+  const stringified = JSON.stringify(data, null, 2);
+  return stringified;
+/*
+{
+  labels: [
+    '2021-01-05',
+    '2021-01-06',
+    '2021-01-07',
+  ],
+  datasets: [
+    {
+      name: 'Bavaria',
+      type: 'line',
+      values: [77876, 82749, 84349],
+    },
+  ],
+}
+*/
 }
 
 const html = createHtml({
   states: states,
-  max: Math.round(maxCount * 1.05),
 });
 const minified = minifyHtml(html, {
   collapseBooleanAttributes: true,

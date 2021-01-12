@@ -7,14 +7,8 @@
   html {
     font: 1rem/1.6 sans-serif;
   }
-  /* Ideally, we’d make the charts responsive. Google Charts doesn’t
-     seem to support this. */
   .chart {
     width: 100%;
-    min-height: 400px;
-  }
-  #chart-per-mille {
-    min-height: 800px;
   }
 </style>
 <link rel="icon" href="favicon.svg">
@@ -27,45 +21,55 @@
 <div id="chart-cumulative-<% print(state.toLowerCase()) %>" class="chart"></div>
 <% } %>
 <p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data.</a></p>
-<script src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
-  google.charts.load('current', { 'packages': ['corechart'] });
-  google.charts.setOnLoadCallback(drawCharts);
+<script type="module">
+  import { Chart } from 'https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.esm.js';
 
-  function drawVaccinationsPerMilleChart() {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Day');
-    /* Generated data starts here: */
-    <%= generateScript() %>
-    /* Generated data ends here. */
-    const element = document.querySelector('#chart-per-mille');
-    const chart = new google.visualization.LineChart(element);
-    chart.draw(data);
-  }
+  const formatter = new Intl.NumberFormat('en');
+  const perMilleFormatter = new Intl.NumberFormat('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
-  function drawCharts() {
-    drawVaccinationsPerMilleChart();
+  new Chart('#chart-per-mille', {
+    data: <%= generatePerMilleData() %>,
+    type: 'line',
+    // https://xdgov.github.io/data-design-standards/components/colors#palette:~:text=Blue%20Palette
+    colors: [
+      '#081627',
+      '#112E51',
+      '#205493',
+      '#2E78D2',
+      '#6DA1E0',
+      '#97BCE9',
+      '#C1D7F2',
+    ],
+    tooltipOptions: {
+      formatTooltipY: number => formatter.format(number),
+    },
+    axisOptions: {
+      xIsSeries: true,
+    },
+    isNavigable: true,
+    animate: false,
+    truncateLegends: true,
+    height: 400,
+  });
 
   <% for (const state of states) { %>
-    {
-      const data = new google.visualization.DataTable();
-      data.addColumn('string', 'Day');
-      /* Generated data starts here: */
-      <%= generateScript(state) %>
-      /* Generated data ends here. */
-      const element = document.querySelector('#chart-cumulative-<% print(state.toLowerCase()) %>');
-      const chart = new google.visualization.LineChart(element);
-      chart.draw(data, {
-        vAxis: {
-          viewWindowMode: 'explicit',
-          viewWindow: {
-            max: <%= max %>,
-            min: 0,
-          },
-        },
-      });
-    }
+    new Chart('#chart-cumulative-<% print(state.toLowerCase()) %>', {
+      data: <%= generateStateData(state) %>,
+      type: 'line',
+      colors: [
+        '#28A745',
+      ],
+      tooltipOptions: {
+        formatTooltipY: number => `${formatter.format(number)} doses administered`,
+      },
+      axisOptions: {
+        xIsSeries: true,
+      },
+      isNavigable: true,
+      animate: false,
+    });
   <% } %>
-
-  }
 </script>
