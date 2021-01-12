@@ -10,6 +10,10 @@
   .chart {
     width: 100%;
   }
+  .chart-container .legend-dataset-text,
+  .chart-container .axis {
+    fill: #000 !important;
+  }
 </style>
 <link rel="icon" href="favicon.svg">
 <h1>COVID-19 vaccination doses administered in Germany, per state</h1>
@@ -44,7 +48,7 @@
       '#C1D7F2',
     ],
     tooltipOptions: {
-      formatTooltipY: number => formatter.format(number),
+      formatTooltipY: number => `${formatter.format(number)} doses`,
     },
     axisOptions: {
       xIsSeries: true,
