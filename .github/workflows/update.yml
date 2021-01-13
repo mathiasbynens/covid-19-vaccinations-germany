@@ -2,10 +2,12 @@ name: 'Update data'
 
 on:
   schedule:
-    # Run daily at 11:30 UTC, i.e. 12:30 in Germany. The RKI updates the
-    # spreadsheet “every working day by noon”:
+    # Run hourly at **:30. Although the RKI claims to update the
+    # spreadsheet “every working day by noon”, there have been uploads
+    # that happened after noon, and sometimes multiple uploads on a
+    # single day.
     # https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html
-    - cron: '30 11 * * *'
+    - cron: '30 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -34,6 +36,6 @@ jobs:
           npm run build
           git config user.name 'Mathias Bynens'
           git config user.email 'mathias@qiwi.be'
-          date=$(node -p 'new Date().toISOString().slice(0, 10)')
+          date=$(tail -n 1 data/data.csv | cut -d',' -f 1)
           git commit index.html data -m "Import latest data @ ${date}"
           git push

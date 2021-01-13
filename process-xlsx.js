@@ -41,28 +41,41 @@ const schema = {
   },
 };
 
-// ISO 8601 4 lyfe.
-const isoDate = () => {
-  const now = new Date();
-  return now.toISOString().slice(0, 10);
+const removeRowsForDate = (content, date) => {
+  const oldLines = content.split('\n');
+  const buffer = [];
+  for (const line of oldLines) {
+    if (!line.includes(date)) {
+      buffer.push(line);
+    }
+  }
+  return buffer.join('\n');
 };
 
-const updateCsv = (file, data) => {
+const updateCsv = async (file, data, date) => {
   const old = fs.readFileSync(file, 'utf8').toString().trim();
-  const date = isoDate();
-  // We could parse the CSV instead and look for an entry with the date,
-  // but for now this quick & dirty check is good enough.
-  if (old.includes(date)) {
-    console.log(`Entry for ${date} already exists.`);
-    return;
-  }
-  const output = old + '\n' + stringifyCsv(data);
+  const output = removeRowsForDate(old, date) + '\n' + stringifyCsv(data);
   fs.writeFileSync(file, output);
+};
+
+const lastUpdated = async () => {
+  const infoRecords = await readXlsxFile('./tmp/data.xlsx', { sheet: 1 });
+  const reDate = /(?<day>\d{2})\.(?<month>\d{2})\.(?<year>\d{4})/;
+  for (const infoRecord of infoRecords) {
+    const cell = infoRecord[0];
+    if (cell && cell.startsWith('Datenstand:')) {
+      // e.g. 'Datenstand: 13.01.2021, 11:00 Uhr'
+      const result = reDate.exec(cell);
+      const { day, month, year } = result.groups;
+      // ISO 8601 4 lyfe.
+      return `${year}-${month}-${day}`;
+    }
+  }
 };
 
 (async () => {
 
-  const date = isoDate();
+  const date = await lastUpdated();
   const records = await readXlsxFile('./tmp/data.xlsx', { sheet: 2, schema });
   const data = records.rows.filter(row => {
     return row.state !== 'Gesamt' && 'deltaToPreviousDay' in row;
@@ -74,6 +87,8 @@ const updateCsv = (file, data) => {
     return object;
   });
 
-  updateCsv('./data/data.csv', data);
+  updateCsv('./data/data.csv', data, date);
+
+  console.log(`The spreadsheet was allegedly last updated @ ${date}.`);
 
 })();
