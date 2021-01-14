@@ -13,6 +13,12 @@ const createHtml = template(HTML_TEMPLATE, {
   },
 });
 
+const getNextDate = (string) => {
+  const date = new Date(`${string}T00:00:00.000Z`);
+  date.setDate(date.getDate() + 1);
+  return date.toISOString().slice(0, 10);
+};
+
 const csv = fs.readFileSync('./data/data.csv', 'utf8');
 
 const records = parseCsv(csv, {
@@ -42,12 +48,36 @@ for (const {date, state, vaccinationsCumulative, vaccinationsPerMille} of record
   });
 }
 
+// Fill the gaps in the data. (Missing days, usually over the weekend.)
+let expectedDate = '';
+let lastEntries;
+for (const [date, entries] of map) {
+  if (expectedDate && expectedDate < date) {
+    map.set(expectedDate, lastEntries);
+  } else {
+    lastEntries = entries;
+  }
+  expectedDate = getNextDate(date);
+}
+// Sort the map entries by key.
+const sortedMap = new Map([...map].sort((a, b) => {
+  const dateA = a[0];
+  const dateB = b[0];
+  if (dateA < dateB) {
+    return -1;
+  }
+  if (dateA > dateB) {
+    return 1;
+  }
+  return 0;
+}));
+
 const formatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
 function perMille(state) {
-  const latestEntries = map.get(latestDate);
+  const latestEntries = sortedMap.get(latestDate);
   const latestStateEntries = latestEntries.get(state);
   const perMille = latestStateEntries.perMille;
   return formatter.format(perMille);
@@ -58,7 +88,7 @@ function generatePerMilleData() {
     // '2021-01-05',
     // '2021-01-06',
     // '2021-01-07',
-    ...map.keys(),
+    ...sortedMap.keys(),
   ];
   const datasets = [
     // {
@@ -70,7 +100,7 @@ function generatePerMilleData() {
 
   for (const state of states) { // Guarantee consistent ordering.
     const counts = [];
-    for (const entry of map.values()) {
+    for (const entry of sortedMap.values()) {
       const count = Number(entry.get(state).perMille.toFixed(2));
       counts.push(count);
     }
@@ -103,7 +133,7 @@ function generateStateData(desiredState) {
     // '2021-01-05',
     // '2021-01-06',
     // '2021-01-07',
-    ...map.keys(),
+    ...sortedMap.keys(),
   ];
   const datasets = [
     // {
@@ -114,7 +144,7 @@ function generateStateData(desiredState) {
   ];
 
   const counts = [];
-  for (const entry of map.values()) {
+  for (const entry of sortedMap.values()) {
     const count = entry.get(desiredState).cumulative;
     counts.push(count);
   }
