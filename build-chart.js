@@ -8,14 +8,15 @@ const createHtml = template(HTML_TEMPLATE, {
   interpolate: /<%=([\s\S]+?)%>/g,
   imports: {
     perMille: perMille,
+    sevenDayAverageDoses: sevenDayAverageDoses,
     generatePerMilleData: generatePerMilleData,
     generateStateData: generateStateData,
   },
 });
 
-const getNextDate = (string) => {
+const addDays = (string, days) => {
   const date = new Date(`${string}T00:00:00.000Z`);
-  date.setDate(date.getDate() + 1);
+  date.setDate(date.getDate() + days);
   return date.toISOString().slice(0, 10);
 };
 
@@ -57,7 +58,7 @@ for (const [date, entries] of map) {
   } else {
     lastEntries = entries;
   }
-  expectedDate = getNextDate(date);
+  expectedDate = addDays(date, 1);
 }
 // Sort the map entries by key.
 const sortedMap = new Map([...map].sort((a, b) => {
@@ -72,7 +73,7 @@ const sortedMap = new Map([...map].sort((a, b) => {
   return 0;
 }));
 
-const formatter = new Intl.NumberFormat('en', {
+const perMilleFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
@@ -80,7 +81,19 @@ function perMille(state) {
   const latestEntries = sortedMap.get(latestDate);
   const latestStateEntries = latestEntries.get(state);
   const perMille = latestStateEntries.perMille;
-  return formatter.format(perMille);
+  return perMilleFormatter.format(perMille);
+}
+
+const sevenDayAverageFormatter = new Intl.NumberFormat('en', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
+function sevenDayAverageDoses(state) {
+  const lastWeek = addDays(latestDate, -7);
+  const old = map.get(lastWeek).get(state).cumulative;
+  const current = map.get(latestDate).get(state).cumulative;
+  const average = (current - old) / 7;
+  return sevenDayAverageFormatter.format(average);
 }
 
 function generatePerMilleData() {
