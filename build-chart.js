@@ -9,6 +9,7 @@ const createHtml = template(HTML_TEMPLATE, {
   imports: {
     perMille: perMille,
     sevenDayAverageDoses: sevenDayAverageDoses,
+    currentDoses: currentDoses,
     generatePerMilleData: generatePerMilleData,
     generateStateData: generateStateData,
   },
@@ -84,16 +85,20 @@ function perMille(state) {
   return perMilleFormatter.format(perMille);
 }
 
-const sevenDayAverageFormatter = new Intl.NumberFormat('en', {
+const intFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
+function currentDoses(state) {
+  const current = map.get(latestDate).get(state).cumulative;
+  return intFormatter.format(current);
+}
 function sevenDayAverageDoses(state) {
   const lastWeek = addDays(latestDate, -7);
   const old = map.get(lastWeek).get(state).cumulative;
   const current = map.get(latestDate).get(state).cumulative;
   const average = (current - old) / 7;
-  return sevenDayAverageFormatter.format(average);
+  return intFormatter.format(average);
 }
 
 function generatePerMilleData() {

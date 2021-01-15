@@ -21,7 +21,7 @@
 <div id="chart-per-mille" class="chart"></div>
 <% for (const state of states) { %>
 <h2 id="<% print(state.toLowerCase()) %>">Total number of COVID-19 vaccination doses administered in <%= state %></h2>
-<p>In <%= state %>, <%= perMille(state) %> vaccination doses have been administered per 1,000 inhabitants. The current vaccination rate (7-day average) in <%= state %> is <%= sevenDayAverageDoses(state) %> doses per day.</p>
+<p>In <%= state %>, a total of <%= currentDoses(state) %> vaccination doses have been administered so far — that’s <%= perMille(state) %> vaccination doses per 1,000 inhabitants. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses(state) %> doses per day.</p>
 <div id="chart-cumulative-<% print(state.toLowerCase()) %>" class="chart"></div>
 <% } %>
 <p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data.</a></p>
