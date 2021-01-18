@@ -7,10 +7,10 @@ const HTML_TEMPLATE = fs.readFileSync('./templates/chart.template', 'utf8');
 const createHtml = template(HTML_TEMPLATE, {
   interpolate: /<%=([\s\S]+?)%>/g,
   imports: {
-    perMille: perMille,
+    percent: percent,
     sevenDayAverageDoses: sevenDayAverageDoses,
     currentDoses: currentDoses,
-    generatePerMilleData: generatePerMilleData,
+    generatePercentData: generatePercentData,
     generateStateData: generateStateData,
   },
 });
@@ -31,22 +31,22 @@ const states = new Set();
 const map = new Map();
 let maxCount = 0;
 let latestDate = '1970-01-01';
-for (const {date, state, vaccinationsCumulative, vaccinationsPerMille} of records) {
+for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent} of records) {
   states.add(state);
-  const count = Number(vaccinationsCumulative);
+  const count = Number(firstDosesCumulative) + Number(secondDosesCumulative);
   if (count > maxCount) {
     maxCount = count;
   }
   if (date > latestDate) {
     latestDate = date;
   }
-  const perMille = Number(vaccinationsPerMille);
+  const percent = Number(firstDosesPercent);
   if (!map.has(date)) {
     map.set(date, new Map());
   }
   map.get(date).set(state, {
     cumulative: count,
-    perMille: perMille,
+    percent: percent,
   });
 }
 
@@ -74,15 +74,15 @@ const sortedMap = new Map([...map].sort((a, b) => {
   return 0;
 }));
 
-const perMilleFormatter = new Intl.NumberFormat('en', {
+const percentFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
-function perMille(state) {
+function percent(state) {
   const latestEntries = sortedMap.get(latestDate);
   const latestStateEntries = latestEntries.get(state);
-  const perMille = latestStateEntries.perMille;
-  return perMilleFormatter.format(perMille);
+  const percent = latestStateEntries.percent;
+  return percentFormatter.format(percent);
 }
 
 const intFormatter = new Intl.NumberFormat('en', {
@@ -101,7 +101,7 @@ function sevenDayAverageDoses(state) {
   return intFormatter.format(average);
 }
 
-function generatePerMilleData() {
+function generatePercentData() {
   const labels = [
     // '2021-01-05',
     // '2021-01-06',
@@ -119,7 +119,7 @@ function generatePerMilleData() {
   for (const state of states) { // Guarantee consistent ordering.
     const counts = [];
     for (const entry of sortedMap.values()) {
-      const count = Number(entry.get(state).perMille.toFixed(2));
+      const count = Number(entry.get(state).percent.toFixed(2));
       counts.push(count);
     }
     datasets.push({

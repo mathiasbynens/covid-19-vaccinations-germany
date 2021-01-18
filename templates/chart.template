@@ -17,11 +17,11 @@
 </style>
 <link rel="icon" href="favicon.svg">
 <h1>COVID-19 vaccination doses administered in Germany, per state</h1>
-<h2 id="per-mille">COVID-19 vaccination doses administered per 1,000 inhabitants</h2>
-<div id="chart-per-mille" class="chart"></div>
+<h2 id="percent">COVID-19 vaccination doses administered per 100 inhabitants</h2>
+<div id="chart-percent" class="chart"></div>
 <% for (const state of states) { %>
 <h2 id="<% print(state.toLowerCase()) %>">Cumulative COVID-19 vaccination doses administered in <span translate="no"><%= state %></span></h2>
-<p>In <span translate="no"><%= state %></span>, a total of <%= currentDoses(state) %> vaccination doses have been administered so far — that’s <%= perMille(state) %> doses per 1,000 inhabitants. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses(state) %> doses per day.</p>
+<p>In <span translate="no"><%= state %></span>, a total of <%= currentDoses(state) %> vaccination doses have been administered so far — that’s <%= percent(state) %> doses per 100 inhabitants. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses(state) %> doses per day.</p>
 <div id="chart-cumulative-<% print(state.toLowerCase()) %>" class="chart"></div>
 <% } %>
 <p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data (CSV)</a> or <a href="https://bit.ly/c19-de">explore it in Google Data Studio</a>.</p>
@@ -29,13 +29,9 @@
   import { Chart } from 'https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.esm.js';
 
   const formatter = new Intl.NumberFormat('en');
-  const perMilleFormatter = new Intl.NumberFormat('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
 
-  new Chart('#chart-per-mille', {
-    data: <%= generatePerMilleData() %>,
+  new Chart('#chart-percent', {
+    data: <%= generatePercentData() %>,
     type: 'line',
     // https://xdgov.github.io/data-design-standards/components/colors#palette:~:text=Blue%20Palette
     colors: [
