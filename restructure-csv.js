@@ -12,15 +12,19 @@ for (const record of records) {
   newRecords.push({
     date: record.date,
     state: record.state,
-    firstDosesCumulative: record.vaccinationsCumulative,
-    firstDosesCumulativeBioNTech: record.vaccinationsCumulative,
+    firstDosesCumulative: record.firstDosesCumulative,
+    firstDosesCumulativeBioNTech: record.firstDosesCumulativeBioNTech,
     firstDosesCumulativeModerna: 0,
-    firstDosesPercent: Number(record.vaccinationsPerMille) / 10,
+    firstDosesPercent: record.firstDosesPercent,
+    firstDosesDueToAge: record.firstDosesDueToAge,
+    firstDosesDueToProfession: record.firstDosesDueToProfession,
+    firstDosesDueToMedicalReasons: record.firstDosesDueToMedicalReasons,
+    firstDosesToNursingHomeResidents: record.firstDosesToNursingHomeResidents,
     secondDosesCumulative: 0,
-    vaccinationsDueToAge: record.vaccinationsDueToAge,
-    vaccinationsDueToProfession: record.vaccinationsDueToProfession,
-    vaccinationsDueToMedicalReasons: record.vaccinationsDueToMedicalReasons,
-    vaccinationsDueToNursingHomeResidents: record.vaccinationsToNursingHomeResidents,
+    secondDosesDueToAge: 0,
+    secondDosesDueToProfession: 0,
+    secondDosesDueToMedicalReasons: 0,
+    secondDosesToNursingHomeResidents: 0,
   })
 }
 
