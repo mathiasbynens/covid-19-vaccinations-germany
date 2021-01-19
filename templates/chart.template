@@ -21,7 +21,7 @@
 <div id="chart-percent" class="chart"></div>
 <% for (const state of states) { %>
 <h2 id="<% print(state.toLowerCase()) %>">Cumulative COVID-19 vaccination doses administered in <span translate="no"><%= state %></span></h2>
-<p>In <span translate="no"><%= state %></span>, a total of <%= currentDoses(state) %> vaccination doses have been administered so far — that’s <%= percent(state) %> doses per 100 inhabitants. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses(state) %> doses per day.</p>
+<p>In <span translate="no"><%= state %></span>, <%= percentFirstDose(state) %> in every 100 inhabitants received their first dose. A total of <%= currentDoses(state) %> vaccination doses have been administered so far. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses(state) %> doses per day.</p>
 <div id="chart-cumulative-<% print(state.toLowerCase()) %>" class="chart"></div>
 <% } %>
 <p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data (CSV)</a> or <a href="https://bit.ly/c19-de">explore it in Google Data Studio</a>.</p>

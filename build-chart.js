@@ -7,7 +7,7 @@ const HTML_TEMPLATE = fs.readFileSync('./templates/chart.template', 'utf8');
 const createHtml = template(HTML_TEMPLATE, {
   interpolate: /<%=([\s\S]+?)%>/g,
   imports: {
-    percent: percent,
+    percentFirstDose: percentFirstDose,
     sevenDayAverageDoses: sevenDayAverageDoses,
     currentDoses: currentDoses,
     generatePercentData: generatePercentData,
@@ -42,7 +42,7 @@ for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDoses
   if (date > latestDate) {
     latestDate = date;
   }
-  const percent = Number(firstDosesPercent);
+  const percentFirstDose = Number(firstDosesPercent);
   if (!map.has(date)) {
     map.set(date, new Map());
   }
@@ -50,7 +50,7 @@ for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDoses
     cumulativeTotal: countTotal,
     cumulativeFirst: countFirstDoses,
     cumulativeSecond: countSecondDoses,
-    percent: percent,
+    percentFirstDose: percentFirstDose,
   });
 }
 
@@ -82,11 +82,11 @@ const percentFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
-function percent(state) {
+function percentFirstDose(state) {
   const latestEntries = sortedMap.get(latestDate);
   const latestStateEntries = latestEntries.get(state);
-  const percent = latestStateEntries.percent;
-  return percentFormatter.format(percent);
+  const percentFirstDose = latestStateEntries.percentFirstDose;
+  return percentFormatter.format(percentFirstDose);
 }
 
 const intFormatter = new Intl.NumberFormat('en', {
@@ -123,7 +123,7 @@ function generatePercentData() {
   for (const state of states) { // Guarantee consistent ordering.
     const counts = [];
     for (const entry of sortedMap.values()) {
-      const count = Number(entry.get(state).percent.toFixed(2));
+      const count = Number(entry.get(state).percentFirstDose.toFixed(2));
       counts.push(count);
     }
     datasets.push({
