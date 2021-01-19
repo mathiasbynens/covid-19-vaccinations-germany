@@ -33,9 +33,11 @@ let maxCount = 0;
 let latestDate = '1970-01-01';
 for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent} of records) {
   states.add(state);
-  const count = Number(firstDosesCumulative) + Number(secondDosesCumulative);
-  if (count > maxCount) {
-    maxCount = count;
+  const countFirstDoses = Number(firstDosesCumulative);
+  const countSecondDoses = Number(secondDosesCumulative);
+  const countTotal = countFirstDoses + countSecondDoses;
+  if (countTotal > maxCount) {
+    maxCount = countTotal;
   }
   if (date > latestDate) {
     latestDate = date;
@@ -45,7 +47,9 @@ for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDoses
     map.set(date, new Map());
   }
   map.get(date).set(state, {
-    cumulative: count,
+    cumulativeTotal: countTotal,
+    cumulativeFirst: countFirstDoses,
+    cumulativeSecond: countSecondDoses,
     percent: percent,
   });
 }
@@ -90,13 +94,13 @@ const intFormatter = new Intl.NumberFormat('en', {
   maximumFractionDigits: 0,
 });
 function currentDoses(state) {
-  const current = map.get(latestDate).get(state).cumulative;
+  const current = map.get(latestDate).get(state).cumulativeTotal;
   return intFormatter.format(current);
 }
 function sevenDayAverageDoses(state) {
   const lastWeek = addDays(latestDate, -7);
-  const old = map.get(lastWeek).get(state).cumulative;
-  const current = map.get(latestDate).get(state).cumulative;
+  const old = map.get(lastWeek).get(state).cumulativeTotal;
+  const current = map.get(latestDate).get(state).cumulativeTotal;
   const average = (current - old) / 7;
   return intFormatter.format(average);
 }
@@ -155,22 +159,38 @@ function generateStateData(desiredState) {
   ];
   const datasets = [
     // {
-    //   name: 'Bavaria',
+    //   name: 'First dose',
     //   type: 'line',
     //   values: [77876, 82749, 84349],
     // },
   ];
 
-  const counts = [];
+  const countsTotal = [];
+  const countsFirstDose = [];
+  const countsSecondDose = [];
   for (const entry of sortedMap.values()) {
-    const count = entry.get(desiredState).cumulative;
-    counts.push(count);
+    const data = entry.get(desiredState);
+    countsTotal.push(data.cumulativeTotal);
+    countsFirstDose.push(data.cumulativeFirst);
+    countsSecondDose.push(data.cumulativeSecond);
   }
-  datasets.push({
-    name: desiredState,
-    type: 'line',
-    values: counts,
-  });
+  datasets.push(
+    {
+      name: 'Total doses',
+      type: 'line',
+      values: countsTotal,
+    },
+    {
+      name: 'First doses',
+      type: 'line',
+      values: countsFirstDose,
+    },
+    {
+      name: 'Second doses',
+      type: 'line',
+      values: countsSecondDose,
+    },
+  );
 
   const data = {
     labels,
@@ -192,22 +212,6 @@ function generateStateData(desiredState) {
   };
   const stringified = JSON.stringify(data, null, 2);
   return stringified;
-/*
-{
-  labels: [
-    '2021-01-05',
-    '2021-01-06',
-    '2021-01-07',
-  ],
-  datasets: [
-    {
-      name: 'Bavaria',
-      type: 'line',
-      values: [77876, 82749, 84349],
-    },
-  ],
-}
-*/
 }
 
 const html = createHtml({
