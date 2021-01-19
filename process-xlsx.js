@@ -52,6 +52,11 @@ const readMainData = async (date) => {
       prop: 'state',
       type: String,
     },
+    // Gesamtzahl bisher verabreichter Impfstoffdosen
+    'Gesamtzahl bisher verabreichter Impfstoffdosen': {
+      prop: 'totalDosesCumulative',
+      type: Number,
+    },
     // Erstimpfung → Impfungen kumulativ → Gesamt
     'Gesamt': {
       prop: 'firstDosesCumulative',
