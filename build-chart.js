@@ -203,11 +203,11 @@ function generateStateData(desiredState) {
         value: 0,
         type: 'solid'
       },
-      {
-        label: '',
-        value: Math.round(maxCount * 1.05),
-        type: 'solid'
-      },
+      // {
+      //   label: '',
+      //   value: Math.round(maxCount * 1.05),
+      //   type: 'solid'
+      // },
     ],
   };
   const stringified = JSON.stringify(data, null, 2);
