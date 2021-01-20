@@ -3,17 +3,8 @@ const minifyHtml = require('html-minifier-terser').minify;
 const parseCsv = require('csv-parse/lib/sync');
 const template = require('lodash.template');
 
-const HTML_TEMPLATE = fs.readFileSync('./templates/chart.template', 'utf8');
-const createHtml = template(HTML_TEMPLATE, {
-  interpolate: /<%=([\s\S]+?)%>/g,
-  imports: {
-    percentFirstDose: percentFirstDose,
-    sevenDayAverageDoses: sevenDayAverageDoses,
-    currentDoses: currentDoses,
-    generatePercentData: generatePercentData,
-    generateStateData: generateStateData,
-  },
-});
+// https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/zensus-geschlecht-staatsangehoerigkeit-2020.html
+const POPULATION_GERMANY = 83_190_556;
 
 const addDays = (string, days) => {
   const date = new Date(`${string}T00:00:00.000Z`);
@@ -94,15 +85,99 @@ const intFormatter = new Intl.NumberFormat('en', {
   maximumFractionDigits: 0,
 });
 function currentDoses(state) {
-  const current = map.get(latestDate).get(state).cumulativeTotal;
+  const current = state ?
+    map.get(latestDate).get(state).cumulativeTotal :
+    nationalCumulativeTotal;
   return intFormatter.format(current);
 }
+const lastWeek = addDays(latestDate, -7);
 function sevenDayAverageDoses(state) {
-  const lastWeek = addDays(latestDate, -7);
-  const old = map.get(lastWeek).get(state).cumulativeTotal;
-  const current = map.get(latestDate).get(state).cumulativeTotal;
+  const old = state ?
+    map.get(lastWeek).get(state).cumulativeTotal :
+    nationalCumulativeTotalLastWeek;
+  const current = state ?
+    map.get(latestDate).get(state).cumulativeTotal :
+    nationalCumulativeTotal;
   const average = (current - old) / 7;
   return intFormatter.format(average);
+}
+
+let nationalCumulativeTotalLastWeek = 0;
+let nationalCumulativeTotal = 0;
+function generateNationalData() {
+  const labels = [
+    // '2021-01-05',
+    // '2021-01-06',
+    // '2021-01-07',
+    ...sortedMap.keys(),
+  ];
+  const datasets = [
+    // {
+    //   name: 'First dose',
+    //   type: 'line',
+    //   values: [77876, 82749, 84349],
+    // },
+  ];
+
+  const countsTotal = [];
+  const countsFirstDose = [];
+  const countsSecondDose = [];
+  for (const [date, entry] of sortedMap) {
+    let totalDoses = 0;
+    let firstDoses = 0;
+    let secondDoses = 0;
+    for (const [state, data] of entry) {
+      totalDoses += data.cumulativeTotal;
+      firstDoses += data.cumulativeFirst;
+      secondDoses += data.cumulativeSecond;
+    }
+    if (date === lastWeek) {
+      nationalCumulativeTotalLastWeek = totalDoses;
+    } else if (date === latestDate) {
+      nationalCumulativeTotal = totalDoses;
+    }
+    countsTotal.push(totalDoses);
+    countsFirstDose.push(firstDoses);
+    countsSecondDose.push(secondDoses);
+  }
+  datasets.push(
+    {
+      name: 'Total doses',
+      type: 'line',
+      values: countsTotal,
+    },
+    {
+      name: 'First doses',
+      type: 'line',
+      values: countsFirstDose,
+    },
+    {
+      name: 'Second doses',
+      type: 'line',
+      values: countsSecondDose,
+    },
+  );
+
+  const data = {
+    labels,
+    datasets,
+    // This is a workaround that effectively sets minY and maxY.
+    // https://github.com/frappe/charts/issues/86
+    yMarkers: [
+      {
+        label: '',
+        value: 0,
+        type: 'solid'
+      },
+      // {
+      //   label: '',
+      //   value: Math.round(maxCount * 1.05),
+      //   type: 'solid'
+      // },
+    ],
+  };
+  const stringified = JSON.stringify(data, null, 2);
+  return stringified;
 }
 
 function generatePercentData() {
@@ -213,6 +288,19 @@ function generateStateData(desiredState) {
   const stringified = JSON.stringify(data, null, 2);
   return stringified;
 }
+
+const HTML_TEMPLATE = fs.readFileSync('./templates/chart.template', 'utf8');
+const createHtml = template(HTML_TEMPLATE, {
+  interpolate: /<%=([\s\S]+?)%>/g,
+  imports: {
+    percentFirstDose: percentFirstDose,
+    sevenDayAverageDoses: sevenDayAverageDoses,
+    currentDoses: currentDoses,
+    nationalData: generateNationalData(),
+    generatePercentData: generatePercentData,
+    generateStateData: generateStateData,
+  },
+});
 
 const html = createHtml({
   states: states,
