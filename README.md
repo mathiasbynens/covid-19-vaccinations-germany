@@ -7,7 +7,10 @@ This repository aims to…
 1. [extract the data into CSV](https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv) for easier machine-readability
 1. pull in daily, automated updates
 1. preserve the historical data for each German state
+1. [visualize the data with charts](https://mathiasbynens.github.io/covid-19-vaccinations-germany/)
 
-There’s also [a chart visualizing the data](https://mathiasbynens.github.io/covid-19-vaccinations-germany/). [Hopefully someone can build a prettier one.](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/1)
+## Related projects
 
-This repository complements [the incredible covid-19-data project](https://github.com/owid/covid-19-data/blob/master/public/data/vaccinations/country_data/Germany.csv), which includes vaccination data for Germany as a whole, but not for individual German states.
+This repository complements [the incredible owid/covid-19-data project](https://github.com/owid/covid-19-data/blob/master/public/data/vaccinations/country_data/Germany.csv), which includes vaccination data for Germany as a whole, but not for individual German states.
+
+To view historical snapshots of the source Excel files from the RKI, consult [the evilpie/Impfquotenmonitoring project](https://github.com/evilpie/Impfquotenmonitoring).
