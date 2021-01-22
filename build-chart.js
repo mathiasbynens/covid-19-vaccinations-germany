@@ -21,6 +21,7 @@ const records = parseCsv(csv, {
 const states = new Set();
 const map = new Map();
 let maxCount = 0;
+let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent} of records) {
   states.add(state);
@@ -32,6 +33,9 @@ for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDoses
   }
   if (date > latestDate) {
     latestDate = date;
+  }
+  if (date < oldestDate) {
+    oldestDate = date;
   }
   const percentFirstDose = Number(firstDosesPercent);
   if (!map.has(date)) {
@@ -46,15 +50,14 @@ for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDoses
 }
 
 // Fill the gaps in the data. (Missing days, usually over the weekend.)
-let expectedDate = '';
 let lastEntries;
-for (const [date, entries] of map) {
-  if (expectedDate && expectedDate < date) {
-    map.set(expectedDate, lastEntries);
+for (let date = oldestDate; date < latestDate; date = addDays(date, 1)) {
+  if (map.has(date)) {
+    lastEntries = map.get(date);
+    continue;
   } else {
-    lastEntries = entries;
+    map.set(date, lastEntries);
   }
-  expectedDate = addDays(date, 1);
 }
 // Sort the map entries by key.
 const sortedMap = new Map([...map].sort((a, b) => {
