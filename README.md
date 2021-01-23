@@ -13,4 +13,4 @@ This repository aims to…
 
 This repository complements [the incredible owid/covid-19-data project](https://github.com/owid/covid-19-data/blob/master/public/data/vaccinations/country_data/Germany.csv), which includes vaccination data for Germany as a whole, but not for individual German states.
 
-To view historical snapshots of the source Excel files from the RKI, consult [the evilpie/Impfquotenmonitoring project](https://github.com/evilpie/Impfquotenmonitoring).
+To view historical snapshots of the source Excel files from the RKI, consult [evilpie/Impfquotenmonitoring](https://github.com/evilpie/Impfquotenmonitoring) or [ard-data/2020-rki-impf-archive](https://github.com/ard-data/2020-rki-impf-archive/tree/master/data/0_original).
