@@ -23,7 +23,8 @@ const map = new Map();
 let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
-for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent} of records) {
+let latestPubDate = '1970-01-01';
+for (const {pubDate, date, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent} of records) {
   states.add(state);
   const countFirstDoses = Number(firstDosesCumulative);
   const countSecondDoses = Number(secondDosesCumulative);
@@ -36,6 +37,9 @@ for (const {date, state, firstDosesCumulative, secondDosesCumulative, firstDoses
   }
   if (date < oldestDate) {
     oldestDate = date;
+  }
+  if (pubDate > latestPubDate) {
+    latestPubDate = pubDate;
   }
   const percentFirstDose = Number(firstDosesPercent);
   if (!map.has(date)) {
@@ -296,6 +300,7 @@ const HTML_TEMPLATE = fs.readFileSync('./templates/chart.template', 'utf8');
 const createHtml = template(HTML_TEMPLATE, {
   interpolate: /<%=([\s\S]+?)%>/g,
   imports: {
+    latestPubDate,
     percentFirstDose: percentFirstDose,
     sevenDayAverageDoses: sevenDayAverageDoses,
     currentDoses: currentDoses,
