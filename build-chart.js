@@ -24,7 +24,7 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
-for (const {pubDate, date, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent} of records) {
+for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent} of records) {
   states.add(state);
   const countFirstDoses = Number(firstDosesCumulative);
   const countSecondDoses = Number(secondDosesCumulative);

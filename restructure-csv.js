@@ -11,20 +11,21 @@ const newRecords = [];
 for (const record of records) {
   newRecords.push({
     date: record.date,
+    pubDate: record.pubDate,
     state: record.state,
     firstDosesCumulative: record.firstDosesCumulative,
     firstDosesCumulativeBioNTech: record.firstDosesCumulativeBioNTech,
-    firstDosesCumulativeModerna: 0,
+    firstDosesCumulativeModerna: record.firstDosesCumulativeModerna,
     firstDosesPercent: record.firstDosesPercent,
     firstDosesDueToAge: record.firstDosesDueToAge,
     firstDosesDueToProfession: record.firstDosesDueToProfession,
     firstDosesDueToMedicalReasons: record.firstDosesDueToMedicalReasons,
     firstDosesToNursingHomeResidents: record.firstDosesToNursingHomeResidents,
-    secondDosesCumulative: 0,
-    secondDosesDueToAge: 0,
-    secondDosesDueToProfession: 0,
-    secondDosesDueToMedicalReasons: 0,
-    secondDosesToNursingHomeResidents: 0,
+    secondDosesCumulative: record.secondDosesCumulative,
+    secondDosesDueToAge: record.secondDosesDueToAge,
+    secondDosesDueToProfession: record.secondDosesDueToProfession,
+    secondDosesDueToMedicalReasons: record.secondDosesDueToMedicalReasons,
+    secondDosesToNursingHomeResidents: record.secondDosesToNursingHomeResidents,
   })
 }
 

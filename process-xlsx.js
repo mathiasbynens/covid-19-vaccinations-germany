@@ -5,8 +5,7 @@ const convertToObject = require('read-excel-file/schema');
 
 const removeRowsForDates = (content, pubDate, date) => {
   const oldLines = content.split('\n');
-  const pattern = `${pubDate},${date},`;
-  console.log('pattern', JSON.stringify(pattern));
+  const pattern = `${date},${pubDate},`;
   const buffer = [];
   for (const line of oldLines) {
     if (!line.startsWith(pattern)) {
@@ -210,8 +209,8 @@ const readReasonData = async () => {
     const old = map.get(state);
     // Define the shape of the CSV file.
     result.push({
-      pubDate,
       date,
+      pubDate,
       state,
       firstDosesCumulative: old.firstDosesCumulative,
       firstDosesCumulativeBioNTech: old.firstDosesCumulativeBioNTech,
