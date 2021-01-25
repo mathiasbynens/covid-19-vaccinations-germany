@@ -5,6 +5,25 @@ const template = require('lodash.template');
 
 // https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/zensus-geschlecht-staatsangehoerigkeit-2020.html
 const POPULATION_GERMANY = 83_190_556;
+// https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/bevoelkerung-nichtdeutsch-laender.html
+const POPULATION_PER_STATE = new Map([
+  ['Baden-Württemberg', 11_100_394],
+  ['Bayern', 13_124_737],
+  ['Berlin', 3_669_491],
+  ['Brandenburg', 2_521_893],
+  ['Bremen', 681_202],
+  ['Hamburg', 1_847_253],
+  ['Hessen', 6_288_080],
+  ['Mecklenburg-Vorpommern', 1_608_138],
+  ['Niedersachsen', 7_993_608],
+  ['Nordrhein-Westfalen', 17_947_221],
+  ['Rheinland-Pfalz', 4_093_903],
+  ['Saarland', 986_887],
+  ['Sachsen', 4_071_971],
+  ['Sachsen-Anhalt', 2_194_782],
+  ['Schleswig-Holstein', 2_903_773],
+  ['Thüringen', 2_133_378],
+]);
 
 const addDays = (string, days) => {
   const date = new Date(`${string}T00:00:00.000Z`);
@@ -81,10 +100,26 @@ const percentFormatter = new Intl.NumberFormat('en', {
   maximumFractionDigits: 2,
 });
 function percentFirstDose(state) {
-  const latestEntries = sortedMap.get(latestDate);
-  const latestStateEntries = latestEntries.get(state);
-  const percentFirstDose = latestStateEntries.percentFirstDose;
+  if (state) {
+    const latestEntries = sortedMap.get(latestDate);
+    const latestStateEntries = latestEntries.get(state);
+    const percentFirstDose = latestStateEntries.percentFirstDose;
+    return percentFormatter.format(percentFirstDose);
+  }
+  const percentFirstDose = nationalCumulativeTotalFirstDose /
+    POPULATION_GERMANY * 100;
   return percentFormatter.format(percentFirstDose);
+}
+function percentSecondDose(state) {
+  if (state) {
+    const latestEntries = sortedMap.get(latestDate);
+    const latestStateEntries = latestEntries.get(state);
+    const percent = latestStateEntries.cumulativeSecond /
+      POPULATION_PER_STATE.get(state) * 100;
+    return percentFormatter.format(percent);
+  }
+  const percent = nationalCumulativeTotalSecondDose / POPULATION_GERMANY * 100;
+  return percentFormatter.format(percent);
 }
 
 const intFormatter = new Intl.NumberFormat('en', {
@@ -111,6 +146,8 @@ function sevenDayAverageDoses(state) {
 
 let nationalCumulativeTotalLastWeek = 0;
 let nationalCumulativeTotal = 0;
+let nationalCumulativeTotalFirstDose = 0;
+let nationalCumulativeTotalSecondDose = 0;
 function generateNationalData() {
   const labels = [
     // '2021-01-05',
@@ -142,6 +179,8 @@ function generateNationalData() {
       nationalCumulativeTotalLastWeek = totalDoses;
     } else if (date === latestDate) {
       nationalCumulativeTotal = totalDoses;
+      nationalCumulativeTotalFirstDose = firstDoses;
+      nationalCumulativeTotalSecondDose = secondDoses;
     }
     countsTotal.push(totalDoses);
     countsFirstDose.push(firstDoses);
@@ -302,6 +341,7 @@ const createHtml = template(HTML_TEMPLATE, {
   imports: {
     latestPubDate,
     percentFirstDose: percentFirstDose,
+    percentSecondDose: percentSecondDose,
     sevenDayAverageDoses: sevenDayAverageDoses,
     currentDoses: currentDoses,
     nationalData: generateNationalData(),
