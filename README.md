@@ -16,7 +16,7 @@ This repository aims to…
 - `pubDate` refers to the “last modified” date of the source sheet, as found in the Excel file’s metadata.
 - `date` refers to the date of the vaccination statistics, as listed in the Excel sheet’s contents.
 
-Usually, the spreadsheets containing the statistics for day `X` are published on day `X + 1`, but there have been exceptions where the stats got published on the same day. In case multiple spreadsheets are released containing data for the same day, we only consider the latest version.
+Usually, the spreadsheets containing the statistics for day `X` are published on day `X + 1`, but there have been exceptions where the stats got published on the same day. In case multiple spreadsheets are released containing data for the same `date`, we only consider the latest version.
 
 ## Related projects
 
