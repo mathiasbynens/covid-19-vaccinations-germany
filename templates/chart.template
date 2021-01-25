@@ -12,6 +12,7 @@
   }
   .chart {
     width: 100%;
+    min-height: 247px;
   }
   .chart-container .legend-dataset-text,
   .chart-container .axis {
