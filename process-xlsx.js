@@ -3,41 +3,60 @@ const stringifyCsv = require('csv-stringify/lib/sync');
 const readXlsxFile = require('read-excel-file/node');
 const convertToObject = require('read-excel-file/schema');
 
-const removeRowsForDate = (content, date) => {
+const removeRowsForDates = (content, pubDate, date) => {
   const oldLines = content.split('\n');
+  const pattern = `${pubDate},${date},`;
+  console.log('pattern', JSON.stringify(pattern));
   const buffer = [];
   for (const line of oldLines) {
-    if (!line.includes(date)) {
+    if (!line.startsWith(pattern)) {
       buffer.push(line);
     }
   }
   return buffer.join('\n');
 };
 
-const updateCsv = async (file, data, date) => {
+const updateCsv = async (file, data, pubDate, date) => {
   const old = fs.readFileSync(file, 'utf8').toString().trim();
-  const output = removeRowsForDate(old, date) + '\n' + stringifyCsv(data);
+  const previous = removeRowsForDates(old, pubDate, date);
+  const output = previous + '\n' + stringifyCsv(data);
   fs.writeFileSync(file, output);
 };
 
-const lastUpdated = async () => {
-  const infoRecords = await readXlsxFile('./tmp/data.xlsx', { sheet: 1 });
-  const reDate = /(?<day>\d{2})\.(?<month>\d{2})\.(?<year>\d{4})/;
+const extractDate = (string) => {
+  const reDate = /(?<day>\d{2})\.(?<month>\d{2})\.(?<year>\d{2,4})/;
+  const result = reDate.exec(string);
+  const { day, month, year } = result.groups;
+  const fullYear = year.length === 2 ? `20${year}` : year;
+  // ISO 8601 4 lyfe.
+  return `${fullYear}-${month}-${day}`;
+};
+
+const readPubDate = async () => {
+  // We could unzip and read <dcterms:modified>, but this is probably
+  // good enough for now.
+  const infoRecords = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 1 });
   for (const infoRecord of infoRecords) {
     const cell = infoRecord[0];
     if (cell && cell.startsWith('Datenstand:')) {
       // e.g. 'Datenstand: 13.01.2021, 11:00 Uhr'
-      const result = reDate.exec(cell);
-      const { day, month, year } = result.groups;
-      // ISO 8601 4 lyfe.
-      return `${year}-${month}-${day}`;
+      return extractDate(cell);
     }
   }
 };
 
+const readDate = async () => {
+  const sheets = await readXlsxFile(PATH_TO_SPREADSHEET, { getSheets: true });
+  for (const sheet of sheets) {
+    if (sheet.name.startsWith('Gesamt_bis_einschl_')) {
+      return extractDate(sheet.name);
+    }
+  }
+}
+
 const PATH_TO_SPREADSHEET = './tmp/data.xlsx';
 
-const readMainData = async (date) => {
+const readMainData = async () => {
   const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 2 });
   const headerRow = records[2];
   for (let i = 0; i < headerRow.length; i++) {
@@ -100,7 +119,7 @@ const readMainData = async (date) => {
   return data;
 };
 
-const readReasonData = async (date) => {
+const readReasonData = async () => {
   const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 3 });
   const headerRow = records[1];
   for (let i = 0; i < headerRow.length; i++) {
@@ -171,8 +190,9 @@ const readReasonData = async (date) => {
 
 (async () => {
 
-  const date = await lastUpdated();
-  console.log(`The spreadsheet was allegedly last updated @ ${date}.`);
+  const pubDate = await readPubDate();
+  const date = await readDate();
+  console.log(`The spreadsheet was last updated on ${pubDate} and contains the data\nup to and including ${date}.`);
 
   const mainData = await readMainData();
 
@@ -190,6 +210,7 @@ const readReasonData = async (date) => {
     const old = map.get(state);
     // Define the shape of the CSV file.
     result.push({
+      pubDate,
       date,
       state,
       firstDosesCumulative: old.firstDosesCumulative,
@@ -208,6 +229,6 @@ const readReasonData = async (date) => {
     });
   }
 
-  updateCsv('./data/data.csv', result, date);
+  updateCsv('./data/data.csv', result, pubDate, date);
 
 })();
