@@ -12,11 +12,14 @@
   }
   .chart {
     width: 100%;
-    min-height: 254px;
+    height: 250px;
   }
   .chart-container .legend-dataset-text,
   .chart-container .axis {
     fill: #000 !important;
+  }
+  .graph-svg-tip.comparison {
+    max-width: 100%;
   }
 </style>
 <link rel="icon" href="favicon.svg">
@@ -77,6 +80,7 @@
     isNavigable: true,
     animate: false,
     truncateLegends: true,
+    height: 250,
   });
 
   <% for (const state of states) { %>
@@ -96,6 +100,7 @@
       },
       isNavigable: true,
       animate: false,
+      height: 250,
     });
   <% } %>
 </script>
