@@ -55,6 +55,18 @@ const readDate = async () => {
 
 const PATH_TO_SPREADSHEET = './tmp/data.xlsx';
 
+const processRecords = (records) => {
+  const data = [];
+  for (const row of records.rows) {
+    if (row.state === 'Gesamt') {
+      continue;
+    }
+    row.state = row.state.replace(/\*$/, '');
+    data.push(row);
+  }
+  return data;
+};
+
 const readMainData = async () => {
   const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 2 });
   const headerRow = records[2];
@@ -112,9 +124,7 @@ const readMainData = async () => {
     // },
   };
   const actualRecords = convertToObject(recordsWithData, schema);
-  const data = actualRecords.rows.filter(row => {
-    return row.state !== 'Gesamt';
-  });
+  const data = processRecords(actualRecords);
   return data;
 };
 
@@ -181,9 +191,7 @@ const readReasonData = async () => {
     },
   };
   const actualRecords = convertToObject(recordsWithData, schema);
-  const data = actualRecords.rows.filter(row => {
-    return row.state !== 'Gesamt';
-  });
+  const data = processRecords(actualRecords);
   return data;
 };
 
