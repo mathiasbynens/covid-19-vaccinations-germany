@@ -33,7 +33,7 @@
 <p>In <span translate="no"><%= state %></span>, <%= percentFirstDose(state) %>% of inhabitants received their first vaccination dose, and <%= percentSecondDose(state) %>% received their second dose. A total of <%= currentDoses(state) %> doses have been administered so far. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses(state) %> doses per day.</p>
 <div id="chart-cumulative-<% print(state.toLowerCase()) %>" class="chart"></div>
 <% if ('Bayern' === state) { %>
-<p><strong>Note:</strong> The drop on <time>2021-01-26</time> is not a bug in our chart — <a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/6">it matches the data reported by the RKI</a>, which overreported the numbers for <time>2021-01-25</time>.</p>
+<p><strong>Note:</strong> The drop on <time>2021-01-26</time> is not an error in our chart — <a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/6">it matches the data reported by the RKI</a>, which overreported the numbers for <time>2021-01-25</time>.</p>
 <% } %>
 <% } %>
 <p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data (CSV)</a> or <a href="https://bit.ly/c19-de">explore it in Google Data Studio</a>.</p>
