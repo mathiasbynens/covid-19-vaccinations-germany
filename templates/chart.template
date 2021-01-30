@@ -96,7 +96,7 @@
         '#2E78D2',
       ],
       tooltipOptions: {
-        formatTooltipY: number => `${formatter.format(number)} doses administered`,
+        formatTooltipY: number => `${formatter.format(number)} doses`,
       },
       axisOptions: {
         xIsSeries: true,
