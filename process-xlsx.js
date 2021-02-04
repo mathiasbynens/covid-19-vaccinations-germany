@@ -75,53 +75,70 @@ const readMainData = async () => {
       // If C3 is empty, re-use the contents of B3, falling back to A3.
       headerRow[i] = records[1][i] || records[0][i];
     }
+    // Ensure every header cell’s content is unique.
+    headerRow[i] += `_${i}`;
   }
   const recordsWithData = records.slice(2);
   const schema = {
-    'Bundesland': {
+    'Bundesland_1': {
       prop: 'state',
       type: String,
     },
     // Gesamtzahl bisher verabreichter Impfstoffdosen
-    'Gesamtzahl bisher verabreichter Impfstoffdosen': {
+    'Gesamtzahl bisher verabreichter Impfstoffdosen_2': {
       prop: 'totalDosesCumulative',
       type: Number,
     },
     // Erstimpfung → Impfungen kumulativ → Gesamt
-    'Gesamt': {
+    'Gesamt_3': {
       prop: 'firstDosesCumulative',
       type: Number,
     },
     // Erstimpfung → Impfungen kumulativ → BioNTech
-    'BioNTech': {
+    'BioNTech_4': {
       prop: 'firstDosesCumulativeBioNTech',
       type: Number,
     },
     // Erstimpfung → Impfungen kumulativ → Moderna
-    'Moderna': {
+    'Moderna_5': {
       prop: 'firstDosesCumulativeModerna',
       type: Number,
     },
     // Erstimpfung → Differenz zum Vortag
-    // 'Differenz zum Vortag': {
+    // 'Differenz zum Vortag_6': {
     //   prop: 'deltaToPreviousDay',
     //   type: Number,
     // },
     // Erstimpfung → Impf-quote, %
-    'Impf-quote, %': {
+    'Impf-quote, %_7': {
       prop: 'firstDosesPercent',
       type: Number,
     },
-    // Zweitimpfung → Impfungen kumulativ
-    'Impfungen kumulativ': {
+    // Zweitimpfung → Impfungen kumulativ → Gesamt
+    'Gesamt_8': {
       prop: 'secondDosesCumulative',
       type: Number,
     },
+    // Zweitimpfung → Impfungen kumulativ → BioNTech
+    'BioNTech_9': {
+      prop: 'secondDosesCumulativeBioNTech',
+      type: Number,
+    },
+    // Zweitimpfung → Impfungen kumulativ → Moderna
+    'Moderna_10': {
+      prop: 'secondDosesCumulativeModerna',
+      type: Number,
+    },
     // // Zweitimpfung → Differenz zum Vortag
-    // 'Differenz zum Vortag': {
+    // 'Differenz zum Vortag_11': {
     //   prop: 'secondDosesDeltaToPreviousDay',
     //   type: Number,
     // },
+    // Zweitimpfung → Impf-quote, %
+    'Impf-quote, %_12': {
+      prop: 'secondDosesPercent',
+      type: Number,
+    },
   };
   const actualRecords = convertToObject(recordsWithData, schema);
   const data = processRecords(actualRecords);
