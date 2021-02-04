@@ -5,25 +5,6 @@ const template = require('lodash.template');
 
 // https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/zensus-geschlecht-staatsangehoerigkeit-2020.html
 const POPULATION_GERMANY = 83_190_556;
-// https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/bevoelkerung-nichtdeutsch-laender.html
-const POPULATION_PER_STATE = new Map([
-  ['Baden-Württemberg', 11_100_394],
-  ['Bayern', 13_124_737],
-  ['Berlin', 3_669_491],
-  ['Brandenburg', 2_521_893],
-  ['Bremen', 681_202],
-  ['Hamburg', 1_847_253],
-  ['Hessen', 6_288_080],
-  ['Mecklenburg-Vorpommern', 1_608_138],
-  ['Niedersachsen', 7_993_608],
-  ['Nordrhein-Westfalen', 17_947_221],
-  ['Rheinland-Pfalz', 4_093_903],
-  ['Saarland', 986_887],
-  ['Sachsen', 4_071_971],
-  ['Sachsen-Anhalt', 2_194_782],
-  ['Schleswig-Holstein', 2_903_773],
-  ['Thüringen', 2_133_378],
-]);
 
 const addDays = (string, days) => {
   const date = new Date(`${string}T00:00:00.000Z`);
@@ -43,7 +24,7 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
-for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent} of records) {
+for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent, secondDosesPercent} of records) {
   states.add(state);
   const countFirstDoses = Number(firstDosesCumulative);
   const countSecondDoses = Number(secondDosesCumulative);
@@ -61,6 +42,7 @@ for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, f
     latestPubDate = pubDate;
   }
   const percentFirstDose = Number(firstDosesPercent);
+  const percentSecondDose = Number(secondDosesPercent);
   if (!map.has(date)) {
     map.set(date, new Map());
   }
@@ -69,6 +51,7 @@ for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, f
     cumulativeFirst: countFirstDoses,
     cumulativeSecond: countSecondDoses,
     percentFirstDose: percentFirstDose,
+    percentSecondDose: percentSecondDose,
   });
 }
 
@@ -114,9 +97,8 @@ function percentSecondDose(state) {
   if (state) {
     const latestEntries = sortedMap.get(latestDate);
     const latestStateEntries = latestEntries.get(state);
-    const percent = latestStateEntries.cumulativeSecond /
-      POPULATION_PER_STATE.get(state) * 100;
-    return percentFormatter.format(percent);
+    const percentSecondDose = latestStateEntries.percentSecondDose;
+    return percentFormatter.format(percentSecondDose);
   }
   const percent = nationalCumulativeTotalSecondDose / POPULATION_GERMANY * 100;
   return percentFormatter.format(percent);
