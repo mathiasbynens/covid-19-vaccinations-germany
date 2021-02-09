@@ -37,5 +37,6 @@ jobs:
           git config user.name 'Mathias Bynens'
           git config user.email 'mathias@qiwi.be'
           date=$(tail -n 1 data/data.csv | cut -d',' -f 1)
-          git commit index.html data -m "Import latest data @ ${date}" || true
+          pubDate=$(tail -n 1 data/data.csv | cut -d',' -f 2)
+          git commit index.html data -m "Import data for date=${date} (pubDate=${pubDate})" || true
           git push
