@@ -254,7 +254,7 @@ const readReasonData = async () => {
       secondDosesCumulative: old.secondDosesCumulative,
       secondDosesCumulativeBioNTech: old.secondDosesCumulativeBioNTech,
       secondDosesCumulativeModerna: old.secondDosesCumulativeModerna,
-      secondDosesCumulativeAstraZeneca: old.secondDosesCumulativeAstraZeneca,
+      secondDosesCumulativeAstraZeneca: old.secondDosesCumulativeAstraZeneca || 0,
       secondDosesPercent: old.secondDosesPercent,
       secondDosesDueToAge: object.secondDosesDueToAge,
       secondDosesDueToProfession: object.secondDosesDueToProfession,
