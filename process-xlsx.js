@@ -104,38 +104,43 @@ const readMainData = async () => {
       prop: 'firstDosesCumulativeModerna',
       type: Number,
     },
+    // Erstimpfung → Impfungen kumulativ → AstraZeneca
+    'AstraZeneca_6': {
+      prop: 'firstDosesCumulativeAstraZeneca',
+      type: Number,
+    },
     // Erstimpfung → Differenz zum Vortag
-    // 'Differenz zum Vortag_6': {
+    // 'Differenz zum Vortag_7': {
     //   prop: 'deltaToPreviousDay',
     //   type: Number,
     // },
     // Erstimpfung → Impf-quote, %
-    'Impf-quote, %_7': {
+    'Impf-quote, %_8': {
       prop: 'firstDosesPercent',
       type: Number,
     },
     // Zweitimpfung → Impfungen kumulativ → Gesamt
-    'Gesamt_8': {
+    'Gesamt_9': {
       prop: 'secondDosesCumulative',
       type: Number,
     },
     // Zweitimpfung → Impfungen kumulativ → BioNTech
-    'BioNTech_9': {
+    'BioNTech_10': {
       prop: 'secondDosesCumulativeBioNTech',
       type: Number,
     },
     // Zweitimpfung → Impfungen kumulativ → Moderna
-    'Moderna_10': {
+    'Moderna_11': {
       prop: 'secondDosesCumulativeModerna',
       type: Number,
     },
     // // Zweitimpfung → Differenz zum Vortag
-    // 'Differenz zum Vortag_11': {
+    // 'Differenz zum Vortag_12': {
     //   prop: 'secondDosesDeltaToPreviousDay',
     //   type: Number,
     // },
     // Zweitimpfung → Impf-quote, %
-    'Impf-quote, %_12': {
+    'Impf-quote, %_13': {
       prop: 'secondDosesPercent',
       type: Number,
     },
@@ -240,6 +245,7 @@ const readReasonData = async () => {
       firstDosesCumulative: old.firstDosesCumulative,
       firstDosesCumulativeBioNTech: old.firstDosesCumulativeBioNTech,
       firstDosesCumulativeModerna: old.firstDosesCumulativeModerna,
+      firstDosesCumulativeAstraZeneca: old.firstDosesCumulativeAstraZeneca,
       firstDosesPercent: old.firstDosesPercent,
       firstDosesDueToAge: object.firstDosesDueToAge,
       firstDosesDueToProfession: object.firstDosesDueToProfession,
@@ -248,6 +254,7 @@ const readReasonData = async () => {
       secondDosesCumulative: old.secondDosesCumulative,
       secondDosesCumulativeBioNTech: old.secondDosesCumulativeBioNTech,
       secondDosesCumulativeModerna: old.secondDosesCumulativeModerna,
+      secondDosesCumulativeAstraZeneca: old.secondDosesCumulativeAstraZeneca,
       secondDosesPercent: old.secondDosesPercent,
       secondDosesDueToAge: object.secondDosesDueToAge,
       secondDosesDueToProfession: object.secondDosesDueToProfession,
