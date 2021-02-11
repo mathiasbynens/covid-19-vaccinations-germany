@@ -12,11 +12,25 @@ const addDays = (string, days) => {
   return date.toISOString().slice(0, 10);
 };
 
-const csv = fs.readFileSync('./data/data.csv', 'utf8');
+const readCsvFile = (fileName) => {
+  const csv = fs.readFileSync(fileName, 'utf8');
+  const records = parseCsv(csv, {
+    columns: true,
+  });
+  return records;
+};
 
-const records = parseCsv(csv, {
-  columns: true,
-});
+const records = readCsvFile('./data/data.csv');
+
+const deliveries = readCsvFile('./data/deliveries.csv');
+let cumulativeDosesDelivered = 0;
+let latestDeliveryDate = '1970-01-01';
+for (const {date, doses} of deliveries) {
+  cumulativeDosesDelivered += Number(doses);
+  if (date > latestDeliveryDate) {
+    latestDeliveryDate = date;
+  }
+}
 
 const states = new Set();
 const map = new Map();
@@ -114,6 +128,14 @@ function currentDoses(state) {
     nationalCumulativeTotal;
   return intFormatter.format(current);
 }
+function currentDosesPerTotalDosesDelivered() {
+  const percent = nationalCumulativeTotal / cumulativeDosesDelivered * 100;
+  return percentFormatter.format(percent);
+}
+function totalDosesDelivered() {
+  return intFormatter.format(cumulativeDosesDelivered);
+}
+
 const lastWeek = addDays(latestDate, -7);
 function sevenDayAverageDoses(state) {
   const old = state ?
@@ -326,6 +348,9 @@ const createHtml = template(HTML_TEMPLATE, {
     percentSecondDose: percentSecondDose,
     sevenDayAverageDoses: sevenDayAverageDoses,
     currentDoses: currentDoses,
+    currentDosesPerTotalDosesDelivered: currentDosesPerTotalDosesDelivered,
+    totalDosesDelivered: totalDosesDelivered,
+    latestDeliveryDate: latestDeliveryDate,
     nationalData: generateNationalData(),
     generatePercentData: generatePercentData,
     generateStateData: generateStateData,
