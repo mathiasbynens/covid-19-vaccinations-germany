@@ -56,7 +56,7 @@ for (const record of records) {
     secondDosesDueToProfession: record.secondDosesDueToProfession,
     secondDosesDueToMedicalReasons: record.secondDosesDueToMedicalReasons,
     secondDosesToNursingHomeResidents: record.secondDosesToNursingHomeResidents,
-  })
+  });
 }
 
 const csv = stringifyCsv(newRecords, { header: true });

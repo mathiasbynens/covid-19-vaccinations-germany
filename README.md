@@ -9,6 +9,8 @@ This repository aims to…
 1. preserve the historical data for each German state
 1. [visualize the data with charts](https://mathiasbynens.github.io/covid-19-vaccinations-germany/)
 
+As of 2021-02-11, this repository also provides [data on vaccine orders being delivered into Germany](https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/deliveries.csv).
+
 ## CSV details
 
 [The CSV](https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv) contains two date columns:
