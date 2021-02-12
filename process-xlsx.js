@@ -58,10 +58,10 @@ const PATH_TO_SPREADSHEET = './tmp/data.xlsx';
 const processRecords = (records) => {
   const data = [];
   for (const row of records.rows) {
-    if (row.state === 'Gesamt') {
+    if (row.state.startsWith('* ') || row.state === 'Gesamt') {
       continue;
     }
-    row.state = row.state.replace(/\*$/, '');
+    row.state = row.state.replace(/\*$/, '').trim();
     data.push(row);
   }
   return data;
