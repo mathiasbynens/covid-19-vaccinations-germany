@@ -28,7 +28,7 @@
 </style>
 <link rel="icon" href="favicon.svg">
 <h1>COVID-19 vaccination doses administered in Germany as of <time datetime="<%= latestPubDate %>"><%= latestPubDate %></time></h1>
-<p>Across all of Germany, <%= percentFirstDose() %>% of inhabitants received their first vaccination dose, and <%= percentSecondDose() %>% received their second dose. A total of <%= currentDoses() %> doses have been administered so far — that’s <%= currentDosesPerTotalDosesDelivered() %>% of the <%= totalDosesDelivered() %> total doses that have been delivered to Germany <span class="has-tooltip" title="The latest delivery happened on <%= latestDeliveryDate %>.">so far</span>. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses() %> doses per day.</p>
+<p>Across all of Germany, <%= percentFirstDose() %>% of inhabitants received their first vaccination dose, and <%= percentSecondDose() %>% received their second dose. A total of <%= currentDoses() %> doses have been administered so far — that’s <%= currentDosesPerTotalDosesDelivered() %>% of the <%= totalDosesDelivered() %> total doses that have been delivered to Germany <span class="has-tooltip" title="<%= latestDeliveryDate %> is the date of the latest delivery.">as of <%= latestDeliveryDate %></span>. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses() %> doses per day.</p>
 <div id="chart-cumulative-germany" class="chart"></div>
 <h2 id="percent">COVID-19 vaccination doses administered per 100 inhabitants in each German state</h2>
 <div id="chart-percent" class="chart"></div>
