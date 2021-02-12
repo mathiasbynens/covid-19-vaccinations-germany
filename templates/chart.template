@@ -39,6 +39,9 @@
 <% if ('Bayern' === state) { %>
 <p><strong>Note:</strong> The drop on <time>2021-01-26</time> is not an error in our chart — <a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/6">it matches the data reported by the RKI</a>, which overreported the numbers for <time>2021-01-25</time>.</p>
 <% } %>
+<% if ('Mecklenburg-Vorpommern' === state) { %>
+<p><strong>Note:</strong> The drop on <time>2021-02-11</time> is not an error in our chart — it matches the data reported by the RKI, which overreported the numbers for <time>2021-01-10</time>.</p>
+<% } %>
 <% } %>
 <p><a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data (CSV)</a> or <a href="https://bit.ly/c19-de">explore it in Google Data Studio</a>.</p>
 <script type="module">
