@@ -37,10 +37,11 @@ jobs:
           git config user.name 'Mathias Bynens'
           git config user.email 'mathias@qiwi.be'
           # Update delivery data.
-          date=$(tail -n 1 data/deliveries.csv | cut -d',' -f 1)
-          git commit data/deliveries.csv -m "Import delivery data for date=${date}" || true
+          delivery=$(tail -n 1 data/deliveries.csv | cut -d',' -f 1)
+          git commit data/deliveries.csv -m "Import delivery data for ${delivery}" || true
           # Update data on administered vaccine doses.
           date=$(tail -n 1 data/data.csv | cut -d',' -f 1)
           pubDate=$(tail -n 1 data/data.csv | cut -d',' -f 2)
-          git commit index.html data/data.csv -m "Import data for date=${date} (pubDate=${pubDate})" || true
+          git commit data/data.csv -m "Import vaccination data for date=${date} × pubDate=${pubDate}" || true
+          git commit index.html -m "Update charts per date=${date} × pubDate=${pubDate} × delivery=${delivery}" || true
           git push
