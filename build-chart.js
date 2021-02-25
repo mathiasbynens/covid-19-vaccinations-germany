@@ -3,8 +3,14 @@ const minifyHtml = require('html-minifier-terser').minify;
 const parseCsv = require('csv-parse/lib/sync');
 const template = require('lodash.template');
 
+// The RKI is using these population stats for the states:
+// https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/bevoelkerung-nichtdeutsch-laender.html
+// So we add them up to get the total German population. Note that we
+// do this instead of getting using the total population stats from
 // https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/zensus-geschlecht-staatsangehoerigkeit-2020.html
-const POPULATION_GERMANY = 83_190_556;
+// because then we’d be dealing with two different snapshots, and the
+// state populations wouldn’t add up to 100% of the German population.
+const POPULATION_GERMANY = 83_166_711;
 
 const addDays = (string, days) => {
   const date = new Date(`${string}T00:00:00.000Z`);
