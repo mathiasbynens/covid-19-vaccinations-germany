@@ -45,7 +45,7 @@
 <% } %>
 <p>Made by <a href="https://twitter.com/mathias" rel="nofollow">@mathias</a>. <a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data (CSV)</a> or <a href="https://bit.ly/c19-de">explore it in Google Data Studio</a>.</p>
 <script type="module">
-  import { Chart } from 'https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.esm.js';
+  import { Chart } from 'https://cdn.jsdelivr.net/npm/frappe-charts@1.5.7/dist/frappe-charts.min.esm.js';
 
   const formatter = new Intl.NumberFormat('en');
 
