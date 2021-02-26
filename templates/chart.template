@@ -75,8 +75,12 @@
 
   new Chart('#chart-cumulative-germany', {
     data: <%= nationalData %>,
-    type: 'line',
+    type: 'axis-mixed',
+    barOptions: {
+      spaceRatio: 0.0001,
+    },
     colors: [
+      '#E6EFFA',
       '#28A745',
       '#FFA00A',
       '#2E78D2',

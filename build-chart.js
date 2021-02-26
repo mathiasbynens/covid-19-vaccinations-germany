@@ -26,17 +26,19 @@ const readCsvFile = (fileName) => {
   return records;
 };
 
-const records = readCsvFile('./data/data.csv');
-
 const deliveries = readCsvFile('./data/deliveries.csv');
 let cumulativeDosesDelivered = 0;
+const deliveryMap = new Map(); // dateString => cumulativeDoses
 let latestDeliveryDate = '1970-01-01';
 for (const {date, doses} of deliveries) {
   cumulativeDosesDelivered += Number(doses);
+  deliveryMap.set(date, cumulativeDosesDelivered);
   if (date > latestDeliveryDate) {
     latestDeliveryDate = date;
   }
 }
+
+const records = readCsvFile('./data/data.csv');
 
 const states = new Set();
 const map = new Map();
@@ -44,8 +46,12 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
+let currentCumulativeDosesAvailable = 0;
 for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent, secondDosesPercent} of records) {
   states.add(state);
+  if (deliveryMap.has(date)) {
+    currentCumulativeDosesAvailable = deliveryMap.get(date);
+  }
   const countFirstDoses = Number(firstDosesCumulative);
   const countSecondDoses = Number(secondDosesCumulative);
   const countTotal = countFirstDoses + countSecondDoses;
@@ -72,6 +78,7 @@ for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, f
     cumulativeSecond: countSecondDoses,
     percentFirstDose: percentFirstDose,
     percentSecondDose: percentSecondDose,
+    cumulativeNationalDosesAvailable: currentCumulativeDosesAvailable,
   });
 }
 
@@ -176,14 +183,17 @@ function generateNationalData() {
   const countsTotal = [];
   const countsFirstDose = [];
   const countsSecondDose = [];
+  const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
     let totalDoses = 0;
     let firstDoses = 0;
     let secondDoses = 0;
+    let availableDoses = 0;
     for (const [state, data] of entry) {
       totalDoses += data.cumulativeTotal;
       firstDoses += data.cumulativeFirst;
       secondDoses += data.cumulativeSecond;
+      availableDoses = data.cumulativeNationalDosesAvailable;
     }
     if (date === lastWeek) {
       nationalCumulativeTotalLastWeek = totalDoses;
@@ -195,21 +205,27 @@ function generateNationalData() {
     countsTotal.push(totalDoses);
     countsFirstDose.push(firstDoses);
     countsSecondDose.push(secondDoses);
+    countsAvailable.push(availableDoses);
   }
   datasets.push(
     {
+      name: 'Available doses',
+      chartType: 'bar',
+      values: countsAvailable,
+    },
+    {
       name: 'Total doses',
-      type: 'line',
+      chartType: 'line',
       values: countsTotal,
     },
     {
       name: 'First doses',
-      type: 'line',
+      chartType: 'line',
       values: countsFirstDose,
     },
     {
       name: 'Second doses',
-      type: 'line',
+      chartType: 'line',
       values: countsSecondDose,
     },
   );
@@ -233,6 +249,7 @@ function generateNationalData() {
     ],
   };
   const stringified = JSON.stringify(data, null, 2);
+  fs.writeFileSync(`./tmp/national-data.json`, `${stringified}\n`);
   return stringified;
 }
 
@@ -278,6 +295,7 @@ function generatePercentData() {
     ],
   };
   const stringified = JSON.stringify(data, null, 2);
+  fs.writeFileSync(`./tmp/percent-data.json`, `${stringified}\n`);
   return stringified;
 }
 
@@ -342,6 +360,7 @@ function generateStateData(desiredState) {
     ],
   };
   const stringified = JSON.stringify(data, null, 2);
+  fs.writeFileSync(`./tmp/state-data-${desiredState}.json`, `${stringified}\n`);
   return stringified;
 }
 
