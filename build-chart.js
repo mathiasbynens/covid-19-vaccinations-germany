@@ -269,9 +269,12 @@ function generatePercentData() {
   ];
 
   for (const state of states) { // Guarantee consistent ordering.
+    // “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
+    // state, and lacks a total population count.
+    if (state.startsWith('Bund (Ei')) continue;
     const counts = [];
     for (const entry of sortedMap.values()) {
-      const count = Number(entry.get(state).percentFirstDose.toFixed(2));
+      const count = Number((entry.get(state)?.percentFirstDose ?? 0).toFixed(2));
       counts.push(count);
     }
     datasets.push({
@@ -319,9 +322,9 @@ function generateStateData(desiredState) {
   const countsSecondDose = [];
   for (const entry of sortedMap.values()) {
     const data = entry.get(desiredState);
-    countsTotal.push(data.cumulativeTotal);
-    countsFirstDose.push(data.cumulativeFirst);
-    countsSecondDose.push(data.cumulativeSecond);
+    countsTotal.push(data?.cumulativeTotal ?? 0);
+    countsFirstDose.push(data?.cumulativeFirst ?? 0);
+    countsSecondDose.push(data?.cumulativeSecond ?? 0);
   }
   datasets.push(
     {
