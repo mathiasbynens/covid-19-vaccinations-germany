@@ -67,6 +67,10 @@ const processRecords = (records) => {
   return data;
 };
 
+// “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
+// state, and lacks a total population count.
+const BUND = 'Bund (Einsatzkräfte Bundeswehr, Bundespolizei)';
+
 const readMainData = async () => {
   const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 2 });
   const headerRow = records[2];
@@ -234,11 +238,14 @@ const readReasonData = async () => {
 
   const reasonData = await readReasonData();
   const result = [];
+  const bundResult = [];
   for (const object of reasonData) {
     const state = object.state;
     const old = map.get(state);
+    const isBund = state === BUND;
+    const target = isBund ? bundResult : result;
     // Define the shape of the CSV file.
-    result.push({
+    const entry = {
       date,
       pubDate,
       state,
@@ -260,9 +267,16 @@ const readReasonData = async () => {
       secondDosesDueToProfession: object.secondDosesDueToProfession,
       secondDosesDueToMedicalReasons: object.secondDosesDueToMedicalReasons,
       secondDosesToNursingHomeResidents: object.secondDosesToNursingHomeResidents,
-    });
+    };
+    if (isBund) {
+      delete entry.state;
+      delete entry.firstDosesPercent;
+      delete entry.secondDosesPercent;
+    }
+    target.push(entry);
   }
 
   updateCsv('./data/data.csv', result, pubDate, date);
+  updateCsv('./data/bund.csv', bundResult, pubDate, date);
 
 })();

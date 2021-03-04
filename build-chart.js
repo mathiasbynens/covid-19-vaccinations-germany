@@ -12,10 +12,6 @@ const template = require('lodash.template');
 // state populations wouldn’t add up to 100% of the German population.
 const POPULATION_GERMANY = 83_166_711;
 
-// “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
-// state, and lacks a total population count.
-const BUND = 'Bund (Einsatzkräfte Bundeswehr, Bundespolizei)';
-
 const addDays = (string, days) => {
   const date = new Date(`${string}T00:00:00.000Z`);
   date.setDate(date.getDate() + days);
@@ -52,9 +48,6 @@ let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
 let currentCumulativeDosesAvailable = 0;
 for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent, secondDosesPercent} of records) {
-  if (state === BUND) {
-    continue;
-  }
   states.add(state);
   if (deliveryMap.has(date)) {
     currentCumulativeDosesAvailable = deliveryMap.get(date);
