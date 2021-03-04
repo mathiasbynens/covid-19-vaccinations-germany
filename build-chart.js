@@ -12,6 +12,10 @@ const template = require('lodash.template');
 // state populations wouldn’t add up to 100% of the German population.
 const POPULATION_GERMANY = 83_166_711;
 
+// “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
+// state, and lacks a total population count.
+const BUND = 'Bund (Einsatzkräfte Bundeswehr, Bundespolizei)';
+
 const addDays = (string, days) => {
   const date = new Date(`${string}T00:00:00.000Z`);
   date.setDate(date.getDate() + days);
@@ -48,6 +52,9 @@ let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
 let currentCumulativeDosesAvailable = 0;
 for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent, secondDosesPercent} of records) {
+  if (state === BUND) {
+    continue;
+  }
   states.add(state);
   if (deliveryMap.has(date)) {
     currentCumulativeDosesAvailable = deliveryMap.get(date);
@@ -269,12 +276,9 @@ function generatePercentData() {
   ];
 
   for (const state of states) { // Guarantee consistent ordering.
-    // “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
-    // state, and lacks a total population count.
-    if (state.startsWith('Bund (Ei')) continue;
     const counts = [];
     for (const entry of sortedMap.values()) {
-      const count = Number((entry.get(state)?.percentFirstDose ?? 0).toFixed(2));
+      const count = Number(entry.get(state).percentFirstDose).toFixed(2);
       counts.push(count);
     }
     datasets.push({
@@ -322,9 +326,9 @@ function generateStateData(desiredState) {
   const countsSecondDose = [];
   for (const entry of sortedMap.values()) {
     const data = entry.get(desiredState);
-    countsTotal.push(data?.cumulativeTotal ?? 0);
-    countsFirstDose.push(data?.cumulativeFirst ?? 0);
-    countsSecondDose.push(data?.cumulativeSecond ?? 0);
+    countsTotal.push(data.cumulativeTotal);
+    countsFirstDose.push(data.cumulativeFirst);
+    countsSecondDose.push(data.cumulativeSecond);
   }
   datasets.push(
     {
