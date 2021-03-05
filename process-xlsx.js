@@ -61,7 +61,7 @@ const processRecords = (records) => {
     if (row.state.startsWith('* ') || row.state === 'Gesamt') {
       continue;
     }
-    row.state = row.state.replace(/\*$/, '').trim();
+    row.state = row.state.replace(/\*+$/, '').trim();
     data.push(row);
   }
   return data;
@@ -69,7 +69,7 @@ const processRecords = (records) => {
 
 // “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
 // state, and lacks a total population count.
-const BUND = 'Bund (Einsatzkräfte Bundeswehr, Bundespolizei)';
+const BUND = 'Bund';
 
 const readMainData = async () => {
   const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 2 });
