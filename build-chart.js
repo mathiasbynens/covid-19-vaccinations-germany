@@ -107,12 +107,22 @@ function currentDoses(state) {
     nationalCumulativeTotal;
   return intFormatter.format(current);
 }
-function currentDosesPerTotalDosesDelivered() {
-  const percent = nationalCumulativeTotal / cumulativeNationalDosesDelivered * 100;
+function currentDosesPerTotalDosesDelivered(state) {
+  const percent = (() => {
+    if (state) {
+      const cumulativeTotal = map.get(latestDate).get(state).cumulativeTotal;
+      const cumulativeDosesDelivered = cumulativeDeliveryMap.get(latestDate).get(state);
+      return cumulativeTotal / cumulativeDosesDelivered * 100;
+    }
+    return nationalCumulativeTotal / cumulativeNationalDosesDelivered * 100;
+  })();
   return percentFormatter.format(percent);
 }
-function totalDosesDelivered() {
-  return intFormatter.format(cumulativeNationalDosesDelivered);
+function totalDosesDelivered(state) {
+  const number = state ?
+    cumulativeDeliveryMap.get(latestDate).get(state) :
+    cumulativeNationalDosesDelivered;
+  return intFormatter.format(number);
 }
 
 const lastWeek = addDays(latestDate, -7);
