@@ -1,7 +1,9 @@
 const fs = require('fs');
 const minifyHtml = require('html-minifier-terser').minify;
-const parseCsv = require('csv-parse/lib/sync');
 const template = require('lodash.template');
+
+const {addDays, readCsvFile, sortMapEntriesByKey} = require('./utils.js');
+const getCumulativeDeliveries = require('./cumulative-deliveries.js');
 
 // The RKI is using these population stats for the states:
 // https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/bevoelkerung-nichtdeutsch-laender.html
@@ -12,32 +14,6 @@ const template = require('lodash.template');
 // state populations wouldn’t add up to 100% of the German population.
 const POPULATION_GERMANY = 83_166_711;
 
-const addDays = (string, days) => {
-  const date = new Date(`${string}T00:00:00.000Z`);
-  date.setDate(date.getDate() + days);
-  return date.toISOString().slice(0, 10);
-};
-
-const readCsvFile = (fileName) => {
-  const csv = fs.readFileSync(fileName, 'utf8');
-  const records = parseCsv(csv, {
-    columns: true,
-  });
-  return records;
-};
-
-const deliveries = readCsvFile('./data/deliveries.csv');
-let cumulativeDosesDelivered = 0;
-const deliveryMap = new Map(); // dateString => cumulativeDoses
-let latestDeliveryDate = '1970-01-01';
-for (const {date, doses} of deliveries) {
-  cumulativeDosesDelivered += Number(doses);
-  deliveryMap.set(date, cumulativeDosesDelivered);
-  if (date > latestDeliveryDate) {
-    latestDeliveryDate = date;
-  }
-}
-
 const records = readCsvFile('./data/data.csv');
 
 const states = new Set();
@@ -46,12 +22,8 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
-let currentCumulativeDosesAvailable = 0;
 for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent, secondDosesPercent} of records) {
   states.add(state);
-  if (deliveryMap.has(date)) {
-    currentCumulativeDosesAvailable = deliveryMap.get(date);
-  }
   const countFirstDoses = Number(firstDosesCumulative);
   const countSecondDoses = Number(secondDosesCumulative);
   const countTotal = countFirstDoses + countSecondDoses;
@@ -78,13 +50,12 @@ for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, f
     cumulativeSecond: countSecondDoses,
     percentFirstDose: percentFirstDose,
     percentSecondDose: percentSecondDose,
-    cumulativeNationalDosesAvailable: currentCumulativeDosesAvailable,
   });
 }
 
 // Fill the gaps in the data. (Missing days, usually over the weekend.)
 let lastEntries;
-for (let date = oldestDate; date < latestDate; date = addDays(date, 1)) {
+for (let date = oldestDate; date <= latestDate; date = addDays(date, 1)) {
   if (map.has(date)) {
     lastEntries = map.get(date);
     continue;
@@ -92,18 +63,13 @@ for (let date = oldestDate; date < latestDate; date = addDays(date, 1)) {
     map.set(date, lastEntries);
   }
 }
-// Sort the map entries by key.
-const sortedMap = new Map([...map].sort((a, b) => {
-  const dateA = a[0];
-  const dateB = b[0];
-  if (dateA < dateB) {
-    return -1;
-  }
-  if (dateA > dateB) {
-    return 1;
-  }
-  return 0;
-}));
+const sortedMap = sortMapEntriesByKey(map);
+
+const {
+  cumulativeDeliveryMap,
+  latestDeliveryDate,
+  cumulativeNationalDosesDelivered,
+} = getCumulativeDeliveries({ startDate: oldestDate, endDate: latestDate });
 
 const percentFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
@@ -142,11 +108,11 @@ function currentDoses(state) {
   return intFormatter.format(current);
 }
 function currentDosesPerTotalDosesDelivered() {
-  const percent = nationalCumulativeTotal / cumulativeDosesDelivered * 100;
+  const percent = nationalCumulativeTotal / cumulativeNationalDosesDelivered * 100;
   return percentFormatter.format(percent);
 }
 function totalDosesDelivered() {
-  return intFormatter.format(cumulativeDosesDelivered);
+  return intFormatter.format(cumulativeNationalDosesDelivered);
 }
 
 const lastWeek = addDays(latestDate, -7);
@@ -193,7 +159,7 @@ function generateNationalData() {
       totalDoses += data.cumulativeTotal;
       firstDoses += data.cumulativeFirst;
       secondDoses += data.cumulativeSecond;
-      availableDoses = data.cumulativeNationalDosesAvailable;
+      availableDoses = cumulativeDeliveryMap.get(date).get('Total');
     }
     if (date === lastWeek) {
       nationalCumulativeTotalLastWeek = totalDoses;
@@ -317,26 +283,34 @@ function generateStateData(desiredState) {
   const countsTotal = [];
   const countsFirstDose = [];
   const countsSecondDose = [];
-  for (const entry of sortedMap.values()) {
+  const countsAvailable = [];
+  for (const [date, entry] of sortedMap) {
     const data = entry.get(desiredState);
     countsTotal.push(data.cumulativeTotal);
     countsFirstDose.push(data.cumulativeFirst);
     countsSecondDose.push(data.cumulativeSecond);
+    const availableDoses = cumulativeDeliveryMap.get(date).get(desiredState);
+    countsAvailable.push(availableDoses);
   }
   datasets.push(
     {
+      name: 'Available doses',
+      chartType: 'bar',
+      values: countsAvailable,
+    },
+    {
       name: 'Total doses',
-      type: 'line',
+      chartType: 'line',
       values: countsTotal,
     },
     {
       name: 'First doses',
-      type: 'line',
+      chartType: 'line',
       values: countsFirstDose,
     },
     {
       name: 'Second doses',
-      type: 'line',
+      chartType: 'line',
       values: countsSecondDose,
     },
   );
