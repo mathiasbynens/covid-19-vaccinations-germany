@@ -165,7 +165,7 @@ function generateNationalData() {
     let firstDoses = 0;
     let secondDoses = 0;
     let availableDoses = 0;
-    for (const [state, data] of entry) {
+    for (const data of entry.values()) {
       totalDoses += data.cumulativeTotal;
       firstDoses += data.cumulativeFirst;
       secondDoses += data.cumulativeSecond;
