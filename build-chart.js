@@ -247,7 +247,7 @@ function generatePercentData() {
   for (const state of states) { // Guarantee consistent ordering.
     const counts = [];
     for (const entry of sortedMap.values()) {
-      const count = Number(entry.get(state).percentFirstDose).toFixed(2);
+      const count = Number(entry.get(state).percentFirstDose.toFixed(2));
       counts.push(count);
     }
     datasets.push({
@@ -266,12 +266,61 @@ function generatePercentData() {
       {
         label: '',
         value: 0,
-        type: 'solid'
+        type: 'solid',
       },
     ],
   };
   const stringified = JSON.stringify(data, null, 2);
   fs.writeFileSync(`./tmp/percent-data.json`, `${stringified}\n`);
+  return stringified;
+}
+
+function generateRolloutData() {
+  const labels = [
+    // '2021-01-05',
+    // '2021-01-06',
+    // '2021-01-07',
+    ...sortedMap.keys(),
+  ];
+  const datasets = [
+    // {
+    //   name: 'Bavaria',
+    //   type: 'line',
+    //   values: [2.9,5.93,8.28],
+    // },
+  ];
+
+  for (const state of states) { // Guarantee consistent ordering.
+    const counts = [];
+
+    for (const [date, entry] of sortedMap) {
+      const administered = entry.get(state).cumulativeTotal;
+      const delivered = cumulativeDeliveryMap.get(date).get(state);
+      const count = Number((administered / delivered * 100).toFixed(2));
+      counts.push(count);
+    }
+    datasets.push({
+      name: state,
+      type: 'line',
+      values: counts,
+    });
+  }
+
+  const data = {
+    labels,
+    datasets,
+    // This is a workaround that effectively sets minY=0.
+    // https://github.com/frappe/charts/issues/86
+    yMarkers: [
+      {
+        label: '',
+        value: 0,
+        type: 'solid',
+      },
+    ],
+  };
+  const stringified = JSON.stringify(data, null, 2);
+  fs.writeFileSync(`./tmp/rollout-data.json`, `${stringified}\n`);
   return stringified;
 }
 
@@ -362,6 +411,7 @@ const createHtml = template(HTML_TEMPLATE, {
     latestDeliveryDate: latestDeliveryDate,
     nationalData: generateNationalData(),
     generatePercentData: generatePercentData,
+    generateRolloutData: generateRolloutData,
     generateStateData: generateStateData,
   },
 });
