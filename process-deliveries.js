@@ -44,6 +44,14 @@ const formatState = (id) => {
 };
 
 const newRecords = [];
+for (const state of stateMap.values()) {
+  newRecords.push({
+    date: '2020-12-26',
+    state: state,
+    type: 'Pfizer/BioNTech',
+    doses: 0,
+  });
+}
 for (const record of records) {
   newRecords.push({
     date: record.date,

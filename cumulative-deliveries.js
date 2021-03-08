@@ -23,7 +23,7 @@ const getCumulativeDeliveries = ({ startDate, endDate }) => {
 
   // Add national totals.
   let latestSum = 0;
-  for (const [date, entry] of map) {
+  for (const entry of map.values()) {
     let sum = 0;
     for (const number of entry.values()) {
       sum += number;
