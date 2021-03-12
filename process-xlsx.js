@@ -138,13 +138,18 @@ const readMainData = async () => {
       prop: 'secondDosesCumulativeModerna',
       type: Number,
     },
+    // Zweitimpfung → Impfungen kumulativ → AstraZeneca
+    'AstraZeneca_12': {
+      prop: 'secondDosesCumulativeAstraZeneca',
+      type: Number,
+    },
     // // Zweitimpfung → Differenz zum Vortag
-    // 'Differenz zum Vortag_12': {
+    // 'Differenz zum Vortag_13': {
     //   prop: 'secondDosesDeltaToPreviousDay',
     //   type: Number,
     // },
     // Zweitimpfung → Impf-quote, %
-    'Impf-quote, %_13': {
+    'Impf-quote, %_14': {
       prop: 'secondDosesPercent',
       type: Number,
     },
