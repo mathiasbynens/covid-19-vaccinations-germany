@@ -16,7 +16,7 @@
   }
   .chart {
     width: 100%;
-    height: 250px;
+    height: 400px;
   }
   .chart-container .legend-dataset-text,
   .chart-container .axis {
@@ -73,7 +73,7 @@
     isNavigable: true,
     animate: false,
     truncateLegends: true,
-    height: 250,
+    height: 400,
   });
 
   new Chart('#chart-percent', {
@@ -98,6 +98,7 @@
     isNavigable: true,
     animate: false,
     truncateLegends: true,
+    height: 400,
   });
 
   new Chart('#chart-rollout', {
@@ -122,6 +123,7 @@
     isNavigable: true,
     animate: false,
     truncateLegends: true,
+    height: 400,
   });
 
   <% for (const state of states) { %>
@@ -145,7 +147,7 @@
       },
       isNavigable: true,
       animate: false,
-      height: 250,
+      height: 400,
     });
   <% } %>
 </script>
