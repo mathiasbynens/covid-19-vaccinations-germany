@@ -96,43 +96,43 @@ const readMainData = async () => {
 
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → eine Impfung → Impfungen kumulativ → Gesamt
     'Gesamt_2': {
-      prop: 'firstDosesCumulativeInCentersHospitalsMobileTeams',
+      prop: 'firstDosesCumulativeAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → eine Impfung → Impfungen kumulativ → BioNTech
     'BioNTech_3': {
-      prop: 'firstDosesCumulativeBioNTechInCentersHospitalsMobileTeams',
+      prop: 'firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → eine Impfung → Impfungen kumulativ → Moderna
     'Moderna_4': {
-      prop: 'firstDosesCumulativeModernaInCentersHospitalsMobileTeams',
+      prop: 'firstDosesCumulativeModernaAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → eine Impfung → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_5': {
-      prop: 'firstDosesCumulativeAstraZenecaInCentersHospitalsMobileTeams',
+      prop: 'firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams',
       type: Number,
     },
 
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → Gesamt
     'Gesamt_7': {
-      prop: 'secondDosesCumulativeInCentersHospitalsMobileTeams',
+      prop: 'secondDosesCumulativeAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → BioNTech
     'BioNTech_8': {
-      prop: 'secondDosesCumulativeBioNTechInCentersHospitalsMobileTeams',
+      prop: 'secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → Moderna
     'Moderna_9': {
-      prop: 'secondDosesCumulativeModernaInCentersHospitalsMobileTeams',
+      prop: 'secondDosesCumulativeModernaAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_10': {
-      prop: 'secondDosesCumulativeAstraZenecaInCentersHospitalsMobileTeams',
+      prop: 'secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams',
       type: Number,
     },
 
@@ -243,22 +243,22 @@ const readPercentData = async () => {
 
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → eine Impfung → <60 Jahre
     '<60 Jahre_9': {
-      prop: 'firstDosesCumulativeInCentersHospitalsMobileTeamsForPeopleBelow60',
+      prop: 'firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → eine Impfung → 60+ Jahre
     '60+ Jahre_10': {
-      prop: 'firstDosesCumulativeInCentersHospitalsMobileTeamsForPeopleAbove60',
+      prop: 'firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → vollständig geimpft → <60 Jahre
     '<60 Jahre_11': {
-      prop: 'secondDosesCumulativeInCentersHospitalsMobileTeamsForPeopleBelow60',
+      prop: 'secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → vollständig geimpft → 60+ Jahre
     '60+Jahre_12': {
-      prop: 'secondDosesCumulativeInCentersHospitalsMobileTeamsForPeopleAbove60',
+      prop: 'secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60',
       type: Number,
     },
 
@@ -278,7 +278,7 @@ const readPercentData = async () => {
       type: Number,
     },
     // Impfungen bei niedergelassenen Ärzten → vollständig geimpft → 60+ Jahre
-    '60+ Jahre_16': {
+    '60+Jahre_16': {
       prop: 'secondDosesCumulativeAtDoctorsForPeopleAbove60',
       type: Number,
     },
@@ -316,20 +316,58 @@ const readPercentData = async () => {
       date,
       pubDate,
       state,
-      firstDosesCumulative: old.firstDosesCumulativeInCentersHospitalsMobileTeams + old.firstDosesCumulativeAtDoctors,
-      firstDosesCumulativeBioNTech: old.firstDosesCumulativeBioNTechInCentersHospitalsMobileTeams + old.firstDosesCumulativeBioNTechAtDoctors,
-      firstDosesCumulativeModerna: old.firstDosesCumulativeModernaInCentersHospitalsMobileTeams + old.firstDosesCumulativeModernaAtDoctors,
-      firstDosesCumulativeAstraZeneca: old.firstDosesCumulativeAstraZenecaInCentersHospitalsMobileTeams + old.firstDosesCumulativeAstraZenecaAtDoctors,
+
+      firstDosesCumulative: old.firstDosesCumulativeAtCentersHospitalsMobileTeams + old.firstDosesCumulativeAtDoctors,
+      firstDosesCumulativeAtCentersHospitalsMobileTeams: old.firstDosesCumulativeAtCentersHospitalsMobileTeams,
+      firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
+      firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: object.firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
+      firstDosesCumulativeAtDoctors: old.firstDosesCumulativeAtDoctors,
+      firstDosesCumulativeAtDoctorsForPeopleBelow60: object.firstDosesCumulativeAtDoctorsForPeopleBelow60,
+      firstDosesCumulativeAtDoctorsForPeopleAbove60: object.firstDosesCumulativeAtDoctorsForPeopleAbove60,
+
       firstDosesPercent: object.firstDosesPercent,
+      firstDosesPercentOfPeopleBelow60: object.firstDosesPercentOfPeopleBelow60,
+      firstDosesPercentOfPeopleAbove60: object.firstDosesPercentOfPeopleAbove60,
+
+      firstDosesCumulativeBioNTech: old.firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams + old.firstDosesCumulativeBioNTechAtDoctors,
+      firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams: old.firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams,
+      firstDosesCumulativeBioNTechAtDoctors: old.firstDosesCumulativeBioNTechAtDoctors,
+      firstDosesCumulativeModerna: old.firstDosesCumulativeModernaAtCentersHospitalsMobileTeams + old.firstDosesCumulativeModernaAtDoctors,
+      firstDosesCumulativeModernaAtCentersHospitalsMobileTeams: old.firstDosesCumulativeModernaAtCentersHospitalsMobileTeams,
+      firstDosesCumulativeModernaAtDoctors: old.firstDosesCumulativeModernaAtDoctors,
+      firstDosesCumulativeAstraZeneca: old.firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams + old.firstDosesCumulativeAstraZenecaAtDoctors,
+      firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
+      firstDosesCumulativeAstraZenecaAtDoctors: old.firstDosesCumulativeAstraZenecaAtDoctors,
+
+      // These 4 data points stopped being reported in April 2021.
       firstDosesDueToAge: '',
       firstDosesDueToProfession: '',
       firstDosesDueToMedicalReasons: '',
       firstDosesToNursingHomeResidents: '',
-      secondDosesCumulative: old.secondDosesCumulativeInCentersHospitalsMobileTeams + old.secondDosesCumulativeAtDoctors,
-      secondDosesCumulativeBioNTech: old.secondDosesCumulativeBioNTechInCentersHospitalsMobileTeams + old.secondDosesCumulativeBioNTechAtDoctors,
-      secondDosesCumulativeModerna: old.secondDosesCumulativeModernaInCentersHospitalsMobileTeams + old.secondDosesCumulativeModernaAtDoctors,
-      secondDosesCumulativeAstraZeneca: old.secondDosesCumulativeAstraZenecaInCentersHospitalsMobileTeams + old.secondDosesCumulativeAstraZenecaAtDoctors,
+
+      secondDosesCumulative: old.secondDosesCumulativeAtCentersHospitalsMobileTeams + old.secondDosesCumulativeAtDoctors,
+      secondDosesCumulativeAtCentersHospitalsMobileTeams: old.secondDosesCumulativeAtCentersHospitalsMobileTeams,
+      secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
+      secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: object.secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
+      secondDosesCumulativeAtDoctors: old.secondDosesCumulativeAtDoctors,
+      secondDosesCumulativeAtDoctorsForPeopleBelow60: object.secondDosesCumulativeAtDoctorsForPeopleBelow60,
+      secondDosesCumulativeAtDoctorsForPeopleAbove60: object.secondDosesCumulativeAtDoctorsForPeopleAbove60,
+
       secondDosesPercent: object.secondDosesPercent,
+      secondDosesPercentOfPeopleBelow60: object.secondDosesPercentOfPeopleBelow60,
+      secondDosesPercentOfPeopleAbove60: object.secondDosesPercentOfPeopleAbove60,
+
+      secondDosesCumulativeBioNTech: old.secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams + old.secondDosesCumulativeBioNTechAtDoctors,
+      secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams: old.secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams,
+      secondDosesCumulativeBioNTechAtDoctors: old.secondDosesCumulativeBioNTechAtDoctors,
+      secondDosesCumulativeModerna: old.secondDosesCumulativeModernaAtCentersHospitalsMobileTeams + old.secondDosesCumulativeModernaAtDoctors,
+      secondDosesCumulativeModernaAtCentersHospitalsMobileTeams: old.secondDosesCumulativeModernaAtCentersHospitalsMobileTeams,
+      secondDosesCumulativeModernaAtDoctors: old.secondDosesCumulativeModernaAtDoctors,
+      secondDosesCumulativeAstraZeneca: old.secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams + old.secondDosesCumulativeAstraZenecaAtDoctors,
+      secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
+      secondDosesCumulativeAstraZenecaAtDoctors: old.secondDosesCumulativeAstraZenecaAtDoctors,
+
+      // These 4 data points stopped being reported in April 2021.
       secondDosesDueToAge: '',
       secondDosesDueToProfession: '',
       secondDosesDueToMedicalReasons: '',
