@@ -22,6 +22,21 @@ As of 2021-02-11, this repository also provides [data on vaccine orders being de
 
 Usually, the spreadsheets containing the statistics for day `X` are published on day `X + 1`, but there have been exceptions where the stats got published on the same day. In case multiple spreadsheets are released containing data for the same `date`, we only consider the latest version.
 
+### Deprecated columns
+
+As of 2021-04-08, RKI stopped reporting the following data points:
+
+- `firstDosesDueToAge`
+- `firstDosesDueToProfession`
+- `firstDosesDueToMedicalReasons`
+- `firstDosesToNursingHomeResidents`
+- `secondDosesDueToAge`
+- `secondDosesDueToProfession`
+- `secondDosesDueToMedicalReasons`
+- `secondDosesToNursingHomeResidents`
+
+These columns are still included in the CSV as they contain potentially useful data for prior dates.
+
 ### Anomalies in the data
 
 The following are known anomalies in the data. These anomalies match the data reported by the RKI, which sometimes overreports statistics and then corrects the numbers for the next day. (Sadly, the RKI doesn’t publish corrected numbers for the previous day, else we could retroactively correct our data.)
