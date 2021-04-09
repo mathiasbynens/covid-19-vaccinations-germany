@@ -15,6 +15,26 @@ const getCumulativeDeliveries = require('./cumulative-deliveries.js');
 const POPULATION_GERMANY = 83_166_711;
 
 const records = readCsvFile('./data/data.csv');
+const bundRecords = readCsvFile('./data/bund.csv');
+
+const bundMap = new Map();
+let bundCumulativeFirst = 0;
+let bundCumulativeSecond = 0;
+let bundCumulativeTotal = 0;
+for (const record of bundRecords) {
+  const firstDosesCumulative = Number(record.firstDosesCumulative);
+  const secondDosesCumulative = Number(record.secondDosesCumulative);
+  const totalDosesCumulative = firstDosesCumulative + secondDosesCumulative;
+  bundMap.set(record.date, {
+    cumulativeTotal: totalDosesCumulative,
+    cumulativeFirst: firstDosesCumulative,
+    cumulativeSecond: secondDosesCumulative,
+  });
+  // Assumption: the last entry has the most recent date.
+  bundCumulativeFirst = firstDosesCumulative;
+  bundCumulativeSecond = secondDosesCumulative;
+  bundCumulativeTotal = totalDosesCumulative;
+}
 
 const states = new Set();
 const map = new Map();
@@ -161,9 +181,10 @@ function generateNationalData() {
   const countsSecondDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
-    let totalDoses = 0;
-    let firstDoses = 0;
-    let secondDoses = 0;
+    const bundEntry = bundMap.get(date);
+    let totalDoses = bundEntry?.cumulativeTotal ?? 0;
+    let firstDoses = bundEntry?.cumulativeFirst ?? 0;
+    let secondDoses = bundEntry?.cumulativeSecond ?? 0;
     let availableDoses = 0;
     for (const data of entry.values()) {
       totalDoses += data.cumulativeTotal;

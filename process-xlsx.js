@@ -340,13 +340,13 @@ const readPercentData = async () => {
       firstDosesPercentOfPeopleBelow60: object.firstDosesPercentOfPeopleBelow60,
       firstDosesPercentOfPeopleAbove60: object.firstDosesPercentOfPeopleAbove60,
 
-      firstDosesCumulativeBioNTech: old.firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams + old.firstDosesCumulativeBioNTechAtDoctors,
+      firstDosesCumulativeBioNTech: (old.firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams || 0) + (old.firstDosesCumulativeBioNTechAtDoctors || 0),
       firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams: old.firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams,
       firstDosesCumulativeBioNTechAtDoctors: old.firstDosesCumulativeBioNTechAtDoctors,
-      firstDosesCumulativeModerna: old.firstDosesCumulativeModernaAtCentersHospitalsMobileTeams + old.firstDosesCumulativeModernaAtDoctors,
+      firstDosesCumulativeModerna: (old.firstDosesCumulativeModernaAtCentersHospitalsMobileTeams || 0) + (old.firstDosesCumulativeModernaAtDoctors || 0),
       firstDosesCumulativeModernaAtCentersHospitalsMobileTeams: old.firstDosesCumulativeModernaAtCentersHospitalsMobileTeams,
       firstDosesCumulativeModernaAtDoctors: old.firstDosesCumulativeModernaAtDoctors,
-      firstDosesCumulativeAstraZeneca: old.firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams + old.firstDosesCumulativeAstraZenecaAtDoctors,
+      firstDosesCumulativeAstraZeneca: (old.firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams || 0) + (old.firstDosesCumulativeAstraZenecaAtDoctors || 0),
       firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
       firstDosesCumulativeAstraZenecaAtDoctors: old.firstDosesCumulativeAstraZenecaAtDoctors,
 
@@ -368,13 +368,13 @@ const readPercentData = async () => {
       secondDosesPercentOfPeopleBelow60: object.secondDosesPercentOfPeopleBelow60,
       secondDosesPercentOfPeopleAbove60: object.secondDosesPercentOfPeopleAbove60,
 
-      secondDosesCumulativeBioNTech: old.secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams + old.secondDosesCumulativeBioNTechAtDoctors,
+      secondDosesCumulativeBioNTech: (old.secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams || 0) + (old.secondDosesCumulativeBioNTechAtDoctors || 0),
       secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams: old.secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams,
       secondDosesCumulativeBioNTechAtDoctors: old.secondDosesCumulativeBioNTechAtDoctors,
-      secondDosesCumulativeModerna: old.secondDosesCumulativeModernaAtCentersHospitalsMobileTeams + old.secondDosesCumulativeModernaAtDoctors,
+      secondDosesCumulativeModerna: (old.secondDosesCumulativeModernaAtCentersHospitalsMobileTeams || 0) + (old.secondDosesCumulativeModernaAtDoctors || 0),
       secondDosesCumulativeModernaAtCentersHospitalsMobileTeams: old.secondDosesCumulativeModernaAtCentersHospitalsMobileTeams,
       secondDosesCumulativeModernaAtDoctors: old.secondDosesCumulativeModernaAtDoctors,
-      secondDosesCumulativeAstraZeneca: old.secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams + old.secondDosesCumulativeAstraZenecaAtDoctors,
+      secondDosesCumulativeAstraZeneca: (old.secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams || 0) + (old.secondDosesCumulativeAstraZenecaAtDoctors || 0),
       secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
       secondDosesCumulativeAstraZenecaAtDoctors: old.secondDosesCumulativeAstraZenecaAtDoctors,
 
@@ -387,12 +387,24 @@ const readPercentData = async () => {
     if (isBund) {
       delete entry.state;
       delete entry.firstDosesPercent;
+      delete entry.firstDosesPercentOfPeopleBelow60;
+      delete entry.firstDosesPercentOfPeopleAbove60;
+      delete entry.firstDosesDueToAge;
+      delete entry.firstDosesDueToProfession;
+      delete entry.firstDosesDueToMedicalReasons;
+      delete entry.firstDosesToNursingHomeResidents;
       delete entry.secondDosesPercent;
+      delete entry.secondDosesPercentOfPeopleBelow60;
+      delete entry.secondDosesPercentOfPeopleAbove60;
+      delete entry.secondDosesDueToAge;
+      delete entry.secondDosesDueToProfession;
+      delete entry.secondDosesDueToMedicalReasons;
+      delete entry.secondDosesToNursingHomeResidents;
     }
     target.push(entry);
   }
 
   updateCsv('./data/data.csv', result, pubDate, date);
-  //updateCsv('./data/bund.csv', bundResult, pubDate, date);
+  updateCsv('./data/bund.csv', bundResult, pubDate, date);
 
 })();
