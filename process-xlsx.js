@@ -136,43 +136,43 @@ const readMainData = async () => {
       type: Number,
     },
 
-    // Impfungen bei niedergelassenen Ärzten → eine Impfung → Impfungen kumulativ → Gesamt
+    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → Impfungen kumulativ → Gesamt
     'Gesamt_12': {
       prop: 'firstDosesCumulativeAtDoctors',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → eine Impfung → Impfungen kumulativ → BioNTech
+    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → Impfungen kumulativ → BioNTech
     'BioNTech_13': {
       prop: 'firstDosesCumulativeBioNTechAtDoctors',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → eine Impfung → Impfungen kumulativ → Moderna
+    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → Impfungen kumulativ → Moderna
     'Moderna_14': {
       prop: 'firstDosesCumulativeModernaAtDoctors',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → eine Impfung → Impfungen kumulativ → AstraZeneca
+    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_15': {
       prop: 'firstDosesCumulativeAstraZenecaAtDoctors',
       type: Number,
     },
 
-    // Impfungen bei niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → Gesamt
+    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → Impfungen kumulativ → Gesamt
     'Gesamt_17': {
       prop: 'secondDosesCumulativeAtDoctors',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → BioNTech
+    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → Impfungen kumulativ → BioNTech
     'BioNTech_18': {
       prop: 'secondDosesCumulativeBioNTechAtDoctors',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → Moderna
+    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → Impfungen kumulativ → Moderna
     'Moderna_19': {
       prop: 'secondDosesCumulativeModernaAtDoctors',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → AstraZeneca
+    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_20': {
       prop: 'secondDosesCumulativeAstraZenecaAtDoctors',
       type: Number,
@@ -203,82 +203,93 @@ const readPercentData = async () => {
       prop: 'state',
       type: String,
     },
+
     // Insgesamt über alle Impfstellen → Gesamtzahl bisher verabreichter Impfungen
     'Gesamtzahl bisher verabreichter Impfungen_2': {
       prop: 'totalDosesCumulative',
       type: Number,
     },
+    // Insgesamt über alle Impfstellen → Gesamtzahl einmalig geimpft
+    'Gesamtzahl  einmalig geimpft_3': {
+      prop: 'firstDosesCumulative',
+      type: Number,
+    },
+    // Insgesamt über alle Impfstellen → Gesamtzahl vollständig geimpft
+    'Gesamtzahl vollständig geimpft_4': {
+      prop: 'secondDosesCumulative',
+      type: Number,
+    },
 
     // Insgesamt über alle Impfstellen → Impfquote mit einer Impfung → Gesamt
-    'Gesamt_3': {
+    'Gesamt_5': {
       prop: 'firstDosesPercent',
       type: Number,
     },
     // Insgesamt über alle Impfstellen → Impfquote mit einer Impfung → <60 Jahre
-    '<60 Jahre_4': {
+    '<60 Jahre_6': {
       prop: 'firstDosesPercentOfPeopleBelow60',
       type: Number,
     },
     // Insgesamt über alle Impfstellen → Impfquote mit einer Impfung → 60+ Jahre
-    '60+ Jahre_5': {
+    '60+ Jahre_7': {
       prop: 'firstDosesPercentOfPeopleAbove60',
       type: Number,
     },
 
     // Insgesamt über alle Impfstellen → Impfquote vollständig geimpft → Gesamt
-    'Gesamt_6': {
+    'Gesamt_8': {
       prop: 'secondDosesPercent',
       type: Number,
     },
     // Insgesamt über alle Impfstellen → Impfquote vollständig geimpft → <60 Jahre
-    '<60 Jahre_7': {
+    '<60 Jahre_9': {
       prop: 'secondDosesPercentOfPeopleBelow60',
       type: Number,
     },
     // Insgesamt über alle Impfstellen → Impfquote vollständig geimpft → 60+ Jahre
-    '60+ Jahre_8': {
+    '60+ Jahre_10': {
       prop: 'secondDosesPercentOfPeopleAbove60',
       type: Number,
     },
 
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → eine Impfung → <60 Jahre
-    '<60 Jahre_9': {
+    '<60 Jahre_11': {
       prop: 'firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → eine Impfung → 60+ Jahre
-    '60+ Jahre_10': {
+    '60+ Jahre_12': {
       prop: 'firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → vollständig geimpft → <60 Jahre
-    '<60 Jahre_11': {
+    '<60 Jahre_13': {
       prop: 'secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → vollständig geimpft → 60+ Jahre
-    '60+Jahre_12': {
+    '60+Jahre_14': {
       prop: 'secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60',
       type: Number,
     },
 
-    // Impfungen bei niedergelassenen Ärzten → eine Impfung → <60 Jahre
-    '<60 Jahre_13': {
+    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → <60 Jahre
+    '<60 Jahre_15': {
       prop: 'firstDosesCumulativeAtDoctorsForPeopleBelow60',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → eine Impfung → 60+ Jahre
-    '60+ Jahre_14': {
+    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → 60+ Jahre
+    '60+ Jahre_16': {
       prop: 'firstDosesCumulativeAtDoctorsForPeopleAbove60',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → vollständig geimpft → <60 Jahre
-    '<60 Jahre_15': {
+    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → <60 Jahre
+    '<60 Jahre_17': {
       prop: 'secondDosesCumulativeAtDoctorsForPeopleBelow60',
       type: Number,
     },
-    // Impfungen bei niedergelassenen Ärzten → vollständig geimpft → 60+ Jahre
-    '60+Jahre_16': {
+    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → 60+ Jahre
+    '60+Jahre_18': {
       prop: 'secondDosesCumulativeAtDoctorsForPeopleAbove60',
       type: Number,
     },
@@ -317,7 +328,7 @@ const readPercentData = async () => {
       pubDate,
       state,
 
-      firstDosesCumulative: old.firstDosesCumulativeAtCentersHospitalsMobileTeams + old.firstDosesCumulativeAtDoctors,
+      firstDosesCumulative: object.firstDosesCumulative,
       firstDosesCumulativeAtCentersHospitalsMobileTeams: old.firstDosesCumulativeAtCentersHospitalsMobileTeams,
       firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
       firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: object.firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
@@ -345,7 +356,7 @@ const readPercentData = async () => {
       firstDosesDueToMedicalReasons: '',
       firstDosesToNursingHomeResidents: '',
 
-      secondDosesCumulative: old.secondDosesCumulativeAtCentersHospitalsMobileTeams + old.secondDosesCumulativeAtDoctors,
+      secondDosesCumulative: object.secondDosesCumulative,
       secondDosesCumulativeAtCentersHospitalsMobileTeams: old.secondDosesCumulativeAtCentersHospitalsMobileTeams,
       secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
       secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: object.secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
