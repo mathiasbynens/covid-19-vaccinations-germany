@@ -42,6 +42,6 @@ jobs:
           # Update data on administered vaccine doses.
           date=$(tail -n 1 data/data.csv | cut -d',' -f 1)
           pubDate=$(tail -n 1 data/data.csv | cut -d',' -f 2)
-          git commit data/data.csv -m "Import vaccination data for date=${date} × pubDate=${pubDate}" || true
+          git commit data/bund.csv data/data.csv -m "Import vaccination data for date=${date} × pubDate=${pubDate}" || true
           git commit index.html -m "Update charts per date=${date} × pubDate=${pubDate} × delivery=${delivery}" || true
           git push
