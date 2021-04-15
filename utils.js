@@ -2,7 +2,7 @@ const fs = require('fs');
 const parseCsv = require('csv-parse/lib/sync');
 
 const addDays = (string, days) => {
-  const date = new Date(`${string}T00:00:00.000Z`);
+  const date = new Date(`${string}T11:00:00.000Z`);
   date.setDate(date.getDate() + days);
   return date.toISOString().slice(0, 10);
 };
