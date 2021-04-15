@@ -44,6 +44,7 @@ The following are known anomalies in the data. These anomalies match the data re
 - The statistics for Bayern were overreported for `date=2021-01-25`, resulting in an apparent drop on 2021-01-26, when a correction was published.
 - The statistics for Mecklenburg-Vorpommern were overreported for `date=2021-01-10`, resulting in an apparent drop on 2021-02-11, when a correction was published.
 - The `firstDosesPercent` and `secondDosesPercent` statistics for Mecklenburg-Vorpommern were initially [underreported](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/12) for `date=2021-03-02`. A correction was published a few hours later, and so this error is not present in the CSV data.
+- The statistics for Brandenburg were overreported for `date=2021-04-08`, resulting in an apparent drop on 2021-04-09, when a correction was published.</p>
 
 These are not issues in our scripts!
 
