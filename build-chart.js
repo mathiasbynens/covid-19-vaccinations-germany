@@ -20,7 +20,7 @@ const checkState = (state, data) => {
       if (value < tmp) {
         const date = data.labels[index];
         MARKDOWN_TABLE_LINES.push(`${date}|${state}|${name.toLowerCase()}|${intFormatter.format(value)
-          } is lower than previous value of ${intFormatter.format(tmp)}`);
+          } < ${intFormatter.format(tmp)}`);
         if (ANOMALIES_PER_STATE.has(state)) {
           ANOMALIES_PER_STATE.get(state).add(date);
         } else {
@@ -475,14 +475,14 @@ for (const state of states) {
     const file = './README.md';
     const readme = fs.readFileSync(file, 'utf8').toString();
     const updated = readme.replace(
-      /(?<=<!-- START AUTO-UPDATED ANOMALIES SECTION -->)([^<]+)(?=<!-- END AUTO-UPDATED ANOMALIES SECTION -->)/,
+      /(?<=<!-- START AUTO-UPDATED ANOMALIES SECTION -->)(.+)(?=<!-- END AUTO-UPDATED ANOMALIES SECTION -->)/s,
       `\n${markdown}\n`
     );
     fs.writeFileSync(file, updated);
   };
 
   const markdown = formatMarkdown(
-    '|`date`|state|metric|details|\n|--|--|--|--|\n' +
+    '|`date`|state|metric|details (current value < previous value)|\n|--|--|--|--|\n' +
     MARKDOWN_TABLE_LINES.sort().join('\n')
   ).trimEnd();
   fixReadme(markdown);
