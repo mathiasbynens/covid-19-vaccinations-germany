@@ -5,6 +5,25 @@ const template = require('lodash.template');
 const {addDays, readCsvFile, sortMapEntriesByKey} = require('./utils.js');
 const getCumulativeDeliveries = require('./cumulative-deliveries.js');
 
+const DATA_ANOMALIES = JSON.parse(
+  fs.readFileSync('./tmp/anomalies.json', 'utf8').toString()
+);
+const STATES_WITH_DATA_ANOMALIES = new Set(Object.keys(DATA_ANOMALIES));
+
+const listFormatter = new Intl.ListFormat('en');
+const formatList = (items) => {
+  return listFormatter.format(items);
+};
+
+const dataAnomalyWarning = (state) => {
+  if (STATES_WITH_DATA_ANOMALIES.has(state)) {
+    const dates = DATA_ANOMALIES[state];
+    const plural = dates.length > 1;
+    return `<p><strong>Note:</strong> The drop${plural ? 's' : ''} on ${formatList(dates.map(date => `<time>${date}</time>`))} ${plural ? 'are' : 'is'} not ${plural ? 'errors' : 'an error'} in our chart — <a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany#anomalies-in-the-data">it matches the data reported by the RKI</a>, which either underreported these numbers, or overreported the numbers for the preceding days. \u{1F937}</p>`;
+  }
+  return '';
+};
+
 // The RKI is using these population stats for the states:
 // https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/bevoelkerung-nichtdeutsch-laender.html
 // So we add them up to get the total German population. Note that we
@@ -423,6 +442,7 @@ const createHtml = template(HTML_TEMPLATE, {
   interpolate: /<%=([\s\S]+?)%>/g,
   imports: {
     latestPubDate,
+    dataAnomalyWarning: dataAnomalyWarning,
     percentFirstDose: percentFirstDose,
     percentSecondDose: percentSecondDose,
     sevenDayAverageDoses: sevenDayAverageDoses,
