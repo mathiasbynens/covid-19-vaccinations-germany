@@ -42,33 +42,33 @@ These columns are still included in the CSV as they contain potentially useful d
 Cumulative vaccination metrics cannot decrease over time, yet sometimes the reported data contains such a “drop” (as reflected in [the charts](https://mathiasbynens.github.io/covid-19-vaccinations-germany/)). These anomalies match the data reported by the RKI, which sometimes overreports statistics and then corrects the numbers for the next day, or vice versa. (Sadly, the RKI doesn’t publish corrected numbers for the previous day, else we could retroactively correct our data.)
 
 <!-- START AUTO-UPDATED ANOMALIES SECTION -->
-| `date`     | state                  | metric       | details (current value < previous value) |
-| ---------- | ---------------------- | ------------ | ---------------------------------------- |
-| 2021-01-17 | Mecklenburg-Vorpommern | first doses  | 37,564 < 37,570                          |
-| 2021-01-17 | Mecklenburg-Vorpommern | total doses  | 37,564 < 37,570                          |
-| 2021-01-17 | Sachsen-Anhalt         | first doses  | 33,148 < 33,182                          |
-| 2021-01-19 | Bremen                 | first doses  | 12,799 < 12,866                          |
-| 2021-01-19 | Mecklenburg-Vorpommern | second doses | 379 < 1,157                              |
-| 2021-01-21 | Saarland               | first doses  | 16,773 < 18,612                          |
-| 2021-01-26 | Bayern                 | first doses  | 278,653 < 290,683                        |
-| 2021-01-26 | Bayern                 | second doses | 86,350 < 93,628                          |
-| 2021-01-26 | Bayern                 | total doses  | 365,003 < 384,311                        |
-| 2021-02-11 | Mecklenburg-Vorpommern | first doses  | 60,805 < 64,308                          |
-| 2021-02-11 | Mecklenburg-Vorpommern | total doses  | 92,448 < 93,200                          |
-| 2021-02-28 | Mecklenburg-Vorpommern | first doses  | 79,501 < 79,502                          |
-| 2021-02-28 | Mecklenburg-Vorpommern | total doses  | 128,498 < 128,499                        |
-| 2021-03-12 | Nordrhein-Westfalen    | first doses  | 1,201,981 < 1,240,927                    |
-| 2021-03-12 | Nordrhein-Westfalen    | second doses | 514,244 < 558,007                        |
-| 2021-03-12 | Nordrhein-Westfalen    | total doses  | 1,716,225 < 1,798,934                    |
-| 2021-03-30 | Hamburg                | first doses  | 209,069 < 219,143                        |
-| 2021-03-30 | Hamburg                | second doses | 89,410 < 91,010                          |
-| 2021-03-30 | Hamburg                | total doses  | 298,479 < 310,153                        |
-| 2021-03-30 | Mecklenburg-Vorpommern | first doses  | 165,242 < 166,043                        |
-| 2021-03-30 | Rheinland-Pfalz        | first doses  | 485,363 < 493,446                        |
-| 2021-03-30 | Rheinland-Pfalz        | second doses | 177,288 < 182,576                        |
-| 2021-03-30 | Rheinland-Pfalz        | total doses  | 662,651 < 676,022                        |
-| 2021-04-09 | Brandenburg            | first doses  | 404,970 < 427,850                        |
-| 2021-04-09 | Brandenburg            | total doses  | 536,065 < 554,574                        |
+| `date`     | state                  | metric       | previous value | current value | delta   |
+| ---------- | ---------------------- | ------------ | -------------- | ------------- | ------- |
+| 2021-01-17 | Mecklenburg-Vorpommern | first doses  | 37,570         | 37,564        | -6      |
+| 2021-01-17 | Mecklenburg-Vorpommern | total doses  | 37,570         | 37,564        | -6      |
+| 2021-01-17 | Sachsen-Anhalt         | first doses  | 33,182         | 33,148        | -34     |
+| 2021-01-19 | Bremen                 | first doses  | 12,866         | 12,799        | -67     |
+| 2021-01-19 | Mecklenburg-Vorpommern | second doses | 1,157          | 379           | -778    |
+| 2021-01-21 | Saarland               | first doses  | 18,612         | 16,773        | -1,839  |
+| 2021-01-26 | Bayern                 | first doses  | 290,683        | 278,653       | -12,030 |
+| 2021-01-26 | Bayern                 | second doses | 93,628         | 86,350        | -7,278  |
+| 2021-01-26 | Bayern                 | total doses  | 384,311        | 365,003       | -19,308 |
+| 2021-02-11 | Mecklenburg-Vorpommern | first doses  | 64,308         | 60,805        | -3,503  |
+| 2021-02-11 | Mecklenburg-Vorpommern | total doses  | 93,200         | 92,448        | -752    |
+| 2021-02-28 | Mecklenburg-Vorpommern | first doses  | 79,502         | 79,501        | -1      |
+| 2021-02-28 | Mecklenburg-Vorpommern | total doses  | 128,499        | 128,498       | -1      |
+| 2021-03-12 | Nordrhein-Westfalen    | first doses  | 1,240,927      | 1,201,981     | -38,946 |
+| 2021-03-12 | Nordrhein-Westfalen    | second doses | 558,007        | 514,244       | -43,763 |
+| 2021-03-12 | Nordrhein-Westfalen    | total doses  | 1,798,934      | 1,716,225     | -82,709 |
+| 2021-03-30 | Hamburg                | first doses  | 219,143        | 209,069       | -10,074 |
+| 2021-03-30 | Hamburg                | second doses | 91,010         | 89,410        | -1,600  |
+| 2021-03-30 | Hamburg                | total doses  | 310,153        | 298,479       | -11,674 |
+| 2021-03-30 | Mecklenburg-Vorpommern | first doses  | 166,043        | 165,242       | -801    |
+| 2021-03-30 | Rheinland-Pfalz        | first doses  | 493,446        | 485,363       | -8,083  |
+| 2021-03-30 | Rheinland-Pfalz        | second doses | 182,576        | 177,288       | -5,288  |
+| 2021-03-30 | Rheinland-Pfalz        | total doses  | 676,022        | 662,651       | -13,371 |
+| 2021-04-09 | Brandenburg            | first doses  | 427,850        | 404,970       | -22,880 |
+| 2021-04-09 | Brandenburg            | total doses  | 554,574        | 536,065       | -18,509 |
 <!-- END AUTO-UPDATED ANOMALIES SECTION -->
 
 These are not issues in our scripts!
