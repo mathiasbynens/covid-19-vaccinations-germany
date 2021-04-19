@@ -51,6 +51,9 @@
 <% if ('Mecklenburg-Vorpommern' === state) { %>
 <p><strong>Note:</strong> The drop on <time>2021-02-11</time> is not an error in our chart — it matches the data reported by the RKI, which overreported the numbers for <time>2021-01-10</time>.</p>
 <% } %>
+<% if ('Nordrhein-Westfalen' === state) { %>
+<p><strong>Note:</strong> The drop on <time>2021-03-12</time> is not an error in our chart — <a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/23">it matches the data reported by the RKI</a>, which either overreported the numbers for <time>2021-03-11</time> or underreported the numbers for <time>2021-03-12</time>. This drop wasn’t corrected until data for <time>2021-03-14</time> became available (since no data was published for <time>2021-03-13</time>).</p>
+<% } %>
 <% } %>
 <p>Made by <a href="https://twitter.com/mathias" rel="nofollow">@mathias</a>. <a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany/blob/main/data/data.csv">View the raw data (CSV)</a>.</p>
 <script type="module">
