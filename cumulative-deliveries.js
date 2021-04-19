@@ -13,11 +13,33 @@ const getCumulativeDeliveries = ({ startDate, endDate }) => {
       map.get(date).set(state, currentCount);
     } else {
       map.set(date, new Map([
+        ['Bund', 0],
         [state, currentCount],
       ]));
     }
     if (date > latestDate) {
       latestDate = date;
+    }
+  }
+
+  // Fill the gaps in the data. (Missing days, usually over the weekend.)
+  let lastEntries;
+  for (let date = startDate; date <= endDate; date = addDays(date, 1)) {
+    if (map.has(date)) {
+      const entries = map.get(date);
+      // We’re expecting 17 entries: 16 states + Bund.
+      if (entries.size !== 17) {
+        // Add missing states, if any.
+        for (const [k, v] of lastEntries) {
+          if (!entries.has(k)) {
+            entries.set(k, v);
+          }
+        }
+      }
+      lastEntries = entries;
+      continue;
+    } else {
+      map.set(date, new Map(lastEntries));
     }
   }
 
@@ -30,21 +52,6 @@ const getCumulativeDeliveries = ({ startDate, endDate }) => {
     }
     entry.set('Total', sum);
     latestSum = sum;
-  }
-
-  // Fill the gaps in the data. (Missing days, usually over the weekend.)
-  let lastEntries;
-  for (let date = startDate; date <= endDate; date = addDays(date, 1)) {
-    if (map.has(date)) {
-      lastEntries = map.get(date);
-      if (lastEntries.size !== 17) {
-        // TODO: add missing states, if any.
-        throw new Error(`Expected delivery entry for ${date} to have data for all 16 states + the national total`);
-      }
-      continue;
-    } else {
-      map.set(date, lastEntries);
-    }
   }
 
   const sortedMap = sortMapEntriesByKey(map);
