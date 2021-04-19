@@ -1,9 +1,45 @@
 const fs = require('fs');
 const minifyHtml = require('html-minifier-terser').minify;
+const prettier = require('prettier');
 const template = require('lodash.template');
 
 const {addDays, readCsvFile, sortMapEntriesByKey} = require('./utils.js');
 const getCumulativeDeliveries = require('./cumulative-deliveries.js');
+
+const listFormatter = new Intl.ListFormat('en');
+const formatList = (items) => {
+  return listFormatter.format(items);
+};
+
+const ANOMALIES_PER_STATE = new Map();
+const MARKDOWN_TABLE_LINES = [];
+const checkState = (state, data) => {
+  for (const {name, values} of data.datasets) {
+    let tmp = 0;
+    for (const [index, value] of values.entries()) {
+      if (value < tmp) {
+        const date = data.labels[index];
+        MARKDOWN_TABLE_LINES.push(`${date}|${state}|${name.toLowerCase()}|${intFormatter.format(value)
+          } is lower than previous value of ${intFormatter.format(tmp)}`);
+        if (ANOMALIES_PER_STATE.has(state)) {
+          ANOMALIES_PER_STATE.get(state).add(date);
+        } else {
+          ANOMALIES_PER_STATE.set(state, new Set([date]));
+        }
+      }
+      tmp = value;
+    }
+  }
+};
+
+const dataAnomalyWarning = (state) => {
+  if (ANOMALIES_PER_STATE.has(state)) {
+    const dates = [...ANOMALIES_PER_STATE.get(state)].sort();
+    const plural = dates.length > 1;
+    return `<p><strong>Note:</strong> The drop${plural ? 's' : ''} on ${formatList(dates.map(date => `<time>${date}</time>`))} ${plural ? 'are' : 'is'} not ${plural ? 'errors' : 'an error'} in our chart — <a href="https://github.com/mathiasbynens/covid-19-vaccinations-germany#anomalies-in-the-data">it matches the data reported by the RKI</a>, which either underreported these numbers, or overreported the numbers for the preceding days. \u{1F937}</p>`;
+  }
+  return '';
+};
 
 // The RKI is using these population stats for the states:
 // https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/bevoelkerung-nichtdeutsch-laender.html
@@ -345,7 +381,11 @@ function generateRolloutData() {
   return stringified;
 }
 
+const STATE_DATA_CACHE = new Map();
 function generateStateData(desiredState) {
+  if (STATE_DATA_CACHE.has(desiredState)) {
+    return STATE_DATA_CACHE.get(desiredState);
+  }
   const labels = [
     // '2021-01-05',
     // '2021-01-06',
@@ -413,9 +453,39 @@ function generateStateData(desiredState) {
       // },
     ],
   };
+  checkState(desiredState, data);
   const stringified = JSON.stringify(data, null, 2);
+  STATE_DATA_CACHE.set(desiredState, stringified);
   fs.writeFileSync(`./tmp/state-data-${desiredState}.json`, `${stringified}\n`);
   return stringified;
+}
+
+for (const state of states) {
+  generateStateData(state);
+}
+
+{
+  const formatMarkdown = (text) => {
+    return prettier.format(text, {
+      parser: 'markdown'
+    });
+  };
+
+  const fixReadme = (markdown) => {
+    const file = './README.md';
+    const readme = fs.readFileSync(file, 'utf8').toString();
+    const updated = readme.replace(
+      /(?<=<!-- START AUTO-UPDATED ANOMALIES SECTION -->)([^<]+)(?=<!-- END AUTO-UPDATED ANOMALIES SECTION -->)/,
+      `\n${markdown}\n`
+    );
+    fs.writeFileSync(file, updated);
+  };
+
+  const markdown = formatMarkdown(
+    '|`date`|state|metric|details|\n|--|--|--|--|\n' +
+    MARKDOWN_TABLE_LINES.sort().join('\n')
+  ).trimEnd();
+  fixReadme(markdown);
 }
 
 const HTML_TEMPLATE = fs.readFileSync('./templates/chart.template', 'utf8');
@@ -423,6 +493,7 @@ const createHtml = template(HTML_TEMPLATE, {
   interpolate: /<%=([\s\S]+?)%>/g,
   imports: {
     latestPubDate,
+    dataAnomalyWarning: dataAnomalyWarning,
     percentFirstDose: percentFirstDose,
     percentSecondDose: percentSecondDose,
     sevenDayAverageDoses: sevenDayAverageDoses,
