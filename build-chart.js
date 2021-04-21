@@ -332,6 +332,7 @@ function generatePercentData() {
   return stringified;
 }
 
+let isDeliveryDataDefinitelyOutdated = false;
 function generateRolloutData() {
   const labels = [
     // '2021-01-05',
@@ -354,6 +355,9 @@ function generateRolloutData() {
       const administered = entry.get(state).cumulativeTotal;
       const delivered = cumulativeDeliveryMap.get(date).get(state);
       const count = Number((administered / delivered * 100).toFixed(2));
+      if (count > 100) {
+        isDeliveryDataDefinitelyOutdated = true;
+      }
       counts.push(count);
     }
     datasets.push({
@@ -380,6 +384,7 @@ function generateRolloutData() {
   fs.writeFileSync(`./tmp/rollout-data.json`, `${stringified}\n`);
   return stringified;
 }
+const rolloutData = generateRolloutData();
 
 const STATE_DATA_CACHE = new Map();
 function generateStateData(desiredState) {
@@ -494,6 +499,7 @@ const createHtml = template(HTML_TEMPLATE, {
   imports: {
     latestPubDate,
     dataAnomalyWarning: dataAnomalyWarning,
+    isDeliveryDataDefinitelyOutdated: isDeliveryDataDefinitelyOutdated,
     percentFirstDose: percentFirstDose,
     percentSecondDose: percentSecondDose,
     sevenDayAverageDoses: sevenDayAverageDoses,
@@ -503,7 +509,7 @@ const createHtml = template(HTML_TEMPLATE, {
     latestDeliveryDate: latestDeliveryDate,
     nationalData: generateNationalData(),
     generatePercentData: generatePercentData,
-    generateRolloutData: generateRolloutData,
+    rolloutData: rolloutData,
     generateStateData: generateStateData,
   },
 });

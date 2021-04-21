@@ -35,6 +35,9 @@
 <h2 id="rollout">COVID-19 vaccination rollout competence: doses administered per 100 doses delivered to each German state</h2>
 <p><a href="https://twitter.com/jfkirkegaard/status/1352027138929680390">Context</a>.</p>
 <div id="chart-rollout" class="chart"></div>
+<% if (isDeliveryDataDefinitelyOutdated) { %>
+<p><strong>Note:</strong> Based on the latest available data, at least one state has administered more than the available amount of doses, which is impossible. This usually means the delivery data is outdated (i.e. the vaccination data is more up-to-date than the delivery data). As soon as up-to-date delivery data becomes available, this page automatically gets updated.</p>
+<% } %>
 <% for (const state of states) { %>
 <h2 id="<% print(state.toLowerCase()) %>">Cumulative COVID-19 vaccination doses administered in <span translate="no"><%= state %></span></h2>
 <p>In <span translate="no"><%= state %></span>, <%= percentFirstDose(state) %>% of inhabitants received their first vaccination dose, and <%= percentSecondDose(state) %>% received their second dose. A total of <%= currentDoses(state) %> doses have been administered so far —  that’s <%= currentDosesPerTotalDosesDelivered(state) %>% of the <%= totalDosesDelivered(state) %> total doses that have been delivered to <span translate="no"><%= state %></span>. The current vaccination rate (7-day average) is <%= sevenDayAverageDoses(state) %> doses per day.</p>
@@ -97,7 +100,7 @@
   });
 
   new Chart('#chart-rollout', {
-    data: <%= generateRolloutData() %>,
+    data: <%= rolloutData %>,
     type: 'line',
     // https://xdgov.github.io/data-design-standards/components/colors#palette:~:text=Blue%20Palette
     colors: [
