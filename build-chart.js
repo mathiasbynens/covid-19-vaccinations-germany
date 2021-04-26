@@ -487,7 +487,7 @@ for (const state of states) {
   };
 
   const markdown = formatMarkdown(
-    '|`date`|state|metric|previous value|current value|delta|\n|--|--|--|--|\n' +
+    '|`date`|state|metric|previous value|current value|delta|\n|--|--|--|-:|-:|-:|\n' +
     MARKDOWN_TABLE_LINES.sort().join('\n')
   ).trimEnd();
   fixReadme(markdown);
