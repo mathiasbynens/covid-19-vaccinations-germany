@@ -14,6 +14,8 @@ const formatVaccine = (id) => {
       return 'AstraZeneca';
     case 'comirnaty':
       return 'Pfizer/BioNTech';
+    case 'johnson':
+      return 'Johnson & Johnson';
     case 'moderna':
       return 'Moderna';
     default:
