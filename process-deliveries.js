@@ -43,6 +43,7 @@ const stateMap = new Map([
   ['DE-BUND', 'Bund'],
 ]);
 const formatState = (id) => {
+  id = id.toUpperCase();
   return stateMap.get(id);
 };
 
