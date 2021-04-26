@@ -65,5 +65,10 @@ for (const record of records) {
   });
 }
 
+// Interestingly, the input CSV is not necessarily ordered by date.
+newRecords.sort((a, b) => {
+  return a.date.localeCompare(b.date);
+});
+
 const csv = stringifyCsv(newRecords, { header: true });
 fs.writeFileSync('./data/deliveries.csv', csv);
