@@ -95,87 +95,97 @@ const readMainData = async () => {
       type: String,
     },
 
-    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → eine Impfung → Impfungen kumulativ → Gesamt
+    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → begonnene Impfserie → Impfungen kumulativ → Gesamt
     'Gesamt_2': {
-      prop: 'firstDosesCumulativeAtCentersHospitalsMobileTeams',
+      prop: 'initialDosesCumulativeAtCentersHospitalsMobileTeams',
       type: Number,
     },
-    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → eine Impfung → Impfungen kumulativ → BioNTech
+    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → begonnene Impfserie → Impfungen kumulativ → BioNTech
     'BioNTech_3': {
-      prop: 'firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams',
+      prop: 'initialDosesCumulativeBioNTechAtCentersHospitalsMobileTeams',
       type: Number,
     },
-    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → eine Impfung → Impfungen kumulativ → Moderna
+    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → begonnene Impfserie → Impfungen kumulativ → Moderna
     'Moderna_4': {
-      prop: 'firstDosesCumulativeModernaAtCentersHospitalsMobileTeams',
+      prop: 'initialDosesCumulativeModernaAtCentersHospitalsMobileTeams',
       type: Number,
     },
-    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → eine Impfung → Impfungen kumulativ → AstraZeneca
+    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → begonnene Impfserie → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_5': {
-      prop: 'firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams',
+      prop: 'initialDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams',
       type: Number,
     },
 
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → Gesamt
     'Gesamt_7': {
-      prop: 'secondDosesCumulativeAtCentersHospitalsMobileTeams',
+      prop: 'finalDosesCumulativeAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → BioNTech
     'BioNTech_8': {
-      prop: 'secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams',
+      prop: 'finalDosesCumulativeBioNTechAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → Moderna
     'Moderna_9': {
-      prop: 'secondDosesCumulativeModernaAtCentersHospitalsMobileTeams',
+      prop: 'finalDosesCumulativeModernaAtCentersHospitalsMobileTeams',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_10': {
-      prop: 'secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams',
+      prop: 'finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams',
+      type: Number,
+    },
+    // Impfungen in Impfzentren, Mobilen Teams, Krankenhäusern → vollständig geimpft → Impfungen kumulativ → Janssen
+    'Janssen_11': {
+      prop: 'finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams',
       type: Number,
     },
 
-    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → Impfungen kumulativ → Gesamt
-    'Gesamt_12': {
-      prop: 'firstDosesCumulativeAtDoctors',
+    // Impfungen der niedergelassenen Ärzten → begonnene Impfserie → Impfungen kumulativ → Gesamt
+    'Gesamt_13': {
+      prop: 'initialDosesCumulativeAtDoctors',
       type: Number,
     },
-    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → Impfungen kumulativ → BioNTech
-    'BioNTech_13': {
-      prop: 'firstDosesCumulativeBioNTechAtDoctors',
+    // Impfungen der niedergelassenen Ärzten → begonnene Impfserie → Impfungen kumulativ → BioNTech
+    'BioNTech_14': {
+      prop: 'initialDosesCumulativeBioNTechAtDoctors',
       type: Number,
     },
-    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → Impfungen kumulativ → Moderna
-    'Moderna_14': {
-      prop: 'firstDosesCumulativeModernaAtDoctors',
+    // Impfungen der niedergelassenen Ärzten → begonnene Impfserie → Impfungen kumulativ → Moderna
+    'Moderna_15': {
+      prop: 'initialDosesCumulativeModernaAtDoctors',
       type: Number,
     },
-    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → Impfungen kumulativ → AstraZeneca
-    'AstraZeneca_15': {
-      prop: 'firstDosesCumulativeAstraZenecaAtDoctors',
+    // Impfungen der niedergelassenen Ärzten → begonnene Impfserie → Impfungen kumulativ → AstraZeneca
+    'AstraZeneca_16': {
+      prop: 'initialDosesCumulativeAstraZenecaAtDoctors',
       type: Number,
     },
 
-    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → Impfungen kumulativ → Gesamt
-    'Gesamt_17': {
-      prop: 'secondDosesCumulativeAtDoctors',
+    // Impfungen der niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → Gesamt
+    'Gesamt_18': {
+      prop: 'finalDosesCumulativeAtDoctors',
       type: Number,
     },
-    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → Impfungen kumulativ → BioNTech
-    'BioNTech_18': {
-      prop: 'secondDosesCumulativeBioNTechAtDoctors',
+    // Impfungen der niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → BioNTech
+    'BioNTech_19': {
+      prop: 'finalDosesCumulativeBioNTechAtDoctors',
       type: Number,
     },
-    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → Impfungen kumulativ → Moderna
-    'Moderna_19': {
-      prop: 'secondDosesCumulativeModernaAtDoctors',
+    // Impfungen der niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → Moderna
+    'Moderna_20': {
+      prop: 'finalDosesCumulativeModernaAtDoctors',
       type: Number,
     },
-    // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → Impfungen kumulativ → AstraZeneca
-    'AstraZeneca_20': {
-      prop: 'secondDosesCumulativeAstraZenecaAtDoctors',
+    // Impfungen der niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → AstraZeneca
+    'AstraZeneca_21': {
+      prop: 'finalDosesCumulativeAstraZenecaAtDoctors',
+      type: Number,
+    },
+    // Impfungen der niedergelassenen Ärzten → vollständig geimpft → Impfungen kumulativ → Janssen
+    'Janssen_22': {
+      prop: 'finalDosesCumulativeJohnsonAndJohnsonAtDoctors',
       type: Number,
     },
   };
@@ -211,88 +221,88 @@ const readPercentData = async () => {
       prop: 'totalDosesCumulative',
       type: Number,
     },
-    // Insgesamt über alle Impfstellen → Gesamtzahl einmalig geimpft
-    'Gesamtzahleinmaliggeimpft_3': {
-      prop: 'firstDosesCumulative',
+    // Insgesamt über alle Impfstellen → Gesamtzahl begonnener Impfserien
+    'GesamtzahlbegonnenerImpfserien**_3': {
+      prop: 'initialDosesCumulative',
       type: Number,
     },
     // Insgesamt über alle Impfstellen → Gesamtzahl vollständig geimpft
-    'Gesamtzahlvollständiggeimpft_4': {
-      prop: 'secondDosesCumulative',
+    'Gesamtzahlvollständiggeimpft**_4': {
+      prop: 'finalDosesCumulative',
       type: Number,
     },
 
-    // Insgesamt über alle Impfstellen → Impfquote mit einer Impfung → Gesamt
+    // Insgesamt über alle Impfstellen → Impfquote mit begonnener Impfserie → Gesamt
     'Gesamt_5': {
-      prop: 'firstDosesPercent',
+      prop: 'initialDosesPercent',
       type: Number,
     },
-    // Insgesamt über alle Impfstellen → Impfquote mit einer Impfung → <60 Jahre
+    // Insgesamt über alle Impfstellen → Impfquote mit begonnener Impfserie → <60 Jahre
     '<60Jahre_6': {
-      prop: 'firstDosesPercentOfPeopleBelow60',
+      prop: 'initialDosesPercentOfPeopleBelow60',
       type: Number,
     },
-    // Insgesamt über alle Impfstellen → Impfquote mit einer Impfung → 60+ Jahre
+    // Insgesamt über alle Impfstellen → Impfquote mit begonnener Impfserie → 60+ Jahre
     '60+Jahre_7': {
-      prop: 'firstDosesPercentOfPeopleAbove60',
+      prop: 'initialDosesPercentOfPeopleAbove60',
       type: Number,
     },
 
     // Insgesamt über alle Impfstellen → Impfquote vollständig geimpft → Gesamt
     'Gesamt_8': {
-      prop: 'secondDosesPercent',
+      prop: 'finalDosesPercent',
       type: Number,
     },
     // Insgesamt über alle Impfstellen → Impfquote vollständig geimpft → <60 Jahre
     '<60Jahre_9': {
-      prop: 'secondDosesPercentOfPeopleBelow60',
+      prop: 'finalDosesPercentOfPeopleBelow60',
       type: Number,
     },
     // Insgesamt über alle Impfstellen → Impfquote vollständig geimpft → 60+ Jahre
     '60+Jahre_10': {
-      prop: 'secondDosesPercentOfPeopleAbove60',
+      prop: 'finalDosesPercentOfPeopleAbove60',
       type: Number,
     },
 
-    // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → eine Impfung → <60 Jahre
+    // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → begonnene Impfserie → <60 Jahre
     '<60Jahre_11': {
-      prop: 'firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60',
+      prop: 'initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60',
       type: Number,
     },
-    // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → eine Impfung → 60+ Jahre
+    // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → begonnene Impfserie → 60+ Jahre
     '60+Jahre_12': {
-      prop: 'firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60',
+      prop: 'initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → vollständig geimpft → <60 Jahre
     '<60Jahre_13': {
-      prop: 'secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60',
+      prop: 'finalDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60',
       type: Number,
     },
     // Impfungen in Impfzentren, Mobilen Teams und Krankenhäusern → vollständig geimpft → 60+ Jahre
     '60+Jahre_14': {
-      prop: 'secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60',
+      prop: 'finalDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60',
       type: Number,
     },
 
-    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → <60 Jahre
+    // Impfungen der niedergelassenen Ärzteschaft → begonnene Impfserie → <60 Jahre
     '<60Jahre_15': {
-      prop: 'firstDosesCumulativeAtDoctorsForPeopleBelow60',
+      prop: 'initialDosesCumulativeAtDoctorsForPeopleBelow60',
       type: Number,
     },
-    // Impfungen der niedergelassenen Ärzteschaft → eine Impfung → 60+ Jahre
+    // Impfungen der niedergelassenen Ärzteschaft → begonnene Impfserie → 60+ Jahre
     '60+Jahre_16': {
-      prop: 'firstDosesCumulativeAtDoctorsForPeopleAbove60',
+      prop: 'initialDosesCumulativeAtDoctorsForPeopleAbove60',
       type: Number,
     },
     // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → <60 Jahre
     '<60Jahre_17': {
-      prop: 'secondDosesCumulativeAtDoctorsForPeopleBelow60',
+      prop: 'finalDosesCumulativeAtDoctorsForPeopleBelow60',
       type: Number,
     },
     // Impfungen der niedergelassenen Ärzteschaft → vollständig geimpft → 60+ Jahre
     '60+Jahre_18': {
-      prop: 'secondDosesCumulativeAtDoctorsForPeopleAbove60',
+      prop: 'finalDosesCumulativeAtDoctorsForPeopleAbove60',
       type: Number,
     },
   };
@@ -330,78 +340,82 @@ const readPercentData = async () => {
       pubDate,
       state,
 
-      firstDosesCumulative: object.firstDosesCumulative,
-      firstDosesCumulativeAtCentersHospitalsMobileTeams: old.firstDosesCumulativeAtCentersHospitalsMobileTeams,
-      firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
-      firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: object.firstDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
-      firstDosesCumulativeAtDoctors: old.firstDosesCumulativeAtDoctors,
-      firstDosesCumulativeAtDoctorsForPeopleBelow60: object.firstDosesCumulativeAtDoctorsForPeopleBelow60,
-      firstDosesCumulativeAtDoctorsForPeopleAbove60: object.firstDosesCumulativeAtDoctorsForPeopleAbove60,
+      initialDosesCumulative: object.initialDosesCumulative,
+      initialDosesCumulativeAtCentersHospitalsMobileTeams: old.initialDosesCumulativeAtCentersHospitalsMobileTeams,
+      initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
+      initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: object.initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
+      initialDosesCumulativeAtDoctors: old.initialDosesCumulativeAtDoctors,
+      initialDosesCumulativeAtDoctorsForPeopleBelow60: object.initialDosesCumulativeAtDoctorsForPeopleBelow60,
+      initialDosesCumulativeAtDoctorsForPeopleAbove60: object.initialDosesCumulativeAtDoctorsForPeopleAbove60,
 
-      firstDosesPercent: object.firstDosesPercent,
-      firstDosesPercentOfPeopleBelow60: object.firstDosesPercentOfPeopleBelow60,
-      firstDosesPercentOfPeopleAbove60: object.firstDosesPercentOfPeopleAbove60,
+      initialDosesPercent: object.initialDosesPercent,
+      initialDosesPercentOfPeopleBelow60: object.initialDosesPercentOfPeopleBelow60,
+      initialDosesPercentOfPeopleAbove60: object.initialDosesPercentOfPeopleAbove60,
 
-      firstDosesCumulativeBioNTech: (old.firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams || 0) + (old.firstDosesCumulativeBioNTechAtDoctors || 0),
-      firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams: old.firstDosesCumulativeBioNTechAtCentersHospitalsMobileTeams,
-      firstDosesCumulativeBioNTechAtDoctors: old.firstDosesCumulativeBioNTechAtDoctors,
-      firstDosesCumulativeModerna: (old.firstDosesCumulativeModernaAtCentersHospitalsMobileTeams || 0) + (old.firstDosesCumulativeModernaAtDoctors || 0),
-      firstDosesCumulativeModernaAtCentersHospitalsMobileTeams: old.firstDosesCumulativeModernaAtCentersHospitalsMobileTeams,
-      firstDosesCumulativeModernaAtDoctors: old.firstDosesCumulativeModernaAtDoctors,
-      firstDosesCumulativeAstraZeneca: (old.firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams || 0) + (old.firstDosesCumulativeAstraZenecaAtDoctors || 0),
-      firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.firstDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
-      firstDosesCumulativeAstraZenecaAtDoctors: old.firstDosesCumulativeAstraZenecaAtDoctors,
-
-      // These 4 data points stopped being reported in April 2021.
-      firstDosesDueToAge: '',
-      firstDosesDueToProfession: '',
-      firstDosesDueToMedicalReasons: '',
-      firstDosesToNursingHomeResidents: '',
-
-      secondDosesCumulative: object.secondDosesCumulative,
-      secondDosesCumulativeAtCentersHospitalsMobileTeams: old.secondDosesCumulativeAtCentersHospitalsMobileTeams,
-      secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
-      secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: object.secondDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
-      secondDosesCumulativeAtDoctors: old.secondDosesCumulativeAtDoctors,
-      secondDosesCumulativeAtDoctorsForPeopleBelow60: object.secondDosesCumulativeAtDoctorsForPeopleBelow60,
-      secondDosesCumulativeAtDoctorsForPeopleAbove60: object.secondDosesCumulativeAtDoctorsForPeopleAbove60,
-
-      secondDosesPercent: object.secondDosesPercent,
-      secondDosesPercentOfPeopleBelow60: object.secondDosesPercentOfPeopleBelow60,
-      secondDosesPercentOfPeopleAbove60: object.secondDosesPercentOfPeopleAbove60,
-
-      secondDosesCumulativeBioNTech: (old.secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams || 0) + (old.secondDosesCumulativeBioNTechAtDoctors || 0),
-      secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams: old.secondDosesCumulativeBioNTechAtCentersHospitalsMobileTeams,
-      secondDosesCumulativeBioNTechAtDoctors: old.secondDosesCumulativeBioNTechAtDoctors,
-      secondDosesCumulativeModerna: (old.secondDosesCumulativeModernaAtCentersHospitalsMobileTeams || 0) + (old.secondDosesCumulativeModernaAtDoctors || 0),
-      secondDosesCumulativeModernaAtCentersHospitalsMobileTeams: old.secondDosesCumulativeModernaAtCentersHospitalsMobileTeams,
-      secondDosesCumulativeModernaAtDoctors: old.secondDosesCumulativeModernaAtDoctors,
-      secondDosesCumulativeAstraZeneca: (old.secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams || 0) + (old.secondDosesCumulativeAstraZenecaAtDoctors || 0),
-      secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.secondDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
-      secondDosesCumulativeAstraZenecaAtDoctors: old.secondDosesCumulativeAstraZenecaAtDoctors,
+      initialDosesCumulativeBioNTech: (old.initialDosesCumulativeBioNTechAtCentersHospitalsMobileTeams || 0) + (old.initialDosesCumulativeBioNTechAtDoctors || 0),
+      initialDosesCumulativeBioNTechAtCentersHospitalsMobileTeams: old.initialDosesCumulativeBioNTechAtCentersHospitalsMobileTeams,
+      initialDosesCumulativeBioNTechAtDoctors: old.initialDosesCumulativeBioNTechAtDoctors,
+      initialDosesCumulativeModerna: (old.initialDosesCumulativeModernaAtCentersHospitalsMobileTeams || 0) + (old.initialDosesCumulativeModernaAtDoctors || 0),
+      initialDosesCumulativeModernaAtCentersHospitalsMobileTeams: old.initialDosesCumulativeModernaAtCentersHospitalsMobileTeams,
+      initialDosesCumulativeModernaAtDoctors: old.initialDosesCumulativeModernaAtDoctors,
+      initialDosesCumulativeAstraZeneca: (old.initialDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams || 0) + (old.initialDosesCumulativeAstraZenecaAtDoctors || 0),
+      initialDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.initialDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
+      initialDosesCumulativeAstraZenecaAtDoctors: old.initialDosesCumulativeAstraZenecaAtDoctors,
 
       // These 4 data points stopped being reported in April 2021.
-      secondDosesDueToAge: '',
-      secondDosesDueToProfession: '',
-      secondDosesDueToMedicalReasons: '',
-      secondDosesToNursingHomeResidents: '',
+      initialDosesDueToAge: '',
+      initialDosesDueToProfession: '',
+      initialDosesDueToMedicalReasons: '',
+      initialDosesToNursingHomeResidents: '',
+
+      finalDosesCumulative: object.finalDosesCumulative,
+      finalDosesCumulativeAtCentersHospitalsMobileTeams: old.finalDosesCumulativeAtCentersHospitalsMobileTeams,
+      finalDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.finalDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
+      finalDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: object.finalDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
+      finalDosesCumulativeAtDoctors: old.finalDosesCumulativeAtDoctors,
+      finalDosesCumulativeAtDoctorsForPeopleBelow60: object.finalDosesCumulativeAtDoctorsForPeopleBelow60,
+      finalDosesCumulativeAtDoctorsForPeopleAbove60: object.finalDosesCumulativeAtDoctorsForPeopleAbove60,
+
+      finalDosesPercent: object.finalDosesPercent,
+      finalDosesPercentOfPeopleBelow60: object.finalDosesPercentOfPeopleBelow60,
+      finalDosesPercentOfPeopleAbove60: object.finalDosesPercentOfPeopleAbove60,
+
+      finalDosesCumulativeBioNTech: (old.finalDosesCumulativeBioNTechAtCentersHospitalsMobileTeams || 0) + (old.finalDosesCumulativeBioNTechAtDoctors || 0),
+      finalDosesCumulativeBioNTechAtCentersHospitalsMobileTeams: old.finalDosesCumulativeBioNTechAtCentersHospitalsMobileTeams,
+      finalDosesCumulativeBioNTechAtDoctors: old.finalDosesCumulativeBioNTechAtDoctors,
+      finalDosesCumulativeModerna: (old.finalDosesCumulativeModernaAtCentersHospitalsMobileTeams || 0) + (old.finalDosesCumulativeModernaAtDoctors || 0),
+      finalDosesCumulativeModernaAtCentersHospitalsMobileTeams: old.finalDosesCumulativeModernaAtCentersHospitalsMobileTeams,
+      finalDosesCumulativeModernaAtDoctors: old.finalDosesCumulativeModernaAtDoctors,
+      finalDosesCumulativeAstraZeneca: (old.finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams || 0) + (old.finalDosesCumulativeAstraZenecaAtDoctors || 0),
+      finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
+      finalDosesCumulativeAstraZenecaAtDoctors: old.finalDosesCumulativeAstraZenecaAtDoctors,
+      finalDosesCumulativeJohnsonAndJohnson: (old.finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams || 0) + (old.finalDosesCumulativeJohnsonAndJohnsonAtDoctors || 0),
+      finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams: old.finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams,
+      finalDosesCumulativeJohnsonAndJohnsonAtDoctors: old.finalDosesCumulativeJohnsonAndJohnsonAtDoctors || 0,
+
+
+      // These 4 data points stopped being reported in April 2021.
+      finalDosesDueToAge: '',
+      finalDosesDueToProfession: '',
+      finalDosesDueToMedicalReasons: '',
+      finalDosesToNursingHomeResidents: '',
     };
     if (isBund) {
       delete entry.state;
-      delete entry.firstDosesPercent;
-      delete entry.firstDosesPercentOfPeopleBelow60;
-      delete entry.firstDosesPercentOfPeopleAbove60;
-      delete entry.firstDosesDueToAge;
-      delete entry.firstDosesDueToProfession;
-      delete entry.firstDosesDueToMedicalReasons;
-      delete entry.firstDosesToNursingHomeResidents;
-      delete entry.secondDosesPercent;
-      delete entry.secondDosesPercentOfPeopleBelow60;
-      delete entry.secondDosesPercentOfPeopleAbove60;
-      delete entry.secondDosesDueToAge;
-      delete entry.secondDosesDueToProfession;
-      delete entry.secondDosesDueToMedicalReasons;
-      delete entry.secondDosesToNursingHomeResidents;
+      delete entry.initialDosesPercent;
+      delete entry.initialDosesPercentOfPeopleBelow60;
+      delete entry.initialDosesPercentOfPeopleAbove60;
+      delete entry.initialDosesDueToAge;
+      delete entry.initialDosesDueToProfession;
+      delete entry.initialDosesDueToMedicalReasons;
+      delete entry.initialDosesToNursingHomeResidents;
+      delete entry.finalDosesPercent;
+      delete entry.finalDosesPercentOfPeopleBelow60;
+      delete entry.finalDosesPercentOfPeopleAbove60;
+      delete entry.finalDosesDueToAge;
+      delete entry.finalDosesDueToProfession;
+      delete entry.finalDosesDueToMedicalReasons;
+      delete entry.finalDosesToNursingHomeResidents;
     }
     target.push(entry);
   }

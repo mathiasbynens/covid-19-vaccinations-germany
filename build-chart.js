@@ -54,21 +54,21 @@ const records = readCsvFile('./data/data.csv');
 const bundRecords = readCsvFile('./data/bund.csv');
 
 const bundMap = new Map();
-let bundCumulativeFirst = 0;
-let bundCumulativeSecond = 0;
-let bundCumulativeTotal = 0;
+let bundCumulativeInitial;
+let bundCumulativeFinal;
+let bundCumulativeTotal;
 for (const record of bundRecords) {
-  const firstDosesCumulative = Number(record.firstDosesCumulative);
-  const secondDosesCumulative = Number(record.secondDosesCumulative);
-  const totalDosesCumulative = firstDosesCumulative + secondDosesCumulative;
+  const initialDosesCumulative = Number(record.initialDosesCumulative);
+  const finalDosesCumulative = Number(record.finalDosesCumulative);
+  const totalDosesCumulative = initialDosesCumulative + finalDosesCumulative;
   bundMap.set(record.date, {
     cumulativeTotal: totalDosesCumulative,
-    cumulativeFirst: firstDosesCumulative,
-    cumulativeSecond: secondDosesCumulative,
+    cumulativeInitial: initialDosesCumulative,
+    cumulativeFinal: finalDosesCumulative,
   });
   // Assumption: the last entry has the most recent date.
-  bundCumulativeFirst = firstDosesCumulative;
-  bundCumulativeSecond = secondDosesCumulative;
+  bundCumulativeInitial = initialDosesCumulative;
+  bundCumulativeFinal = finalDosesCumulative;
   bundCumulativeTotal = totalDosesCumulative;
 }
 
@@ -78,11 +78,11 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
-for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, firstDosesPercent, secondDosesPercent} of records) {
+for (const {date, pubDate, state, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent} of records) {
   states.add(state);
-  const countFirstDoses = Number(firstDosesCumulative);
-  const countSecondDoses = Number(secondDosesCumulative);
-  const countTotal = countFirstDoses + countSecondDoses;
+  const countinitialDoses = Number(initialDosesCumulative);
+  const countfinalDoses = Number(finalDosesCumulative);
+  const countTotal = countinitialDoses + countfinalDoses;
   if (countTotal > maxCount) {
     maxCount = countTotal;
   }
@@ -95,17 +95,17 @@ for (const {date, pubDate, state, firstDosesCumulative, secondDosesCumulative, f
   if (pubDate > latestPubDate) {
     latestPubDate = pubDate;
   }
-  const percentFirstDose = Number(firstDosesPercent);
-  const percentSecondDose = Number(secondDosesPercent);
+  const percentInitialDose = Number(initialDosesPercent);
+  const percentFinalDose = Number(finalDosesPercent);
   if (!map.has(date)) {
     map.set(date, new Map());
   }
   map.get(date).set(state, {
     cumulativeTotal: countTotal,
-    cumulativeFirst: countFirstDoses,
-    cumulativeSecond: countSecondDoses,
-    percentFirstDose: percentFirstDose,
-    percentSecondDose: percentSecondDose,
+    cumulativeInitial: countinitialDoses,
+    cumulativeFinal: countfinalDoses,
+    percentInitialDose: percentInitialDose,
+    percentFinalDose: percentFinalDose,
   });
 }
 
@@ -131,25 +131,25 @@ const percentFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
-function percentFirstDose(state) {
+function percentInitialDose(state) {
   if (state) {
     const latestEntries = sortedMap.get(latestDate);
     const latestStateEntries = latestEntries.get(state);
-    const percentFirstDose = latestStateEntries.percentFirstDose;
-    return percentFormatter.format(percentFirstDose);
+    const percentInitialDose = latestStateEntries.percentInitialDose;
+    return percentFormatter.format(percentInitialDose);
   }
-  const percentFirstDose = nationalCumulativeTotalFirstDose /
+  const percentInitialDose = nationalCumulativeTotalInitialDose /
     POPULATION_GERMANY * 100;
-  return percentFormatter.format(percentFirstDose);
+  return percentFormatter.format(percentInitialDose);
 }
-function percentSecondDose(state) {
+function percentFinalDose(state) {
   if (state) {
     const latestEntries = sortedMap.get(latestDate);
     const latestStateEntries = latestEntries.get(state);
-    const percentSecondDose = latestStateEntries.percentSecondDose;
-    return percentFormatter.format(percentSecondDose);
+    const percentFinalDose = latestStateEntries.percentFinalDose;
+    return percentFormatter.format(percentFinalDose);
   }
-  const percent = nationalCumulativeTotalSecondDose / POPULATION_GERMANY * 100;
+  const percent = nationalCumulativeTotalFinalDose / POPULATION_GERMANY * 100;
   return percentFormatter.format(percent);
 }
 
@@ -195,8 +195,8 @@ function sevenDayAverageDoses(state) {
 
 let nationalCumulativeTotalLastWeek = 0;
 let nationalCumulativeTotal = 0;
-let nationalCumulativeTotalFirstDose = 0;
-let nationalCumulativeTotalSecondDose = 0;
+let nationalCumulativeTotalInitialDose = 0;
+let nationalCumulativeTotalFinalDose = 0;
 function generateNationalData() {
   const labels = [
     // '2021-01-05',
@@ -206,38 +206,38 @@ function generateNationalData() {
   ];
   const datasets = [
     // {
-    //   name: 'First dose',
+    //   name: 'Initial dose',
     //   type: 'line',
     //   values: [77876, 82749, 84349],
     // },
   ];
 
   const countsTotal = [];
-  const countsFirstDose = [];
-  const countsSecondDose = [];
+  const countsInitialDose = [];
+  const countsFinalDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
     const bundEntry = bundMap.get(date);
     let totalDoses = bundEntry?.cumulativeTotal ?? 0;
-    let firstDoses = bundEntry?.cumulativeFirst ?? 0;
-    let secondDoses = bundEntry?.cumulativeSecond ?? 0;
+    let initialDoses = bundEntry?.cumulativeInitial ?? 0;
+    let finalDoses = bundEntry?.cumulativeFinal ?? 0;
     let availableDoses = 0;
     for (const data of entry.values()) {
       totalDoses += data.cumulativeTotal;
-      firstDoses += data.cumulativeFirst;
-      secondDoses += data.cumulativeSecond;
+      initialDoses += data.cumulativeInitial;
+      finalDoses += data.cumulativeFinal;
       availableDoses = cumulativeDeliveryMap.get(date).get('Total');
     }
     if (date === lastWeek) {
       nationalCumulativeTotalLastWeek = totalDoses;
     } else if (date === latestDate) {
       nationalCumulativeTotal = totalDoses;
-      nationalCumulativeTotalFirstDose = firstDoses;
-      nationalCumulativeTotalSecondDose = secondDoses;
+      nationalCumulativeTotalInitialDose = initialDoses;
+      nationalCumulativeTotalFinalDose = finalDoses;
     }
     countsTotal.push(totalDoses);
-    countsFirstDose.push(firstDoses);
-    countsSecondDose.push(secondDoses);
+    countsInitialDose.push(initialDoses);
+    countsFinalDose.push(finalDoses);
     countsAvailable.push(availableDoses);
   }
   datasets.push(
@@ -252,14 +252,14 @@ function generateNationalData() {
       values: countsTotal,
     },
     {
-      name: 'First doses',
+      name: 'Initial doses',
       chartType: 'line',
-      values: countsFirstDose,
+      values: countsInitialDose,
     },
     {
-      name: 'Second doses',
+      name: 'Final doses',
       chartType: 'line',
-      values: countsSecondDose,
+      values: countsFinalDose,
     },
   );
 
@@ -304,7 +304,7 @@ function generatePercentData() {
   for (const state of states) { // Guarantee consistent ordering.
     const counts = [];
     for (const entry of sortedMap.values()) {
-      const count = Number(entry.get(state).percentFirstDose.toFixed(2));
+      const count = Number(entry.get(state).percentInitialDose.toFixed(2));
       counts.push(count);
     }
     datasets.push({
@@ -399,21 +399,21 @@ function generateStateData(desiredState) {
   ];
   const datasets = [
     // {
-    //   name: 'First dose',
+    //   name: 'Initial dose',
     //   type: 'line',
     //   values: [77876, 82749, 84349],
     // },
   ];
 
   const countsTotal = [];
-  const countsFirstDose = [];
-  const countsSecondDose = [];
+  const countsInitialDose = [];
+  const countsFinalDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
     const data = entry.get(desiredState);
     countsTotal.push(data.cumulativeTotal);
-    countsFirstDose.push(data.cumulativeFirst);
-    countsSecondDose.push(data.cumulativeSecond);
+    countsInitialDose.push(data.cumulativeInitial);
+    countsFinalDose.push(data.cumulativeFinal);
     const availableDoses = cumulativeDeliveryMap.get(date).get(desiredState);
     countsAvailable.push(availableDoses);
   }
@@ -429,14 +429,14 @@ function generateStateData(desiredState) {
       values: countsTotal,
     },
     {
-      name: 'First doses',
+      name: 'Initial doses',
       chartType: 'line',
-      values: countsFirstDose,
+      values: countsInitialDose,
     },
     {
-      name: 'Second doses',
+      name: 'Final doses',
       chartType: 'line',
-      values: countsSecondDose,
+      values: countsFinalDose,
     },
   );
 
@@ -500,8 +500,8 @@ const createHtml = template(HTML_TEMPLATE, {
     latestPubDate,
     dataAnomalyWarning: dataAnomalyWarning,
     isDeliveryDataDefinitelyOutdated: isDeliveryDataDefinitelyOutdated,
-    percentFirstDose: percentFirstDose,
-    percentSecondDose: percentSecondDose,
+    percentInitialDose: percentInitialDose,
+    percentFinalDose: percentFinalDose,
     sevenDayAverageDoses: sevenDayAverageDoses,
     currentDoses: currentDoses,
     currentDosesPerTotalDosesDelivered: currentDosesPerTotalDosesDelivered,
