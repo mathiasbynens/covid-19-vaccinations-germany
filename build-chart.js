@@ -304,7 +304,9 @@ function generatePercentData() {
   for (const state of states) { // Guarantee consistent ordering.
     const counts = [];
     for (const entry of sortedMap.values()) {
-      const count = Number(entry.get(state).percentInitialDose.toFixed(2));
+      const tmp = entry.get(state);
+      const percent = tmp.percentInitialDose + tmp.percentFinalDose;
+      const count = Number(percent.toFixed(2));
       counts.push(count);
     }
     datasets.push({
