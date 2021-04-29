@@ -61,9 +61,11 @@ const processRecords = (records) => {
   const data = [];
   for (const row of records.rows) {
     if (
-      row.state.startsWith('* ') ||
+      row.state.startsWith('*') ||
       row.state.startsWith('RS: ') ||
       row.state.startsWith('Die Daten ') ||
+      row.state.startsWith('Die Gesamtzahl ') ||
+      row.state.startsWith('Für die Berechnung ') ||
       row.state === 'Gesamt'
     ) {
       continue;
