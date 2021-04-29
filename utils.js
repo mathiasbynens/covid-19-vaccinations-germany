@@ -30,8 +30,24 @@ const sortMapEntriesByKey = (map) => {
   return sortedMap;
 };
 
+// Fill the gaps in the data. (Missing days, usually over the weekend.)
+const fillGaps = (map, oldestDate, latestDate) => {
+  let lastEntries;
+  for (let date = oldestDate; date <= latestDate; date = addDays(date, 1)) {
+    if (map.has(date)) {
+      lastEntries = map.get(date);
+      continue;
+    } else {
+      map.set(date, lastEntries);
+    }
+  }
+  const sortedMap = sortMapEntriesByKey(map);
+  return sortedMap;
+};
+
 module.exports = {
   addDays,
   readCsvFile,
   sortMapEntriesByKey,
+  fillGaps,
 };

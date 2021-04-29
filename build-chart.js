@@ -3,7 +3,7 @@ const minifyHtml = require('html-minifier-terser').minify;
 const prettier = require('prettier');
 const template = require('lodash.template');
 
-const {addDays, readCsvFile, sortMapEntriesByKey} = require('./utils.js');
+const {addDays, readCsvFile, fillGaps} = require('./utils.js');
 const {POPULATION_GERMANY} = require('./population.js');
 const getCumulativeDeliveries = require('./cumulative-deliveries.js');
 
@@ -51,8 +51,8 @@ let bundCumulativeFinal;
 let bundCumulativeTotal;
 for (const record of bundRecords) {
   const onlyPartiallyVaccinatedCumulative = Number(record.onlyPartiallyVaccinatedCumulative);
-  const atLeastPartiallyVaccinated = Number(record.atLeastPartiallyVaccinated);
-  const fullyVaccinated = Number(record.fullyVaccinated);
+  const atLeastPartiallyVaccinated = Number(record.atLeastPartiallyVaccinatedCumulative);
+  const fullyVaccinated = Number(record.fullyVaccinatedCumulative);
   const initialDosesCumulative = Number(record.initialDosesCumulative);
   const finalDosesCumulative = Number(record.finalDosesCumulative);
   const totalDosesCumulative = initialDosesCumulative + finalDosesCumulative;
@@ -114,16 +114,8 @@ for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartial
 }
 
 // Fill the gaps in the data. (Missing days, usually over the weekend.)
-let lastEntries;
-for (let date = oldestDate; date <= latestDate; date = addDays(date, 1)) {
-  if (map.has(date)) {
-    lastEntries = map.get(date);
-    continue;
-  } else {
-    map.set(date, lastEntries);
-  }
-}
-const sortedMap = sortMapEntriesByKey(map);
+const sortedMap = fillGaps(map, oldestDate, latestDate);
+const sortedBundMap = fillGaps(bundMap, oldestDate, latestDate);
 
 const {
   cumulativeDeliveryMap,
@@ -236,7 +228,7 @@ function generateNationalData() {
   const countsFinalDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
-    const bundEntry = bundMap.get(date);
+    const bundEntry = sortedBundMap.get(date);
     let onlyPartiallyVaccinated = bundEntry?.onlyPartiallyVaccinatedCumulative ?? 0;
     let atLeastPartiallyVaccinated = bundEntry?.atLeastPartiallyVaccinatedCumulative ?? 0;
     let fullyVaccinated = bundEntry?.fullyVaccinatedCumulative ?? 0;
