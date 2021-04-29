@@ -3,6 +3,8 @@ const stringifyCsv = require('csv-stringify/lib/sync');
 const readXlsxFile = require('read-excel-file/node');
 const convertToObject = require('read-excel-file/schema');
 
+const {percentForState} = require('./population.js');
+
 const removeRowsForDates = (content, pubDate, date) => {
   const oldLines = content.split('\n');
   const pattern = `${date},${pubDate},`;
@@ -334,11 +336,23 @@ const readPercentData = async () => {
     const old = map.get(state);
     const isBund = state === BUND;
     const target = isBund ? bundResult : result;
+
+    const finalDosesCumulativeJohnsonAndJohnson = (old.finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams || 0) + (old.finalDosesCumulativeJohnsonAndJohnsonAtDoctors || 0);
+    const onlyPartiallyVaccinatedCumulative = object.initialDosesCumulative - object.finalDosesCumulative + finalDosesCumulativeJohnsonAndJohnson;
+    const atLeastPartiallyVaccinatedCumulative = Number(object.initialDosesCumulative || 0) + finalDosesCumulativeJohnsonAndJohnson;
+
     // Define the shape of the CSV file.
     const entry = {
       date,
       pubDate,
       state,
+
+      onlyPartiallyVaccinatedCumulative: onlyPartiallyVaccinatedCumulative,
+      onlyPartiallyVaccinatedPercent: percentForState(onlyPartiallyVaccinatedCumulative, state),
+      atLeastPartiallyVaccinatedCumulative: atLeastPartiallyVaccinatedCumulative,
+      atLeastPartiallyVaccinatedPercent: percentForState(atLeastPartiallyVaccinatedCumulative, state),
+      fullyVaccinatedCumulative: object.finalDosesCumulative,
+      fullyVaccinatedPercent: object.finalDosesPercent,
 
       initialDosesCumulative: object.initialDosesCumulative,
       initialDosesCumulativeAtCentersHospitalsMobileTeams: old.initialDosesCumulativeAtCentersHospitalsMobileTeams,
@@ -389,7 +403,7 @@ const readPercentData = async () => {
       finalDosesCumulativeAstraZeneca: (old.finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams || 0) + (old.finalDosesCumulativeAstraZenecaAtDoctors || 0),
       finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: old.finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
       finalDosesCumulativeAstraZenecaAtDoctors: old.finalDosesCumulativeAstraZenecaAtDoctors,
-      finalDosesCumulativeJohnsonAndJohnson: (old.finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams || 0) + (old.finalDosesCumulativeJohnsonAndJohnsonAtDoctors || 0),
+      finalDosesCumulativeJohnsonAndJohnson: finalDosesCumulativeJohnsonAndJohnson,
       finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams: old.finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams,
       finalDosesCumulativeJohnsonAndJohnsonAtDoctors: old.finalDosesCumulativeJohnsonAndJohnsonAtDoctors || 0,
 
@@ -402,6 +416,9 @@ const readPercentData = async () => {
     };
     if (isBund) {
       delete entry.state;
+      delete entry.onlyPartiallyVaccinatedPercent;
+      delete entry.atLeastPartiallyVaccinatedPercent;
+      delete entry.fullyVaccinatedPercent;
       delete entry.initialDosesPercent;
       delete entry.initialDosesPercentOfPeopleBelow60;
       delete entry.initialDosesPercentOfPeopleAbove60;

@@ -4,6 +4,7 @@ const prettier = require('prettier');
 const template = require('lodash.template');
 
 const {addDays, readCsvFile, sortMapEntriesByKey} = require('./utils.js');
+const {POPULATION_GERMANY} = require('./population.js');
 const getCumulativeDeliveries = require('./cumulative-deliveries.js');
 
 const listFormatter = new Intl.ListFormat('en');
@@ -40,15 +41,6 @@ const dataAnomalyWarning = (state) => {
   }
   return '';
 };
-
-// The RKI is using these population stats for the states:
-// https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/bevoelkerung-nichtdeutsch-laender.html
-// So we add them up to get the total German population. Note that we
-// do this instead of getting using the total population stats from
-// https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Bevoelkerungsstand/Tabellen/zensus-geschlecht-staatsangehoerigkeit-2020.html
-// because then we’d be dealing with two different snapshots, and the
-// state populations wouldn’t add up to 100% of the German population.
-const POPULATION_GERMANY = 83_166_711;
 
 const records = readCsvFile('./data/data.csv');
 const bundRecords = readCsvFile('./data/bund.csv');
