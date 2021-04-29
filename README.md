@@ -29,6 +29,17 @@ Usually, the spreadsheets containing the statistics for day `X` are published on
     - second doses of vaccines that require two doses in total (i.e. Pfizer/BioNTech, Moderna, or AstraZeneca), and
     - doses of vaccines that only require a single dose (i.e. Johnson & Johnson).
 
+### Partially vs. fully vaccinated
+
+There’s been [some confusion](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/27#issuecomment-829299315) about what “partial” vaccination means. Given that there are multiple potentially interesting metrics that RKI does not report directly, we derive and expose the following additional columns:
+
+- `onlyPartiallyVaccinatedCumulative`: the number of people who are partially vaccinated but still need a second shot. (They received exactly 1 dose of Pfizer/BioNTech, Moderna, AstraZeneca, and still need a second dose to become fully vaccinated.)
+- `onlyPartiallyVaccinatedPercent`
+- `atLeastPartiallyVaccinatedCumulative`: the number of people who received at least one vaccination. (They received at least 1 dose of Pfizer/BioNTech, Moderna, AstraZeneca, or Johnson & Johnson. This includes people who received 2 doses of Pfizer/BioNTech, Moderna, or AstraZeneca.)
+- `atLeastPartiallyVaccinatedPercent`
+- `fullyVaccinatedCumulative`: the number of people who received either 1 dose of Johnson & Johnson; or 2 doses of Pfizer/BioNTech, Moderna, or AstraZeneca.
+- `fullyVaccinatedPercent`
+
 ### Deprecated columns
 
 As of 2021-04-08, RKI stopped reporting the following data points:
