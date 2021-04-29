@@ -76,6 +76,7 @@ Cumulative vaccination metrics cannot decrease over time, yet sometimes the repo
 | 2021-03-30 | Rheinland-Pfalz        | total doses   |        676,022 |       662,651 | -13,371 |
 | 2021-04-09 | Brandenburg            | initial doses |        427,850 |       404,970 | -22,880 |
 | 2021-04-09 | Brandenburg            | total doses   |        554,574 |       536,065 | -18,509 |
+| 2021-04-28 | Brandenburg            | final doses   |        180,753 |       174,796 |  -5,957 |
 <!-- END AUTO-UPDATED ANOMALIES SECTION -->
 
 These are not issues in our scripts!
