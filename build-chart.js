@@ -4,7 +4,7 @@ const prettier = require('prettier');
 const template = require('lodash.template');
 
 const {addDays, readCsvFile, fillGaps} = require('./utils.js');
-const {POPULATION_GERMANY} = require('./population.js');
+const {POPULATION_GERMANY, POPULATION_PER_STATE} = require('./population.js');
 const getCumulativeDeliveries = require('./cumulative-deliveries.js');
 
 const listFormatter = new Intl.ListFormat('en');
@@ -165,6 +165,30 @@ const intFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
+function onlyPartiallyVaccinated(state) {
+  const current = state ?
+    map.get(latestDate).get(state).onlyPartiallyVaccinatedCumulative :
+    nationalCumulativeOnlyPartiallyVaccinated;
+  return intFormatter.format(current);
+}
+function atLeastPartiallyVaccinated(state) {
+  const current = state ?
+    map.get(latestDate).get(state).atLeastPartiallyVaccinatedCumulative :
+    nationalCumulativeAtLeastPartiallyVaccinated;
+  return intFormatter.format(current);
+}
+function fullyVaccinated(state) {
+  const current = state ?
+    map.get(latestDate).get(state).fullyVaccinatedCumulative :
+    nationalCumulativeFullyVaccinated;
+  return intFormatter.format(current);
+}
+function population(state) {
+  const number = state ?
+    POPULATION_PER_STATE.get(state) :
+    POPULATION_GERMANY;
+  return intFormatter.format(number);
+}
 function currentDoses(state) {
   const current = state ?
     map.get(latestDate).get(state).cumulativeTotal :
@@ -520,20 +544,24 @@ const createHtml = template(HTML_TEMPLATE, {
   interpolate: /<%=([\s\S]+?)%>/g,
   imports: {
     latestPubDate,
-    dataAnomalyWarning: dataAnomalyWarning,
-    isDeliveryDataDefinitelyOutdated: isDeliveryDataDefinitelyOutdated,
+    dataAnomalyWarning,
+    isDeliveryDataDefinitelyOutdated,
+    population,
     percentOnlyPartiallyVaccinated,
     percentAtLeastPartiallyVaccinated,
     percentFullyVaccinated,
-    sevenDayAverageDoses: sevenDayAverageDoses,
-    currentDoses: currentDoses,
-    currentDosesPerTotalDosesDelivered: currentDosesPerTotalDosesDelivered,
-    totalDosesDelivered: totalDosesDelivered,
-    latestDeliveryDate: latestDeliveryDate,
+    onlyPartiallyVaccinated,
+    atLeastPartiallyVaccinated,
+    fullyVaccinated,
+    sevenDayAverageDoses,
+    currentDoses,
+    currentDosesPerTotalDosesDelivered,
+    totalDosesDelivered,
+    latestDeliveryDate,
     nationalData: generateNationalData(),
-    generatePercentData: generatePercentData,
-    rolloutData: rolloutData,
-    generateStateData: generateStateData,
+    generatePercentData,
+    rolloutData,
+    generateStateData,
   },
 });
 
