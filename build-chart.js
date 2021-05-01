@@ -51,15 +51,15 @@ let bundCumulativeFinal;
 let bundCumulativeTotal;
 for (const record of bundRecords) {
   const onlyPartiallyVaccinatedCumulative = Number(record.onlyPartiallyVaccinatedCumulative);
-  const atLeastPartiallyVaccinated = Number(record.atLeastPartiallyVaccinatedCumulative);
-  const fullyVaccinated = Number(record.fullyVaccinatedCumulative);
+  const atLeastPartiallyVaccinatedCumulative = Number(record.atLeastPartiallyVaccinatedCumulative);
+  const fullyVaccinatedCumulative = Number(record.fullyVaccinatedCumulative);
   const initialDosesCumulative = Number(record.initialDosesCumulative);
   const finalDosesCumulative = Number(record.finalDosesCumulative);
   const totalDosesCumulative = initialDosesCumulative + finalDosesCumulative;
   bundMap.set(record.date, {
     onlyPartiallyVaccinatedCumulative,
-    atLeastPartiallyVaccinated,
-    fullyVaccinated,
+    atLeastPartiallyVaccinatedCumulative,
+    fullyVaccinatedCumulative,
     cumulativeTotal: totalDosesCumulative,
     cumulativeInitial: initialDosesCumulative,
     cumulativeFinal: finalDosesCumulative,
