@@ -78,7 +78,7 @@ const processRecords = (records) => {
 
 // “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
 // state, and lacks a total population count.
-const BUND = 'Impfzentren Bund';
+const BUNDESWEHR = 'Impfzentren Bund';
 
 const readMainData = async () => {
   const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 3 });
@@ -332,12 +332,10 @@ const readPercentData = async () => {
 
   const percentData = await readPercentData();
   const result = [];
-  const bundResult = [];
   for (const object of percentData) {
     const state = object.state;
     const old = map.get(state);
-    const isBund = state === BUND;
-    const target = isBund ? bundResult : result;
+    const isBund = state === BUNDESWEHR;
 
     const finalDosesCumulativeJohnsonAndJohnson = (old.finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams || 0) + (old.finalDosesCumulativeJohnsonAndJohnsonAtDoctors || 0);
     const onlyPartiallyVaccinatedCumulative = object.initialDosesCumulative - object.finalDosesCumulative + finalDosesCumulativeJohnsonAndJohnson;
@@ -417,29 +415,31 @@ const readPercentData = async () => {
       finalDosesToNursingHomeResidents: '',
     };
     if (isBund) {
-      delete entry.state;
-      delete entry.onlyPartiallyVaccinatedPercent;
-      delete entry.atLeastPartiallyVaccinatedPercent;
-      delete entry.fullyVaccinatedPercent;
-      delete entry.initialDosesPercent;
-      delete entry.initialDosesPercentOfPeopleBelow60;
-      delete entry.initialDosesPercentOfPeopleAbove60;
-      delete entry.initialDosesDueToAge;
-      delete entry.initialDosesDueToProfession;
-      delete entry.initialDosesDueToMedicalReasons;
-      delete entry.initialDosesToNursingHomeResidents;
-      delete entry.finalDosesPercent;
-      delete entry.finalDosesPercentOfPeopleBelow60;
-      delete entry.finalDosesPercentOfPeopleAbove60;
-      delete entry.finalDosesDueToAge;
-      delete entry.finalDosesDueToProfession;
-      delete entry.finalDosesDueToMedicalReasons;
-      delete entry.finalDosesToNursingHomeResidents;
+      entry.state = 'Bundeswehr';
+      entry.onlyPartiallyVaccinatedPercent = undefined;
+      entry.atLeastPartiallyVaccinatedPercent = undefined;
+      entry.fullyVaccinatedPercent = undefined;
+      entry.initialDosesPercent = undefined;
+      entry.initialDosesPercentOfPeopleBelow60 = undefined;
+      entry.initialDosesPercentOfPeopleAbove60 = undefined;
+      entry.initialDosesDueToAge = undefined;
+      entry.initialDosesDueToProfession = undefined;
+      entry.initialDosesDueToMedicalReasons = undefined;
+      entry.initialDosesToNursingHomeResidents = undefined;
+      entry.finalDosesPercent = undefined;
+      entry.finalDosesPercentOfPeopleBelow60 = undefined;
+      entry.finalDosesPercentOfPeopleAbove60 = undefined;
+      entry.finalDosesDueToAge = undefined;
+      entry.finalDosesDueToProfession = undefined;
+      entry.finalDosesDueToMedicalReasons = undefined;
+      entry.finalDosesToNursingHomeResidents = undefined;
     }
-    target.push(entry);
+    result.push(entry);
   }
+  result.sort((a, b) => {
+    return a.state.localeCompare(b.state);
+  });
 
   updateCsv('./data/data.csv', result, pubDate, date);
-  updateCsv('./data/bund.csv', bundResult, pubDate, date);
 
 })();

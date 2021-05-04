@@ -12,6 +12,8 @@ const formatList = (items) => {
   return listFormatter.format(items);
 };
 
+const BUNDESWEHR = 'Bundeswehr';
+
 const ANOMALIES_PER_STATE = new Map();
 const MARKDOWN_TABLE_LINES = [];
 const checkState = (state, data) => {
@@ -43,32 +45,6 @@ const dataAnomalyWarning = (state) => {
 };
 
 const records = readCsvFile('./data/data.csv');
-const bundRecords = readCsvFile('./data/bund.csv');
-
-const bundMap = new Map();
-let bundCumulativeInitial;
-let bundCumulativeFinal;
-let bundCumulativeTotal;
-for (const record of bundRecords) {
-  const onlyPartiallyVaccinatedCumulative = Number(record.onlyPartiallyVaccinatedCumulative);
-  const atLeastPartiallyVaccinatedCumulative = Number(record.atLeastPartiallyVaccinatedCumulative);
-  const fullyVaccinatedCumulative = Number(record.fullyVaccinatedCumulative);
-  const initialDosesCumulative = Number(record.initialDosesCumulative);
-  const finalDosesCumulative = Number(record.finalDosesCumulative);
-  const totalDosesCumulative = initialDosesCumulative + finalDosesCumulative;
-  bundMap.set(record.date, {
-    onlyPartiallyVaccinatedCumulative,
-    atLeastPartiallyVaccinatedCumulative,
-    fullyVaccinatedCumulative,
-    cumulativeTotal: totalDosesCumulative,
-    cumulativeInitial: initialDosesCumulative,
-    cumulativeFinal: finalDosesCumulative,
-  });
-  // Assumption: the last entry has the most recent date.
-  bundCumulativeInitial = initialDosesCumulative;
-  bundCumulativeFinal = finalDosesCumulative;
-  bundCumulativeTotal = totalDosesCumulative;
-}
 
 const states = new Set();
 const map = new Map();
@@ -77,7 +53,7 @@ let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
 for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, fullyVaccinatedCumulative, fullyVaccinatedPercent, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent} of records) {
-  states.add(state);
+  if (state !== BUNDESWEHR) states.add(state);
   const countInitialDoses = Number(initialDosesCumulative);
   const countFinalDoses = Number(finalDosesCumulative);
   const countTotal = countInitialDoses + countFinalDoses;
@@ -115,7 +91,6 @@ for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartial
 
 // Fill the gaps in the data. (Missing days, usually over the weekend.)
 const sortedMap = fillGaps(map, oldestDate, latestDate);
-const sortedBundMap = fillGaps(bundMap, oldestDate, latestDate);
 
 const {
   cumulativeDeliveryMap,
@@ -252,13 +227,12 @@ function generateNationalData() {
   const countsFinalDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
-    const bundEntry = sortedBundMap.get(date);
-    let onlyPartiallyVaccinated = bundEntry?.onlyPartiallyVaccinatedCumulative ?? 0;
-    let atLeastPartiallyVaccinated = bundEntry?.atLeastPartiallyVaccinatedCumulative ?? 0;
-    let fullyVaccinated = bundEntry?.fullyVaccinatedCumulative ?? 0;
-    let totalDoses = bundEntry?.cumulativeTotal ?? 0;
-    let initialDoses = bundEntry?.cumulativeInitial ?? 0;
-    let finalDoses = bundEntry?.cumulativeFinal ?? 0;
+    let onlyPartiallyVaccinated = 0;
+    let atLeastPartiallyVaccinated = 0;
+    let fullyVaccinated = 0;
+    let totalDoses = 0;
+    let initialDoses = 0;
+    let finalDoses = 0;
     let availableDoses = 0;
     for (const data of entry.values()) {
       onlyPartiallyVaccinated += Number(data.onlyPartiallyVaccinatedCumulative);
@@ -395,6 +369,7 @@ function generateRolloutData() {
   ];
 
   for (const state of states) { // Guarantee consistent ordering.
+    if (state === BUNDESWEHR) continue;
     const counts = [];
 
     for (const [date, entry] of sortedMap) {

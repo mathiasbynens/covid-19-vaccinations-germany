@@ -40,7 +40,7 @@ const stateMap = new Map([
   ['DE-ST',   'Sachsen-Anhalt'],
   ['DE-SH',   'Schleswig-Holstein'],
   ['DE-TH',   'Thüringen'],
-  ['DE-BUND', 'Bund'],
+  ['DE-BUND', 'Bundeswehr'],
 ]);
 const formatState = (id) => {
   id = id.toUpperCase();
