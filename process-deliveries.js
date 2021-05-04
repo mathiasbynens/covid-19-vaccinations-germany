@@ -107,7 +107,9 @@ for (const [date, stateToRecords] of recordsPerDate) {
 
 // Interestingly, the input CSV is not necessarily ordered by date.
 newRecords.sort((a, b) => {
-  return a.date.localeCompare(b.date);
+  if (a.date > b.date) return 1;
+  if (a.date < b.date) return -1;
+  return a.state.localeCompare(b.state);
 });
 
 const csv = stringifyCsv(newRecords, { header: true });

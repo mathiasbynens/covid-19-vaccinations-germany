@@ -4,6 +4,7 @@ date,state,type,doses
 2020-12-25,Berlin,Pfizer/BioNTech,0
 2020-12-25,Brandenburg,Pfizer/BioNTech,0
 2020-12-25,Bremen,Pfizer/BioNTech,0
+2020-12-25,Bundeswehr,Pfizer/BioNTech,0
 2020-12-25,Hamburg,Pfizer/BioNTech,0
 2020-12-25,Hessen,Pfizer/BioNTech,0
 2020-12-25,Mecklenburg-Vorpommern,Pfizer/BioNTech,0
@@ -15,7 +16,6 @@ date,state,type,doses
 2020-12-25,Sachsen-Anhalt,Pfizer/BioNTech,0
 2020-12-25,Schleswig-Holstein,Pfizer/BioNTech,0
 2020-12-25,Thüringen,Pfizer/BioNTech,0
-2020-12-25,Bundeswehr,Pfizer/BioNTech,0
 2020-12-26,Baden-Württemberg,Pfizer/BioNTech,9750
 2020-12-26,Bayern,Pfizer/BioNTech,9750
 2020-12-26,Berlin,Pfizer/BioNTech,9750
@@ -636,6 +636,10 @@ date,state,type,doses
 2021-04-25,Brandenburg,Johnson & Johnson,7200
 2021-04-25,Bremen,Moderna,1200
 2021-04-25,Bremen,Johnson & Johnson,4800
+2021-04-25,Bundeswehr,Pfizer/BioNTech,21060
+2021-04-25,Bundeswehr,Moderna,72000
+2021-04-25,Bundeswehr,AstraZeneca,9600
+2021-04-25,Bundeswehr,Johnson & Johnson,24000
 2021-04-25,Hamburg,Moderna,2400
 2021-04-25,Hamburg,Johnson & Johnson,4800
 2021-04-25,Hessen,Moderna,30000
@@ -658,10 +662,6 @@ date,state,type,doses
 2021-04-25,Schleswig-Holstein,Johnson & Johnson,7200
 2021-04-25,Thüringen,Moderna,7200
 2021-04-25,Thüringen,Johnson & Johnson,4800
-2021-04-25,Bundeswehr,Pfizer/BioNTech,21060
-2021-04-25,Bundeswehr,Moderna,72000
-2021-04-25,Bundeswehr,AstraZeneca,9600
-2021-04-25,Bundeswehr,Johnson & Johnson,24000
 2021-04-26,Baden-Württemberg,Pfizer/BioNTech,198900
 2021-04-26,Bayern,Pfizer/BioNTech,187200
 2021-04-26,Berlin,Pfizer/BioNTech,70200
@@ -715,6 +715,7 @@ date,state,type,doses
 2021-04-30,Berlin,Moderna,14400
 2021-04-30,Brandenburg,Moderna,16800
 2021-04-30,Bremen,Moderna,2400
+2021-04-30,Bundeswehr,Moderna,12000
 2021-04-30,Hamburg,Moderna,13200
 2021-04-30,Hessen,Moderna,20400
 2021-04-30,Mecklenburg-Vorpommern,Moderna,8400
@@ -726,12 +727,12 @@ date,state,type,doses
 2021-04-30,Sachsen-Anhalt,Moderna,9600
 2021-04-30,Schleswig-Holstein,Moderna,12000
 2021-04-30,Thüringen,Moderna,7200
-2021-04-30,Bundeswehr,Moderna,12000
 2021-05-01,Baden-Württemberg,Pfizer/BioNTech,234000
 2021-05-01,Bayern,Pfizer/BioNTech,292500
 2021-05-01,Berlin,Pfizer/BioNTech,76050
 2021-05-01,Brandenburg,Pfizer/BioNTech,52650
 2021-05-01,Bremen,Pfizer/BioNTech,17550
+2021-05-01,Bundeswehr,Pfizer/BioNTech,11700
 2021-05-01,Hamburg,Pfizer/BioNTech,40950
 2021-05-01,Hessen,Pfizer/BioNTech,152100
 2021-05-01,Mecklenburg-Vorpommern,Pfizer/BioNTech,35100
@@ -743,4 +744,3 @@ date,state,type,doses
 2021-05-01,Sachsen-Anhalt,Pfizer/BioNTech,46800
 2021-05-01,Schleswig-Holstein,Pfizer/BioNTech,64350
 2021-05-01,Thüringen,Pfizer/BioNTech,46800
-2021-05-01,Bundeswehr,Pfizer/BioNTech,11700
