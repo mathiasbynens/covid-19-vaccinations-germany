@@ -11,7 +11,7 @@ const records = parseCsv(input, {
 const formatVaccine = (id) => {
   switch (id) {
     case 'astra':
-      return 'AstraZeneca';
+      return 'Oxford/AstraZeneca';
     case 'comirnaty':
       return 'Pfizer/BioNTech';
     case 'johnson':

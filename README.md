@@ -24,20 +24,20 @@ Usually, the spreadsheets containing the statistics for day `X` are published on
 
 ### `initialDoses*` vs. `finalDoses*`
 
-- Any columns with the `initialDoses` prefix refer exclusively to first doses of vaccines that require two doses in total (i.e. Pfizer/BioNTech, Moderna, or AstraZeneca).
+- Any columns with the `initialDoses` prefix refer exclusively to first doses of vaccines that require two doses in total (i.e. Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca).
 - Any columns with the `finalDoses` prefix refer exclusively to
-    - second doses of vaccines that require two doses in total (i.e. Pfizer/BioNTech, Moderna, or AstraZeneca), and
+    - second doses of vaccines that require two doses in total (i.e. Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca), and
     - doses of vaccines that only require a single dose (i.e. Johnson & Johnson).
 
 ### Partially vs. fully vaccinated
 
 There’s been [some confusion](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/27#issuecomment-829299315) about what “partial” vaccination means. Given that there are multiple potentially interesting metrics that RKI does not report directly, we derive and expose the following additional columns:
 
-- `onlyPartiallyVaccinatedCumulative`: the number of people who are partially vaccinated but still need a second shot. (They received exactly 1 dose of Pfizer/BioNTech, Moderna, AstraZeneca, and still need a second dose to become fully vaccinated.)
+- `onlyPartiallyVaccinatedCumulative`: the number of people who are partially vaccinated but still need a second shot. (They received exactly 1 dose of Pfizer/BioNTech, Moderna, Oxford/AstraZeneca, and still need a second dose to become fully vaccinated.)
 - `onlyPartiallyVaccinatedPercent`
-- `atLeastPartiallyVaccinatedCumulative`: the number of people who received at least one vaccination. (They received at least 1 dose of Pfizer/BioNTech, Moderna, AstraZeneca, or Johnson & Johnson. This includes people who received 2 doses of Pfizer/BioNTech, Moderna, or AstraZeneca.)
+- `atLeastPartiallyVaccinatedCumulative`: the number of people who received at least one vaccination. (They received at least 1 dose of Pfizer/BioNTech, Moderna, Oxford/AstraZeneca, or Johnson & Johnson. This includes people who received 2 doses of Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca.)
 - `atLeastPartiallyVaccinatedPercent`
-- `fullyVaccinatedCumulative`: the number of people who received either 1 dose of Johnson & Johnson; or 2 doses of Pfizer/BioNTech, Moderna, or AstraZeneca.
+- `fullyVaccinatedCumulative`: the number of people who received either 1 dose of Johnson & Johnson; or 2 doses of Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca.
 - `fullyVaccinatedPercent`
 
 ### Deprecated columns
