@@ -52,11 +52,11 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
-for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, fullyVaccinatedCumulative, fullyVaccinatedPercent, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent} of records) {
+for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, fullyVaccinatedCumulative, fullyVaccinatedPercent, totalDosesCumulative, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent} of records) {
   if (state !== BUNDESWEHR) states.add(state);
   const countInitialDoses = Number(initialDosesCumulative);
   const countFinalDoses = Number(finalDosesCumulative);
-  const countTotal = countInitialDoses + countFinalDoses;
+  const countTotal = Number(totalDosesCumulative);
   if (countTotal > maxCount) {
     maxCount = countTotal;
   }

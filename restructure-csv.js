@@ -19,14 +19,16 @@ for (const record of records) {
     state: record.state,
 
     onlyPartiallyVaccinatedCumulative: onlyPartiallyVaccinatedCumulative,
-    onlyPartiallyVaccinatedPercent: percentForState(onlyPartiallyVaccinatedCumulative, record.state),
+    onlyPartiallyVaccinatedPercent: record.onlyPartiallyVaccinatedPercent,
     atLeastPartiallyVaccinatedCumulative: atLeastPartiallyVaccinatedCumulative,
-    atLeastPartiallyVaccinatedPercent: percentForState(atLeastPartiallyVaccinatedCumulative, record.state),
+    atLeastPartiallyVaccinatedPercent: record.atLeastPartiallyVaccinatedPercent,
     fullyVaccinatedCumulative: record.finalDosesCumulative,
     fullyVaccinatedPercent: record.finalDosesPercent,
 
+    totalDosesCumulative: record.totalDosesCumulative || (Number(record.initialDosesCumulative) + Number(record.finalDosesCumulative)),
+
     initialDosesCumulative: record.initialDosesCumulative,
-    initialDosesCumulativeAtCentersHospitalsMobileTeams: record.initialDosesCumulativeAtCentersHospitalsMobileTeams || record.initialDosesCumulative,
+    initialDosesCumulativeAtCentersHospitalsMobileTeams: record.initialDosesCumulativeAtCentersHospitalsMobileTeams,
     initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: record.initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
     initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60: record.initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleAbove60,
     initialDosesCumulativeAtDoctors: record.initialDosesCumulativeAtDoctors,
@@ -43,7 +45,7 @@ for (const record of records) {
     initialDosesCumulativeModerna: record.initialDosesCumulativeModerna,
     initialDosesCumulativeModernaAtCentersHospitalsMobileTeams: record.initialDosesCumulativeModernaAtCentersHospitalsMobileTeams,
     initialDosesCumulativeModernaAtDoctors: record.initialDosesCumulativeModernaAtDoctors,
-    initialDosesCumulativeAstraZeneca: record.initialDosesCumulativeAstraZeneca || 0,
+    initialDosesCumulativeAstraZeneca: record.initialDosesCumulativeAstraZeneca,
     initialDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: record.initialDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
     initialDosesCumulativeAstraZenecaAtDoctors: record.initialDosesCumulativeAstraZenecaAtDoctors,
 
@@ -61,7 +63,7 @@ for (const record of records) {
     finalDosesCumulativeAtDoctorsForPeopleBelow60: record.finalDosesCumulativeAtDoctorsForPeopleBelow60,
     finalDosesCumulativeAtDoctorsForPeopleAbove60: record.finalDosesCumulativeAtDoctorsForPeopleAbove60,
 
-    finalDosesPercent: record.finalDosesPercent || percentForState(record.finalDosesCumulative, record.state),
+    finalDosesPercent: record.finalDosesPercent,
     finalDosesPercentOfPeopleBelow60: record.finalDosesPercentOfPeopleBelow60,
     finalDosesPercentOfPeopleAbove60: record.finalDosesPercentOfPeopleAbove60,
 
@@ -74,9 +76,9 @@ for (const record of records) {
     finalDosesCumulativeAstraZeneca: record.finalDosesCumulativeAstraZeneca,
     finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams: record.finalDosesCumulativeAstraZenecaAtCentersHospitalsMobileTeams,
     finalDosesCumulativeAstraZenecaAtDoctors: record.finalDosesCumulativeAstraZenecaAtDoctors,
-    finalDosesCumulativeJohnsonAndJohnson: record.finalDosesCumulativeJohnsonAndJohnson || 0,
-    finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams: record.finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams || 0,
-    finalDosesCumulativeJohnsonAndJohnsonAtDoctors: record.finalDosesCumulativeJohnsonAndJohnsonAtDoctors || 0,
+    finalDosesCumulativeJohnsonAndJohnson: record.finalDosesCumulativeJohnsonAndJohnson,
+    finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams: record.finalDosesCumulativeJohnsonAndJohnsonAtCentersHospitalsMobileTeams,
+    finalDosesCumulativeJohnsonAndJohnsonAtDoctors: record.finalDosesCumulativeJohnsonAndJohnsonAtDoctors,
 
     // These 4 data points stopped being reported in April 2021.
     finalDosesDueToAge: record.finalDosesDueToAge,

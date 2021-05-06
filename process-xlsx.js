@@ -354,6 +354,8 @@ const readPercentData = async () => {
       fullyVaccinatedCumulative: object.finalDosesCumulative,
       fullyVaccinatedPercent: object.finalDosesPercent,
 
+      totalDosesCumulative: Number(object.initialDosesCumulative) + Number(object.finalDosesCumulative),
+
       initialDosesCumulative: object.initialDosesCumulative,
       initialDosesCumulativeAtCentersHospitalsMobileTeams: old.initialDosesCumulativeAtCentersHospitalsMobileTeams,
       initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60: object.initialDosesCumulativeAtCentersHospitalsMobileTeamsForPeopleBelow60,
