@@ -80,6 +80,7 @@
       formatTooltipY: number => `${formatter.format(number)} doses`,
     },
     axisOptions: {
+      shortenYAxisNumbers: true,
       xIsSeries: true,
     },
     isNavigable: true,
@@ -130,6 +131,7 @@
       formatTooltipY: number => `${formatter.format(number)}%`,
     },
     axisOptions: {
+      shortenYAxisNumbers: true,
       xIsSeries: true,
     },
     isNavigable: true,
@@ -155,6 +157,7 @@
         formatTooltipY: number => `${formatter.format(number)} doses`,
       },
       axisOptions: {
+        shortenYAxisNumbers: true,
         xIsSeries: true,
       },
       isNavigable: true,
@@ -162,23 +165,4 @@
       height: 400,
     });
   <% } %>
-
-  // Work around https://github.com/frappe/charts/issues/322.
-  const fixLabels = () => {
-    const compactFormatter = new Intl.NumberFormat('en', {
-      notation: 'compact',
-    });
-    const labels = document.querySelectorAll('text[x="-10"]');
-    for (const label of labels) {
-      const number = Number(label.textContent);
-      label.textContent = compactFormatter.format(number);
-    }
-  };
-
-  // TODO: Use a mutation observer instead, if we can find a reliably
-  // detectable DOM modification that signals the charts are fully
-  // rendered.
-  setTimeout(() => {
-    fixLabels();
-  }, 1000);
 </script>
