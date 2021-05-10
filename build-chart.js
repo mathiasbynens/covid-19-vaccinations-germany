@@ -200,6 +200,20 @@ function sevenDayAverageDoses(state) {
   return intFormatter.format(average);
 }
 
+function sevenDayAverageDosesAsPercentage(state) {
+  const population = state ?
+    POPULATION_PER_STATE.get(state) :
+    POPULATION_GERMANY;
+  const old = state ?
+    map.get(lastWeek).get(state).cumulativeTotal :
+    nationalCumulativeTotalLastWeek;
+  const current = state ?
+    map.get(latestDate).get(state).cumulativeTotal :
+    nationalCumulativeTotal;
+  const average = (current - old) / 7;
+  return percentFormatter.format(average / population * 100);
+}
+
 let nationalCumulativeTotalLastWeek = 0;
 let nationalCumulativeTotal = 0;
 let nationalCumulativeOnlyPartiallyVaccinated = 0;
@@ -529,6 +543,7 @@ const createHtml = template(HTML_TEMPLATE, {
     atLeastPartiallyVaccinated,
     fullyVaccinated,
     sevenDayAverageDoses,
+    sevenDayAverageDosesAsPercentage,
     currentDoses,
     currentDosesPerTotalDosesDelivered,
     totalDosesDelivered,
