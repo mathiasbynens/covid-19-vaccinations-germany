@@ -41,6 +41,9 @@
 </p>
 <div id="chart-cumulative-germany" class="chart"></div>
 <p><strong>Note:</strong> For all charts on this page, “initial dose” refers to any first dose of a two-dose vaccine (i.e. Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca) only. “Final dose” refers to any dose that completes vaccination, i.e. either a dose of Johnson &amp; Johnson, or a second dose of a two-dose vaccine (i.e. Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca).</p>
+<h2 id="doses-per-day">COVID-19 vaccination doses administered in Germany per day (last two weeks)</h2>
+<div id="chart-per-day" class="chart"></div>
+<p><strong>Note:</strong> This chart only considers days for which the RKI publishes a detailed spreadsheet. Even on days with “0 doses administered”, some doses likely got administered.</p>
 <h2 id="percent">COVID-19 vaccination doses administered per 100 inhabitants in each German state</h2>
 <div id="chart-percent" class="chart"></div>
 <p><strong>Note:</strong> This does not equal the percentage of inhabitants that received a dose, since some vaccines require two doses.</p>
@@ -79,6 +82,30 @@
       '#28A745',
       '#FFA00A',
       '#2E78D2',
+    ],
+    tooltipOptions: {
+      formatTooltipY: number => `${formatter.format(number)} doses`,
+    },
+    axisOptions: {
+      shortenYAxisNumbers: true,
+      xIsSeries: true,
+    },
+    isNavigable: true,
+    animate: false,
+    truncateLegends: true,
+    height: 400,
+  });
+
+  new Chart('#chart-per-day', {
+    data: <%= nationalDataPerDay %>,
+    type: 'bar',
+    barOptions: {
+      spaceRatio: 0.25,
+    },
+    colors: [
+      '#E6EFFA',
+      '#28A745',
+      '#FFA00A',
     ],
     tooltipOptions: {
       formatTooltipY: number => `${formatter.format(number)} doses`,
