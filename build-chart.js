@@ -318,6 +318,61 @@ function generateNationalData() {
   return stringified;
 }
 
+function generateNationalDosesPerDayData() {
+  const DAYS_TO_REPORT = -14;
+  const dosesPerDayRecords = readCsvFile('./data/doses-per-day.csv')
+    .slice(DAYS_TO_REPORT);
+  const labels = [];
+  const countsTotal = [];
+  const countsInitialDose = [];
+  const countsFinalDose = [];
+  for (const {date, initialDoses, finalDoses, totalDoses} of dosesPerDayRecords) {
+    labels.push(date);
+    countsTotal.push(totalDoses);
+    countsFinalDose.push(finalDoses);
+    countsInitialDose.push(initialDoses);
+  }
+  const datasets = [
+    {
+      name: 'Total doses',
+      chartType: 'bar',
+      values: countsTotal,
+    },
+    {
+      name: 'Initial doses',
+      chartType: 'bar',
+      values: countsInitialDose,
+    },
+    {
+      name: 'Final doses',
+      chartType: 'bar',
+      values: countsFinalDose,
+    },
+  ];
+
+  const data = {
+    labels,
+    datasets,
+    // This is a workaround that effectively sets minY and maxY.
+    // https://github.com/frappe/charts/issues/86
+    yMarkers: [
+      {
+        label: '',
+        value: 0,
+        type: 'solid'
+      },
+      // {
+      //   label: '',
+      //   value: Math.round(maxCount * 1.05),
+      //   type: 'solid'
+      // },
+    ],
+  };
+  const stringified = JSON.stringify(data, null, 2);
+  fs.writeFileSync(`./tmp/national-data-per-day.json`, `${stringified}\n`);
+  return stringified;
+}
+
 function generatePercentData() {
   const labels = [
     // '2021-01-05',
@@ -549,6 +604,7 @@ const createHtml = template(HTML_TEMPLATE, {
     totalDosesDelivered,
     latestDeliveryDate,
     nationalData: generateNationalData(),
+    nationalDataPerDay: generateNationalDosesPerDayData(),
     generatePercentData,
     rolloutData,
     generateStateData,
