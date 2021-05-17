@@ -3,6 +3,7 @@ const stringifyCsv = require('csv-stringify/lib/sync');
 const readXlsxFile = require('read-excel-file/node');
 const convertToObject = require('read-excel-file/schema');
 
+const {isoDate} = require('./utils.js');
 const {percentForState} = require('./population.js');
 
 const removeRowsForDates = (content, pubDate, date) => {
@@ -15,6 +16,11 @@ const removeRowsForDates = (content, pubDate, date) => {
     }
   }
   return buffer.join('\n');
+};
+
+const writeCsv = async (file, data) => {
+  const output = stringifyCsv(data, { header: true });
+  fs.writeFileSync(file, output);
 };
 
 const updateCsv = async (file, data, pubDate, date) => {
@@ -60,7 +66,9 @@ const PATH_TO_SPREADSHEET = './tmp/data.xlsx';
 const processRecords = (records) => {
   const data = [];
   for (const row of records.rows) {
-    if (
+    if (row.date instanceof Date) {
+      row.date = isoDate(row.date);
+    } else if (
       row.state.startsWith('*') ||
       row.state.startsWith('RS: ') ||
       row.state.startsWith('Die Daten ') ||
@@ -70,7 +78,9 @@ const processRecords = (records) => {
     ) {
       continue;
     }
-    row.state = row.state.replace(/\*+$/, '').trim();
+    if (row.state) {
+      row.state = row.state.replace(/\*+$/, '').trim();
+    }
     data.push(row);
   }
   return data;
@@ -315,7 +325,52 @@ const readPercentData = async () => {
   return data;
 };
 
+const readDosesPerDayData = async () => {
+  const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 4 });
+  const headerRow = records[0];
+  for (let i = 0; i < headerRow.length; i++) {
+    // Ensure every header cell’s content is unique. Remove spaces to
+    // avoid having to deal with typos and typofixes.
+    headerRow[i] = `${ headerRow[i].replace(/\s+/g, '') }_${i}`;
+  }
+  for (const [index, record] of records.entries()) {
+    if (index === 0) continue;
+    const maybeDate = record[0];
+    if (typeof maybeDate === 'string') {
+      records.splice(index, 1);
+    }
+  }
+  const schema = {
+    // Datum
+    'Datum_0': {
+      prop: 'date',
+      type: Date,
+    },
+
+    // Begonnene Impfserie
+    'BegonneneImpfserie_1': {
+      prop: 'initialDoses',
+      type: Number,
+    },
+    // Vollständig geimpft
+    'Vollständiggeimpft_2': {
+      prop: 'finalDoses',
+      type: Number,
+    },
+    // Gesamtzahl verabreichter Impfstoffdosen
+    'GesamtzahlverabreichterImpfstoffdosen_3': {
+      prop: 'totalDoses',
+      type: Number,
+    },
+  };
+  const actualRecords = convertToObject(records, schema);
+  const data = processRecords(actualRecords);
+  return data;
+};
+
 (async () => {
+
+  const dosesPerDayData = await readDosesPerDayData();
 
   const pubDate = await readPubDate();
   const date = await readDate();
@@ -443,5 +498,6 @@ const readPercentData = async () => {
   });
 
   updateCsv('./data/data.csv', result, pubDate, date);
+  writeCsv('./data/doses-per-day.csv', dosesPerDayData);
 
 })();
