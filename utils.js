@@ -1,10 +1,14 @@
 const fs = require('fs');
 const parseCsv = require('csv-parse/lib/sync');
 
+const isoDate = (date) => {
+  return date.toISOString().slice(0, 10);
+};
+
 const addDays = (string, days) => {
   const date = new Date(`${string}T11:00:00.000Z`);
   date.setDate(date.getDate() + days);
-  return date.toISOString().slice(0, 10);
+  return isoDate(date);
 };
 
 const readCsvFile = (fileName) => {
@@ -46,6 +50,7 @@ const fillGaps = (map, oldestDate, latestDate) => {
 };
 
 module.exports = {
+  isoDate,
   addDays,
   readCsvFile,
   sortMapEntriesByKey,
