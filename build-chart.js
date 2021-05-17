@@ -221,7 +221,6 @@ let nationalCumulativeAtLeastPartiallyVaccinated = 0;
 let nationalCumulativeFullyVaccinated = 0;
 let nationalCumulativeTotalInitialDose = 0;
 let nationalCumulativeTotalFinalDose = 0;
-let NATIONAL_DATA;
 function generateNationalData() {
   const labels = [
     // '2021-01-05',
@@ -314,7 +313,6 @@ function generateNationalData() {
       // },
     ],
   };
-  NATIONAL_DATA = data;
   const stringified = JSON.stringify(data, null, 2);
   fs.writeFileSync(`./tmp/national-data.json`, `${stringified}\n`);
   return stringified;
@@ -322,24 +320,35 @@ function generateNationalData() {
 
 function generateNationalDosesPerDayData() {
   const DAYS_TO_REPORT = -14;
-  const datasets = NATIONAL_DATA.datasets.slice(1);
-  const labels = [
-    // '2021-01-05',
-    // '2021-01-06',
-    // '2021-01-07',
-    ...sortedMap.keys(),
-  ].slice(DAYS_TO_REPORT);
-  for (const dataset of datasets) {
-    dataset.chartType = 'bar';
-    const values = dataset.values;
-    let prev = 0;
-    for (const [index, value] of values.entries()) {
-      if (index === 0) continue;
-      values[index] = value - prev;
-      prev = value;
-    }
-    dataset.values = values.slice(DAYS_TO_REPORT);
+  const dosesPerDayRecords = readCsvFile('./data/doses-per-day.csv')
+    .slice(DAYS_TO_REPORT);
+  const labels = [];
+  const countsTotal = [];
+  const countsInitialDose = [];
+  const countsFinalDose = [];
+  for (const {date, initialDoses, finalDoses, totalDoses} of dosesPerDayRecords) {
+    labels.push(date);
+    countsTotal.push(totalDoses);
+    countsFinalDose.push(finalDoses);
+    countsInitialDose.push(initialDoses);
   }
+  const datasets = [
+    {
+      name: 'Total doses',
+      chartType: 'bar',
+      values: countsTotal,
+    },
+    {
+      name: 'Initial doses',
+      chartType: 'bar',
+      values: countsInitialDose,
+    },
+    {
+      name: 'Final doses',
+      chartType: 'bar',
+      values: countsFinalDose,
+    },
+  ];
 
   const data = {
     labels,
