@@ -102,9 +102,9 @@
       spaceRatio: 0.25,
     },
     colors: [
-      '#84B0E7',
       '#28A745',
       '#FFA00A',
+      '#2E78D2',
     ],
     tooltipOptions: {
       formatTooltipY: number => `${formatter.format(number)} doses`,
