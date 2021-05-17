@@ -319,9 +319,7 @@ function generateNationalData() {
 }
 
 function generateNationalDosesPerDayData() {
-  const DAYS_TO_REPORT = -14;
-  const dosesPerDayRecords = readCsvFile('./data/doses-per-day.csv')
-    .slice(DAYS_TO_REPORT);
+  const dosesPerDayRecords = readCsvFile('./data/doses-per-day.csv');
   const labels = [];
   const countsTotal = [];
   const countsInitialDose = [];
