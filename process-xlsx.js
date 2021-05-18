@@ -71,6 +71,7 @@ const processRecords = (records) => {
     } else if (
       row.state.startsWith('*') ||
       row.state.startsWith('RS: ') ||
+      row.state.startsWith('HINWEIS:') ||
       row.state.startsWith('Die Daten ') ||
       row.state.startsWith('Die Gesamtzahl ') ||
       row.state.startsWith('Für die Berechnung ') ||
@@ -364,6 +365,12 @@ const readDosesPerDayData = async () => {
     },
   };
   const actualRecords = convertToObject(records, schema);
+  const processed = processRecords(actualRecords).map((record) => {
+    if (record.finalDoses === undefined) {
+      record.finalDoses = 0;
+    }
+    return record;
+  });
   const data = [
     {
       date: '2020-12-26',
@@ -371,7 +378,7 @@ const readDosesPerDayData = async () => {
       finalDoses: 0,
       totalDoses: 0,
     },
-    ...processRecords(actualRecords),
+    ...processed,
   ];
   return data;
 };
