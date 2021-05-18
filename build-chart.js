@@ -92,6 +92,8 @@ for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartial
 // Fill the gaps in the data. (Missing days, usually over the weekend.)
 const sortedMap = fillGaps(map, oldestDate, latestDate);
 
+const dosesPerDayRecords = readCsvFile('./data/doses-per-day.csv');
+
 const {
   cumulativeDeliveryMap,
   latestDeliveryDate,
@@ -189,14 +191,22 @@ function totalDosesDelivered(state) {
 }
 
 const lastWeek = addDays(latestDate, -7);
+const nationalSevenDayAverage = (() => {
+  let total = 0;
+  for (const day of dosesPerDayRecords.slice(-7)) {
+    total += Number(day.totalDoses);
+  }
+  return total / 7;
+})();
 function sevenDayAverageDoses(state) {
-  const old = state ?
-    map.get(lastWeek).get(state).cumulativeTotal :
-    nationalCumulativeTotalLastWeek;
-  const current = state ?
-    map.get(latestDate).get(state).cumulativeTotal :
-    nationalCumulativeTotal;
-  const average = (current - old) / 7;
+  const average = (() => {
+    if (state) {
+      const old = map.get(lastWeek).get(state).cumulativeTotal;
+      const current = map.get(latestDate).get(state).cumulativeTotal;
+      return (current - old) / 7;
+    }
+    return nationalSevenDayAverage;
+  })();
   return intFormatter.format(average);
 }
 
@@ -204,17 +214,17 @@ function sevenDayAverageDosesAsPercentage(state) {
   const population = state ?
     POPULATION_PER_STATE.get(state) :
     POPULATION_GERMANY;
-  const old = state ?
-    map.get(lastWeek).get(state).cumulativeTotal :
-    nationalCumulativeTotalLastWeek;
-  const current = state ?
-    map.get(latestDate).get(state).cumulativeTotal :
-    nationalCumulativeTotal;
-  const average = (current - old) / 7;
+  const average = (() => {
+    if (state) {
+      const old = map.get(lastWeek).get(state).cumulativeTotal;
+      const current = map.get(latestDate).get(state).cumulativeTotal;
+      return (current - old) / 7;
+    }
+    return nationalSevenDayAverage;
+  })();
   return percentFormatter.format(average / population * 100);
 }
 
-let nationalCumulativeTotalLastWeek = 0;
 let nationalCumulativeTotal = 0;
 let nationalCumulativeOnlyPartiallyVaccinated = 0;
 let nationalCumulativeAtLeastPartiallyVaccinated = 0;
@@ -257,9 +267,7 @@ function generateNationalData() {
       finalDoses += data.cumulativeFinal;
       availableDoses = cumulativeDeliveryMap.get(date).get('Total');
     }
-    if (date === lastWeek) {
-      nationalCumulativeTotalLastWeek = totalDoses;
-    } else if (date === latestDate) {
+    if (date === latestDate) {
       nationalCumulativeOnlyPartiallyVaccinated = onlyPartiallyVaccinated;
       nationalCumulativeAtLeastPartiallyVaccinated = atLeastPartiallyVaccinated;
       nationalCumulativeFullyVaccinated = fullyVaccinated;
@@ -317,8 +325,6 @@ function generateNationalData() {
   fs.writeFileSync(`./tmp/national-data.json`, `${stringified}\n`);
   return stringified;
 }
-
-const dosesPerDayRecords = readCsvFile('./data/doses-per-day.csv');
 
 function generateNationalDosesPerDayData() {
   const labels = [];
