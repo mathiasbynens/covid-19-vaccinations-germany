@@ -364,7 +364,15 @@ const readDosesPerDayData = async () => {
     },
   };
   const actualRecords = convertToObject(records, schema);
-  const data = processRecords(actualRecords);
+  const data = [
+    {
+      date: '2020-12-26',
+      initialDoses: 0,
+      finalDoses: 0,
+      totalDoses: 0,
+    },
+    ...processRecords(actualRecords),
+  ];
   return data;
 };
 
