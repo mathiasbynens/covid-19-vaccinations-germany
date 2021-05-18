@@ -318,17 +318,18 @@ function generateNationalData() {
   return stringified;
 }
 
+const dosesPerDayRecords = readCsvFile('./data/doses-per-day.csv');
+
 function generateNationalDosesPerDayData() {
-  const dosesPerDayRecords = readCsvFile('./data/doses-per-day.csv');
   const labels = [];
   const countsTotal = [];
   const countsInitialDose = [];
   const countsFinalDose = [];
   for (const {date, initialDoses, finalDoses, totalDoses} of dosesPerDayRecords) {
     labels.push(date);
-    countsTotal.push(totalDoses);
-    countsFinalDose.push(finalDoses);
-    countsInitialDose.push(initialDoses);
+    countsTotal.push(Number(totalDoses));
+    countsFinalDose.push(Number(finalDoses));
+    countsInitialDose.push(Number(initialDoses));
   }
   const datasets = [
     {
@@ -368,6 +369,74 @@ function generateNationalDosesPerDayData() {
   };
   const stringified = JSON.stringify(data, null, 2);
   fs.writeFileSync(`./tmp/national-data-per-day.json`, `${stringified}\n`);
+  return stringified;
+}
+
+function generateNationalDosesPerWeekData() {
+  const labels = [];
+  const countsTotal = [];
+  const countsInitialDose = [];
+  const countsFinalDose = [];
+  let weeklyTotal = 0;
+  let weeklyInitialDose = 0;
+  let weeklyFinalDose = 0;
+  let monday = '2020-12-21';
+  let nextSunday = '2020-12-27';
+  for (const {date, initialDoses, finalDoses, totalDoses} of dosesPerDayRecords) {
+    weeklyTotal += Number(totalDoses);
+    weeklyInitialDose += Number(initialDoses);
+    weeklyFinalDose += Number(finalDoses);
+    if (date === nextSunday || date === latestDate) {
+      // `Week from ${monday} to ${nextSunday}`
+      labels.push(monday);
+      countsTotal.push(weeklyTotal);
+      countsFinalDose.push(weeklyFinalDose);
+      countsInitialDose.push(weeklyInitialDose);
+      weeklyTotal = 0;
+      weeklyInitialDose = 0;
+      weeklyFinalDose = 0;
+      monday = addDays(date, 1);
+      nextSunday = addDays(date, 7);
+    }
+  }
+  const datasets = [
+    {
+      name: 'Total doses',
+      chartType: 'bar',
+      values: countsTotal,
+    },
+    {
+      name: 'Initial doses',
+      chartType: 'bar',
+      values: countsInitialDose,
+    },
+    {
+      name: 'Final doses',
+      chartType: 'bar',
+      values: countsFinalDose,
+    },
+  ];
+
+  const data = {
+    labels,
+    datasets,
+    // This is a workaround that effectively sets minY and maxY.
+    // https://github.com/frappe/charts/issues/86
+    yMarkers: [
+      {
+        label: '',
+        value: 0,
+        type: 'solid'
+      },
+      // {
+      //   label: '',
+      //   value: Math.round(maxCount * 1.05),
+      //   type: 'solid'
+      // },
+    ],
+  };
+  const stringified = JSON.stringify(data, null, 2);
+  fs.writeFileSync(`./tmp/national-data-per-week.json`, `${stringified}\n`);
   return stringified;
 }
 
@@ -603,6 +672,7 @@ const createHtml = template(HTML_TEMPLATE, {
     latestDeliveryDate,
     nationalData: generateNationalData(),
     nationalDataPerDay: generateNationalDosesPerDayData(),
+    nationalDataPerWeek: generateNationalDosesPerWeekData(),
     generatePercentData,
     rolloutData,
     generateStateData,
