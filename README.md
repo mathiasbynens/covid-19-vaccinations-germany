@@ -94,6 +94,8 @@ These are not issues in our scripts!
 
 ## Related projects
 
+You can [preview the raw data provided by this repository in GitHub’s Flat Viewer](https://flatgithub.com/mathiasbynens/covid-19-vaccinations-germany).
+
 To view historical snapshots of the source Excel files from the RKI, consult [evilpie/Impfquotenmonitoring](https://github.com/evilpie/Impfquotenmonitoring) or [ard-data/2020-rki-impf-archive](https://github.com/ard-data/2020-rki-impf-archive/tree/master/data/0_original).
 
 To view similar data for the city of Munich specifically, refer to [mathiasbynens/covid-19-vaccinations-munich](https://github.com/mathiasbynens/covid-19-vaccinations-munich).
