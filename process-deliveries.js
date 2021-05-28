@@ -2,6 +2,8 @@ const fs = require('fs');
 const parseCsv = require('csv-parse/lib/sync');
 const stringifyCsv = require('csv-stringify/lib/sync');
 
+const {vaccineIdToLabel} = require('./known-vaccines.js');
+
 const input = fs.readFileSync('./tmp/deliveries.csv', 'utf8');
 const records = parseCsv(input, {
   columns: true,
@@ -9,18 +11,10 @@ const records = parseCsv(input, {
 });
 
 const formatVaccine = (id) => {
-  switch (id) {
-    case 'astra':
-      return 'Oxford/AstraZeneca';
-    case 'comirnaty':
-      return 'Pfizer/BioNTech';
-    case 'johnson':
-      return 'Johnson & Johnson';
-    case 'moderna':
-      return 'Moderna';
-    default:
-      throw new Error(`Unknown vaccine ID: ${id}`);
+  if (vaccineIdToLabel.has(id)) {
+    return vaccineIdToLabel.get(id);
   }
+  throw new Error(`Unknown vaccine ID: ${id}`);
 };
 
 const stateMap = new Map([

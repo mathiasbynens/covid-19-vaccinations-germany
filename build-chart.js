@@ -98,6 +98,7 @@ const {
   cumulativeDeliveryMap,
   latestDeliveryDate,
   cumulativeNationalDosesDelivered,
+  cumulativeNationalDosesDeliveredPerVaccine,
 } = getCumulativeDeliveries({ startDate: oldestDate, endDate: latestDate });
 
 const percentFormatter = new Intl.NumberFormat('en', {
