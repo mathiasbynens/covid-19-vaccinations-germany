@@ -52,11 +52,15 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
-for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, fullyVaccinatedCumulative, fullyVaccinatedPercent, totalDosesCumulative, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent} of records) {
+for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, fullyVaccinatedCumulative, fullyVaccinatedPercent, totalDosesCumulative, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent, initialDosesCumulativeBioNTech, finalDosesCumulativeBioNTech, initialDosesCumulativeModerna, finalDosesCumulativeModerna, initialDosesCumulativeAstraZeneca, finalDosesCumulativeAstraZeneca, finalDosesCumulativeJohnsonAndJohnson} of records) {
   if (state !== BUNDESWEHR) states.add(state);
   const countInitialDoses = Number(initialDosesCumulative);
   const countFinalDoses = Number(finalDosesCumulative);
   const countTotal = Number(totalDosesCumulative);
+  const countBioNTech = Number(initialDosesCumulativeBioNTech) + Number(finalDosesCumulativeBioNTech);
+  const countModerna = Number(initialDosesCumulativeModerna) + Number(finalDosesCumulativeModerna);
+  const countAstraZeneca = Number(initialDosesCumulativeAstraZeneca) + Number(finalDosesCumulativeAstraZeneca);
+  const countJohnsonAndJohnson = Number(finalDosesCumulativeJohnsonAndJohnson);
   if (countTotal > maxCount) {
     maxCount = countTotal;
   }
@@ -78,12 +82,16 @@ for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartial
     cumulativeTotal: countTotal,
     cumulativeInitial: countInitialDoses,
     cumulativeFinal: countFinalDoses,
-    onlyPartiallyVaccinatedCumulative,
-    onlyPartiallyVaccinatedPercent,
-    atLeastPartiallyVaccinatedCumulative,
-    atLeastPartiallyVaccinatedPercent,
-    fullyVaccinatedCumulative,
-    fullyVaccinatedPercent,
+    cumulativeTotalBioNTech: countBioNTech,
+    cumulativeTotalModerna: countModerna,
+    cumulativeTotalAstraZeneca: countAstraZeneca,
+    cumulativeTotalJohnsonAndJohnson: countJohnsonAndJohnson,
+    onlyPartiallyVaccinatedCumulative: Number(onlyPartiallyVaccinatedCumulative),
+    onlyPartiallyVaccinatedPercent: Number(onlyPartiallyVaccinatedPercent),
+    atLeastPartiallyVaccinatedCumulative: Number(atLeastPartiallyVaccinatedCumulative),
+    atLeastPartiallyVaccinatedPercent: Number(atLeastPartiallyVaccinatedPercent),
+    fullyVaccinatedCumulative: Number(fullyVaccinatedCumulative),
+    fullyVaccinatedPercent: Number(fullyVaccinatedPercent),
     percentInitialDose: percentInitialDose,
     percentFinalDose: percentFinalDose,
   });
@@ -100,6 +108,39 @@ const {
   cumulativeNationalDosesDelivered,
   cumulativeNationalDosesDeliveredPerVaccine,
 } = getCumulativeDeliveries({ startDate: oldestDate, endDate: latestDate });
+
+const cumulativeDosesDeliveredVsAdministered = {
+  BioNTech: { delivered: [], administered: [] },
+  Moderna: { delivered: [], administered: [] },
+  AstraZeneca: { delivered: [], administered: [] },
+  JohnsonAndJohnson: { delivered: [], administered: [] },
+};
+for (const [date, cumulativeDeliveredDosesPerVaccine] of cumulativeNationalDosesDeliveredPerVaccine) {
+  if (date < oldestDate) continue;
+
+  // Cumulative delivered doses per vaccine.
+  cumulativeDosesDeliveredVsAdministered.BioNTech.delivered.push(cumulativeDeliveredDosesPerVaccine.get('Pfizer/BioNTech'));
+  cumulativeDosesDeliveredVsAdministered.Moderna.delivered.push(cumulativeDeliveredDosesPerVaccine.get('Moderna'));
+  cumulativeDosesDeliveredVsAdministered.AstraZeneca.delivered.push(cumulativeDeliveredDosesPerVaccine.get('Oxford/AstraZeneca'));
+  cumulativeDosesDeliveredVsAdministered.JohnsonAndJohnson.delivered.push(cumulativeDeliveredDosesPerVaccine.get('Johnson & Johnson'));
+
+  // Cumulative administered doses per vaccine.
+  let cumulativeAdministeredBioNTech = 0;
+  let cumulativeAdministeredModerna = 0;
+  let cumulativeAdministeredAstraZeneca = 0;
+  let cumulativeAdministeredJohnsonAndJohnson = 0;
+  const entries = sortedMap.get(date);
+  for (const [state, metrics] of entries) {
+    cumulativeAdministeredBioNTech += metrics.cumulativeTotalBioNTech;
+    cumulativeAdministeredModerna += metrics.cumulativeTotalModerna;
+    cumulativeAdministeredAstraZeneca += metrics.cumulativeTotalAstraZeneca;
+    cumulativeAdministeredJohnsonAndJohnson += metrics.cumulativeTotalJohnsonAndJohnson;
+  }
+  cumulativeDosesDeliveredVsAdministered.BioNTech.administered.push(cumulativeAdministeredBioNTech);
+  cumulativeDosesDeliveredVsAdministered.Moderna.administered.push(cumulativeAdministeredModerna);
+  cumulativeDosesDeliveredVsAdministered.AstraZeneca.administered.push(cumulativeAdministeredAstraZeneca);
+  cumulativeDosesDeliveredVsAdministered.JohnsonAndJohnson.administered.push(cumulativeAdministeredJohnsonAndJohnson);
+}
 
 const percentFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
@@ -260,9 +301,9 @@ function generateNationalData() {
     let finalDoses = 0;
     let availableDoses = 0;
     for (const data of entry.values()) {
-      onlyPartiallyVaccinated += Number(data.onlyPartiallyVaccinatedCumulative);
-      atLeastPartiallyVaccinated += Number(data.atLeastPartiallyVaccinatedCumulative);
-      fullyVaccinated += Number(data.fullyVaccinatedCumulative);
+      onlyPartiallyVaccinated += data.onlyPartiallyVaccinatedCumulative;
+      atLeastPartiallyVaccinated += data.atLeastPartiallyVaccinatedCumulative;
+      fullyVaccinated += data.fullyVaccinatedCumulative;
       totalDoses += data.cumulativeTotal;
       initialDoses += data.cumulativeInitial;
       finalDoses += data.cumulativeFinal;
@@ -495,6 +536,64 @@ function generatePercentData() {
   return stringified;
 }
 
+function formatVaccineId(vaccineId) {
+  // vaccineId = BioNTech | Moderna | AstraZeneca | JohnsonAndJohnson
+  // Note: keep return values in sync with the known-vaccines.js labels.
+  switch (vaccineId) {
+    case 'BioNTech':
+      return 'Pfizer/BioNTech';
+    case 'Moderna':
+      return 'Moderna';
+    case 'AstraZeneca':
+      return 'Oxford/AstraZeneca';
+    case 'JohnsonAndJohnson':
+      return 'Johnson & Johnson';
+  }
+}
+
+const vaccineIds = [
+  'BioNTech',
+  'Moderna',
+  'AstraZeneca',
+  'JohnsonAndJohnson',
+];
+
+function generatePerVaccineData(vaccineId) {
+  // vaccineId = BioNTech | Moderna | AstraZeneca | JohnsonAndJohnson
+  const labels = [
+    ...sortedMap.keys(),
+  ];
+  const datasets = [
+    {
+      name: 'Available doses',
+      chartType: 'bar',
+      values: cumulativeDosesDeliveredVsAdministered[vaccineId].delivered,
+    },
+    {
+      name: 'Administered doses',
+      chartType: 'line',
+      values: cumulativeDosesDeliveredVsAdministered[vaccineId].administered,
+    },
+  ];
+
+  const data = {
+    labels,
+    datasets,
+    // This is a workaround that effectively sets minY and maxY.
+    // https://github.com/frappe/charts/issues/86
+    yMarkers: [
+      {
+        label: '',
+        value: 0,
+        type: 'solid'
+      },
+    ],
+  };
+  const stringified = JSON.stringify(data, null, 2);
+  fs.writeFileSync(`./tmp/per-vaccine-data-${vaccineId}.json`, `${stringified}\n`);
+  return stringified;
+}
+
 let isDeliveryDataDefinitelyOutdated = false;
 function generateRolloutData() {
   const labels = [
@@ -680,6 +779,9 @@ const createHtml = template(HTML_TEMPLATE, {
     nationalData: generateNationalData(),
     nationalDataPerDay: generateNationalDosesPerDayData(),
     nationalDataPerWeek: generateNationalDosesPerWeekData(),
+    generatePerVaccineData,
+    formatVaccineId,
+    vaccineIds,
     generatePercentData,
     rolloutData,
     generateStateData,
