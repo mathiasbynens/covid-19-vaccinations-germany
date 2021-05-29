@@ -214,6 +214,26 @@ function currentDoses(state) {
     nationalCumulativeTotal;
   return intFormatter.format(current);
 }
+function currentDosesPerVaccine(vaccineId, metric) {
+  // metric = 'administered' | 'delivered'
+  const current = cumulativeDosesDeliveredVsAdministered[vaccineId][metric].slice(-1);
+  return intFormatter.format(current);
+}
+function currentDosesPerTotalDosesDeliveredPerVaccine(vaccineId) {
+  const metrics = cumulativeDosesDeliveredVsAdministered[vaccineId];
+  const percent = metrics.administered.slice(-1) / metrics.delivered.slice(-1) * 100;
+  return percentFormatter.format(percent);
+}
+function percentAdministeredPerVaccine(vaccineId) {
+  const current = cumulativeDosesDeliveredVsAdministered[vaccineId].administered.slice(-1);
+  const percent = current / nationalCumulativeTotal * 100;
+  return percentFormatter.format(percent);
+}
+function percentDeliveredPerVaccine(vaccineId) {
+  const current = cumulativeDosesDeliveredVsAdministered[vaccineId].delivered.slice(-1);
+  const percent = current / cumulativeNationalDosesDelivered * 100;
+  return percentFormatter.format(percent);
+}
 function currentDosesPerTotalDosesDelivered(state) {
   const percent = (() => {
     if (state) {
@@ -782,6 +802,10 @@ const createHtml = template(HTML_TEMPLATE, {
     generatePerVaccineData,
     formatVaccineId,
     vaccineIds,
+    currentDosesPerVaccine,
+    currentDosesPerTotalDosesDeliveredPerVaccine,
+    percentAdministeredPerVaccine,
+    percentDeliveredPerVaccine,
     generatePercentData,
     rolloutData,
     generateStateData,

@@ -60,7 +60,14 @@
 <% } %>
 
 <% for (const vaccineId of vaccineIds) { %>
-<h2 id="per-vaccine-<% print(vaccineId.toLowerCase()) %>">Doses administered vs. doses delivered per vaccine: <% print(formatVaccineId(vaccineId)) %></h2>
+<h2 id="per-vaccine-<% print(vaccineId.toLowerCase()) %>">COVID-19 vaccination doses administered vs. doses delivered per vaccine: <% print(formatVaccineId(vaccineId)) %></h2>
+<p>
+  <strong class="interesting-metric"><%= percentDeliveredPerVaccine(vaccineId) %>% of all COVID-19 vaccine doses that have been delivered to Germany</strong> <span class="has-tooltip" title="<%= latestDeliveryDate %> is the date of the latest delivery.">as of <%= latestDeliveryDate %></span> (<%= currentDosesPerVaccine(vaccineId, 'delivered') %> out of <%= totalDosesDelivered() %> doses) were <% print(formatVaccineId(vaccineId)) %> doses.
+
+  <strong class="interesting-metric"><%= percentAdministeredPerVaccine(vaccineId) %>% of all administered vaccine doses</strong> (<%= currentDosesPerVaccine(vaccineId, 'administered') %> out of <%= currentDoses() %> doses) were <% print(formatVaccineId(vaccineId)) %> doses.
+
+  A total of <strong class="interesting-metric"><%= currentDosesPerVaccine(vaccineId, 'administered') %> <% print(formatVaccineId(vaccineId)) %> doses have been administered</strong> so far — that’s <%= currentDosesPerTotalDosesDeliveredPerVaccine(vaccineId) %>% of the <%= currentDosesPerVaccine(vaccineId, 'delivered') %> total <% print(formatVaccineId(vaccineId)) %> doses that have been delivered to Germany <span class="has-tooltip" title="<%= latestDeliveryDate %> is the date of the latest delivery.">as of <%= latestDeliveryDate %></span>.
+</p>
 <div id="chart-per-vaccine-<% print(vaccineId.toLowerCase()) %>" class="chart"></div>
 <% } %>
 
