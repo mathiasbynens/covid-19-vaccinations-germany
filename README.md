@@ -22,13 +22,6 @@ As of 2021-02-11, this repository also provides [data on vaccine orders being de
 
 Usually, the spreadsheets containing the statistics for day `X` are published on day `X + 1`, but there have been exceptions where the stats got published on the same day. In case multiple spreadsheets are released containing data for the same `date`, we only consider the latest version.
 
-### `initialDoses*` vs. `finalDoses*`
-
-- Any columns with the `initialDoses` prefix refer exclusively to first doses of vaccines that require two doses in total (i.e. Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca).
-- Any columns with the `finalDoses` prefix refer exclusively to
-    - second doses of vaccines that require two doses in total (i.e. Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca), and
-    - doses of vaccines that only require a single dose (i.e. Johnson & Johnson).
-
 ### Partially vs. fully vaccinated
 
 There’s been [some confusion](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/27#issuecomment-829299315) about what “partial” vaccination means. Given that there are multiple potentially interesting metrics that RKI does not report directly, we derive and expose the following additional columns:
@@ -39,21 +32,6 @@ There’s been [some confusion](https://github.com/mathiasbynens/covid-19-vaccin
 - `atLeastPartiallyVaccinatedPercent`
 - `fullyVaccinatedCumulative`: the number of people who received either 1 dose of Johnson & Johnson; or 2 doses of Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca.
 - `fullyVaccinatedPercent`
-
-### Deprecated columns
-
-As of 2021-04-08, RKI stopped reporting the following data points:
-
-- `initialDosesDueToAge`
-- `initialDosesDueToProfession`
-- `initialDosesDueToMedicalReasons`
-- `initialDosesToNursingHomeResidents`
-- `finalDosesDueToAge`
-- `finalDosesDueToProfession`
-- `finalDosesDueToMedicalReasons`
-- `finalDosesToNursingHomeResidents`
-
-These columns are still included in the CSV as they contain potentially useful data for prior dates.
 
 ### Anomalies in the data
 
