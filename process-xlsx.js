@@ -311,7 +311,8 @@ const readDosesPerDayData = async () => {
   const dosesPerDayData = (await readDosesPerDayData()).map((entry) => {
     // J&J doses are included in both reported metrics. Let’s fix that
     // by computing the usual “initialDoses” vs. “finalDoses” instead.
-    const {atleastPartiallyVaccinated, fullyVaccinated, totalDoses} = entry;
+    const {atleastPartiallyVaccinated, totalDoses} = entry;
+    const fullyVaccinated = entry.fullyVaccinated || 0;
     const johnsonDoses = atleastPartiallyVaccinated + fullyVaccinated - totalDoses;
     return {
       date: entry.date,
