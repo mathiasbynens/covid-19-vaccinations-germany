@@ -16,20 +16,40 @@ for (const record of records) {
     pubDate: record.pubDate,
     state: record.state,
 
+    totalDosesCumulative: Number(record.initialDosesCumulative) + Number(record.finalDosesCumulative),
+
+    initialDosesCumulative: record.initialDosesCumulative,
+    initialDosesCumulativeBioNTech: record.initialDosesCumulativeBioNTech,
+    initialDosesCumulativeModerna: record.initialDosesCumulativeModerna,
+    initialDosesCumulativeAstraZeneca: record.initialDosesCumulativeAstraZeneca,
+
+    finalDosesCumulative: record.finalDosesCumulative,
+    finalDosesCumulativeBioNTech: record.finalDosesCumulativeBioNTech,
+    finalDosesCumulativeModerna: record.finalDosesCumulativeModerna,
+    finalDosesCumulativeAstraZeneca: record.finalDosesCumulativeAstraZeneca,
+    finalDosesCumulativeJohnsonAndJohnson: record.finalDosesCumulativeJohnsonAndJohnson,
+
+    onlyPartiallyVaccinatedCumulative: record.onlyPartiallyVaccinatedCumulative,
+    onlyPartiallyVaccinatedPercent: record.onlyPartiallyVaccinatedPercent,
+    onlyPartiallyVaccinatedCumulativeBioNTech: Number(record.initialDosesCumulativeBioNTech) - Number(record.finalDosesCumulativeBioNTech),
+    onlyPartiallyVaccinatedCumulativeModerna: Number(record.initialDosesCumulativeModerna) - Number(record.finalDosesCumulativeModerna),
+    onlyPartiallyVaccinatedCumulativeAstraZeneca: Number(record.initialDosesCumulativeAstraZeneca) - Number(record.finalDosesCumulativeAstraZeneca),
+    //onlyPartiallyVaccinatedCumulativeJohnsonAndJohnson: 0,
+
+    // First doses of any vaccine, including J&J (which is not included in `initialDosesCumulative`).
     atLeastPartiallyVaccinatedCumulative: record.atLeastPartiallyVaccinatedCumulative,
     atLeastPartiallyVaccinatedPercent: record.atLeastPartiallyVaccinatedPercent,
-    atLeastPartiallyVaccinatedCumulativeBioNTech: Number(record.initialDosesCumulativeBioNTech),
-    atLeastPartiallyVaccinatedCumulativeModerna: Number(record.initialDosesCumulativeModerna),
-    atLeastPartiallyVaccinatedCumulativeAstraZeneca: Number(record.initialDosesCumulativeAstraZeneca),
+    atLeastPartiallyVaccinatedCumulativeBioNTech: record.initialDosesCumulativeBioNTech,
+    atLeastPartiallyVaccinatedCumulativeModerna: record.initialDosesCumulativeModerna,
+    atLeastPartiallyVaccinatedCumulativeAstraZeneca: record.initialDosesCumulativeAstraZeneca,
+    atLeastPartiallyVaccinatedCumulativeJohnsonAndJohnson: record.finalDosesCumulativeJohnsonAndJohnson,
 
-    fullyVaccinatedCumulative: record.finalDosesCumulative,
-    fullyVaccinatedPercent: record.finalDosesPercent,
-    fullyVaccinatedCumulativeBioNTech: Number(record.finalDosesCumulativeBioNTech),
-    fullyVaccinatedCumulativeModerna: Number(record.finalDosesCumulativeModerna),
-    fullyVaccinatedCumulativeAstraZeneca: Number(record.finalDosesCumulativeAstraZeneca),
-    fullyVaccinatedCumulativeJohnsonAndJohnson: Number(record.finalDosesCumulativeJohnsonAndJohnson),
-
-    totalDosesCumulative: record.totalDosesCumulative,
+    fullyVaccinatedCumulative: record.fullyVaccinatedCumulative,
+    fullyVaccinatedPercent: record.fullyVaccinatedPercent,
+    fullyVaccinatedCumulativeBioNTech: record.finalDosesCumulativeBioNTech,
+    fullyVaccinatedCumulativeModerna: record.finalDosesCumulativeModerna,
+    fullyVaccinatedCumulativeAstraZeneca: record.finalDosesCumulativeAstraZeneca,
+    fullyVaccinatedCumulativeJohnsonAndJohnson: record.finalDosesCumulativeJohnsonAndJohnson,
 
   });
 }

@@ -52,9 +52,15 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
-for (const {date, pubDate, state, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulativeBioNTech, atLeastPartiallyVaccinatedCumulativeModerna, atLeastPartiallyVaccinatedCumulativeAstraZeneca, fullyVaccinatedCumulative, fullyVaccinatedPercent, fullyVaccinatedCumulativeBioNTech, fullyVaccinatedCumulativeModerna, fullyVaccinatedCumulativeAstraZeneca, fullyVaccinatedCumulativeJohnsonAndJohnson, totalDosesCumulative} of records) {
+for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, fullyVaccinatedCumulative, fullyVaccinatedPercent, totalDosesCumulative, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent, initialDosesCumulativeBioNTech, finalDosesCumulativeBioNTech, initialDosesCumulativeModerna, finalDosesCumulativeModerna, initialDosesCumulativeAstraZeneca, finalDosesCumulativeAstraZeneca, finalDosesCumulativeJohnsonAndJohnson} of records) {
   if (state !== BUNDESWEHR) states.add(state);
+  const countInitialDoses = Number(initialDosesCumulative);
+  const countFinalDoses = Number(finalDosesCumulative);
   const countTotal = Number(totalDosesCumulative);
+  const countBioNTech = Number(initialDosesCumulativeBioNTech) + Number(finalDosesCumulativeBioNTech);
+  const countModerna = Number(initialDosesCumulativeModerna) + Number(finalDosesCumulativeModerna);
+  const countAstraZeneca = Number(initialDosesCumulativeAstraZeneca) + Number(finalDosesCumulativeAstraZeneca);
+  const countJohnsonAndJohnson = Number(finalDosesCumulativeJohnsonAndJohnson);
   if (countTotal > maxCount) {
     maxCount = countTotal;
   }
@@ -74,17 +80,18 @@ for (const {date, pubDate, state, atLeastPartiallyVaccinatedCumulative, atLeastP
   }
   map.get(date).set(state, {
     cumulativeTotal: countTotal,
-    cumulativeFinal: Number(fullyVaccinatedCumulative),
-    // TODO: This might be wrong, depending on whether `atLeastPartiallyVaccinatedCumulative*` includes people who received a second dose as well.
-    cumulativeTotalBioNTech: Number(atLeastPartiallyVaccinatedCumulativeBioNTech) + Number(fullyVaccinatedCumulativeBioNTech),
-    cumulativeTotalModerna: Number(atLeastPartiallyVaccinatedCumulativeModerna) + Number(fullyVaccinatedCumulativeModerna),
-    cumulativeTotalAstraZeneca: Number(atLeastPartiallyVaccinatedCumulativeAstraZeneca) + Number(fullyVaccinatedCumulativeAstraZeneca),
-    cumulativeTotalJohnsonAndJohnson: Number(fullyVaccinatedCumulativeJohnsonAndJohnson),
+    cumulativeInitial: countInitialDoses,
+    cumulativeFinal: countFinalDoses,
+    cumulativeTotalBioNTech: countBioNTech,
+    cumulativeTotalModerna: countModerna,
+    cumulativeTotalAstraZeneca: countAstraZeneca,
+    cumulativeTotalJohnsonAndJohnson: countJohnsonAndJohnson,
+    onlyPartiallyVaccinatedCumulative: Number(onlyPartiallyVaccinatedCumulative),
+    onlyPartiallyVaccinatedPercent: Number(onlyPartiallyVaccinatedPercent),
     atLeastPartiallyVaccinatedCumulative: Number(atLeastPartiallyVaccinatedCumulative),
     atLeastPartiallyVaccinatedPercent: Number(atLeastPartiallyVaccinatedPercent),
     fullyVaccinatedCumulative: Number(fullyVaccinatedCumulative),
     fullyVaccinatedPercent: Number(fullyVaccinatedPercent),
-    // TODO: This now possibly includes 2nd doses, since it’s atLeastPartiallyVaccinatedPercent. Rename.
     percentInitialDose: percentInitialDose,
     percentFinalDose: percentFinalDose,
   });
@@ -139,6 +146,17 @@ const percentFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
+function percentOnlyPartiallyVaccinated(state) {
+  if (state) {
+    const latestEntries = sortedMap.get(latestDate);
+    const latestStateEntries = latestEntries.get(state);
+    const percent = latestStateEntries.onlyPartiallyVaccinatedPercent;
+    return percentFormatter.format(percent);
+  }
+  const percent = nationalCumulativeOnlyPartiallyVaccinated /
+    POPULATION_GERMANY * 100;
+  return percentFormatter.format(percent);
+}
 function percentAtLeastPartiallyVaccinated(state) {
   if (state) {
     const latestEntries = sortedMap.get(latestDate);
@@ -166,6 +184,12 @@ const intFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
+function onlyPartiallyVaccinated(state) {
+  const current = state ?
+    map.get(latestDate).get(state).onlyPartiallyVaccinatedCumulative :
+    nationalCumulativeOnlyPartiallyVaccinated;
+  return intFormatter.format(current);
+}
 function atLeastPartiallyVaccinated(state) {
   const current = state ?
     map.get(latestDate).get(state).atLeastPartiallyVaccinatedCumulative :
@@ -264,6 +288,7 @@ function sevenDayAverageDosesAsPercentage(state) {
 }
 
 let nationalCumulativeTotal = 0;
+let nationalCumulativeOnlyPartiallyVaccinated = 0;
 let nationalCumulativeAtLeastPartiallyVaccinated = 0;
 let nationalCumulativeFullyVaccinated = 0;
 let nationalCumulativeTotalInitialDose = 0;
@@ -284,28 +309,36 @@ function generateNationalData() {
   ];
 
   const countsTotal = [];
+  const countsInitialDose = [];
   const countsFinalDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
+    let onlyPartiallyVaccinated = 0;
     let atLeastPartiallyVaccinated = 0;
     let fullyVaccinated = 0;
     let totalDoses = 0;
+    let initialDoses = 0;
     let finalDoses = 0;
     let availableDoses = 0;
     for (const data of entry.values()) {
+      onlyPartiallyVaccinated += data.onlyPartiallyVaccinatedCumulative;
       atLeastPartiallyVaccinated += data.atLeastPartiallyVaccinatedCumulative;
       fullyVaccinated += data.fullyVaccinatedCumulative;
       totalDoses += data.cumulativeTotal;
+      initialDoses += data.cumulativeInitial;
       finalDoses += data.cumulativeFinal;
       availableDoses = cumulativeDeliveryMap.get(date).get('Total');
     }
     if (date === latestDate) {
+      nationalCumulativeOnlyPartiallyVaccinated = onlyPartiallyVaccinated;
       nationalCumulativeAtLeastPartiallyVaccinated = atLeastPartiallyVaccinated;
       nationalCumulativeFullyVaccinated = fullyVaccinated;
       nationalCumulativeTotal = totalDoses;
+      nationalCumulativeTotalInitialDose = initialDoses;
       nationalCumulativeTotalFinalDose = finalDoses;
     }
     countsTotal.push(totalDoses);
+    countsInitialDose.push(initialDoses);
     countsFinalDose.push(finalDoses);
     countsAvailable.push(availableDoses);
   }
@@ -320,12 +353,11 @@ function generateNationalData() {
       chartType: 'line',
       values: countsTotal,
     },
-    // TODO: Replace with atLeastPartiallyVaccinatedCumulative?
-    // {
-    //   name: 'Initial doses',
-    //   chartType: 'line',
-    //   values: countsInitialDose,
-    // },
+    {
+      name: 'Initial doses',
+      chartType: 'line',
+      values: countsInitialDose,
+    },
     {
       name: 'Final doses',
       chartType: 'line',
@@ -657,14 +689,14 @@ function generateStateData(desiredState) {
   ];
 
   const countsTotal = [];
-  const countsAtLeastPartiallyVaccinated = [];
-  const countsFullyVaccinated = [];
+  const countsInitialDose = [];
+  const countsFinalDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
     const data = entry.get(desiredState);
     countsTotal.push(data.cumulativeTotal);
-    countsAtLeastPartiallyVaccinated.push(data.atLeastPartiallyVaccinatedCumulative);
-    countsFullyVaccinated.push(data.cumulativeFinal);
+    countsInitialDose.push(data.cumulativeInitial);
+    countsFinalDose.push(data.cumulativeFinal);
     const availableDoses = cumulativeDeliveryMap.get(date).get(desiredState);
     countsAvailable.push(availableDoses);
   }
@@ -682,12 +714,12 @@ function generateStateData(desiredState) {
     {
       name: 'Initial doses',
       chartType: 'line',
-      values: countsAtLeastPartiallyVaccinated,
+      values: countsInitialDose,
     },
     {
       name: 'Final doses',
       chartType: 'line',
-      values: countsFullyVaccinated,
+      values: countsFinalDose,
     },
   );
 
@@ -752,8 +784,10 @@ const createHtml = template(HTML_TEMPLATE, {
     dataAnomalyWarning,
     isDeliveryDataDefinitelyOutdated,
     population,
+    percentOnlyPartiallyVaccinated,
     percentAtLeastPartiallyVaccinated,
     percentFullyVaccinated,
+    onlyPartiallyVaccinated,
     atLeastPartiallyVaccinated,
     fullyVaccinated,
     sevenDayAverageDoses,

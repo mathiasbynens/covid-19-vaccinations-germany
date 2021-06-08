@@ -24,7 +24,7 @@ Usually, the spreadsheets containing the statistics for day `X` are published on
 
 ### Partially vs. fully vaccinated
 
-There’s been [some confusion](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/27#issuecomment-829299315) about what “partial” vaccination means. Given that there are multiple potentially interesting metrics that RKI does not report directly, we derive and expose the following additional columns:
+There’s been [some](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/27#issuecomment-829299315) [confusion](https://github.com/mathiasbynens/covid-19-vaccinations-germany/issues/35#issuecomment-856290243) about what “partial” vaccination means. Given that there are multiple potentially interesting metrics that RKI does not report directly, we derive and expose the following additional columns:
 
 - `onlyPartiallyVaccinatedCumulative`: the number of people who are partially vaccinated but still need a second shot. (They received exactly 1 dose of Pfizer/BioNTech, Moderna, Oxford/AstraZeneca, and still need a second dose to become fully vaccinated.)
 - `onlyPartiallyVaccinatedPercent`

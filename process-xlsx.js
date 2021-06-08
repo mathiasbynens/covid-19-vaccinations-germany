@@ -114,22 +114,22 @@ const readMainData = async () => {
 
     // mindestens einmal geimpft → Impfungen kumulativ → Gesamt
     'Gesamt_2': {
-      prop: 'atLeastPartiallyVaccinatedCumulative',
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineCumulative',
       type: Number,
     },
     // mindestens einmal geimpft → Impfungen kumulativ → BioNTech
     'BioNTech_3': {
-      prop: 'atLeastPartiallyVaccinatedCumulativeBioNTech',
+      prop: 'initialDosesCumulativeBioNTech',
       type: Number,
     },
     // mindestens einmal geimpft → Impfungen kumulativ → Moderna
     'Moderna_4': {
-      prop: 'atLeastPartiallyVaccinatedCumulativeModerna',
+      prop: 'initialDosesCumulativeModerna',
       type: Number,
     },
     // mindestens einmal geimpft → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_5': {
-      prop: 'atLeastPartiallyVaccinatedCumulativeAstraZeneca',
+      prop: 'initialDosesCumulativeAstraZeneca',
       type: Number,
     },
 
@@ -193,7 +193,7 @@ const readPercentData = async () => {
     },
     // Gesamtzahl mindestens einmal geimpft
     'Gesamtzahlmindestenseinmalgeimpft_3': {
-      prop: 'atLeastPartiallyVaccinatedCumulative',
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineCumulative',
       type: Number,
     },
     // Gesamtzahl vollständig geimpft
@@ -204,22 +204,22 @@ const readPercentData = async () => {
 
     // Impfquote mindestens einmal geimpft → Gesamt
     'Gesamt_5': {
-      prop: 'atLeastPartiallyVaccinatedPercent',
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccinePercent',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → <18 Jahre
     '<18Jahre_6': {
-      prop: 'atLeastPartiallyVaccinatedPercentOfPeopleAged0To17',
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged0To17',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → 18-59 Jahre
     '18-59Jahre_7': {
-      prop: 'atLeastPartiallyVaccinatedPercentOfPeopleAged18To59',
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged18To59',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → 60+ Jahre
     '60+Jahre_8': {
-      prop: 'atLeastPartiallyVaccinatedPercentOfPeopleAged60AndUp',
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged60AndUp',
       type: Number,
     },
 
@@ -342,30 +342,58 @@ const readDosesPerDayData = async () => {
     const main = map.get(state);
     const isBund = state === BUNDESWEHR;
 
+    const initialDosesCumulative = main.initialDosesCumulativeBioNTech + main.initialDosesCumulativeModerna + main.initialDosesCumulativeAstraZeneca;
+    const finalDosesOfTwoDoseVaccines = main.finalDosesCumulativeBioNTech + main.finalDosesCumulativeModerna + main.finalDosesCumulativeAstraZeneca;
+    const onlyPartiallyVaccinatedCumulative = initialDosesCumulative - finalDosesOfTwoDoseVaccines;
+    const finalDosesCumulativeJohnsonAndJohnson = main.finalDosesCumulativeJohnsonAndJohnson;
+    const atLeastPartiallyVaccinatedCumulative = initialDosesCumulative + finalDosesCumulativeJohnsonAndJohnson;
+
     // Define the shape of the CSV file.
     const entry = {
       date,
       pubDate,
       state,
 
-      atLeastPartiallyVaccinatedCumulative: object.atLeastPartiallyVaccinatedCumulative,
-      atLeastPartiallyVaccinatedPercent: percentForState(object.atLeastPartiallyVaccinatedCumulative, state),
-      atLeastPartiallyVaccinatedCumulativeBioNTech: main.atLeastPartiallyVaccinatedCumulativeBioNTech,
-      atLeastPartiallyVaccinatedCumulativeModerna: main.atLeastPartiallyVaccinatedCumulativeModerna,
-      atLeastPartiallyVaccinatedCumulativeAstraZeneca: main.atLeastPartiallyVaccinatedCumulativeAstraZeneca,
+      totalDosesCumulative: object.totalDosesCumulative,
+
+      initialDosesCumulative: initialDosesCumulative,
+      initialDosesCumulativeBioNTech: main.initialDosesCumulativeBioNTech,
+      initialDosesCumulativeModerna: main.initialDosesCumulativeModerna,
+      initialDosesCumulativeAstraZeneca: main.initialDosesCumulativeAstraZeneca,
+
+      finalDosesCumulative: object.finalDosesCumulative,
+      finalDosesCumulativeBioNTech: main.finalDosesCumulativeBioNTech,
+      finalDosesCumulativeModerna: main.finalDosesCumulativeModerna,
+      finalDosesCumulativeAstraZeneca: main.finalDosesCumulativeAstraZeneca,
+      finalDosesCumulativeJohnsonAndJohnson: finalDosesCumulativeJohnsonAndJohnson,
+
+      // initialDoses - finalDoses
+      onlyPartiallyVaccinatedCumulative: onlyPartiallyVaccinatedCumulative,
+      onlyPartiallyVaccinatedPercent: percentForState(onlyPartiallyVaccinatedCumulative, state),
+      onlyPartiallyVaccinatedCumulativeBioNTech: main.initialDosesCumulativeBioNTech - main.finalDosesCumulativeBioNTech,
+      onlyPartiallyVaccinatedCumulativeModerna: main.initialDosesCumulativeModerna - main.finalDosesCumulativeModerna,
+      onlyPartiallyVaccinatedCumulativeAstraZeneca: main.initialDosesCumulativeAstraZeneca - main.finalDosesCumulativeAstraZeneca,
+      //onlyPartiallyVaccinatedCumulativeJohnsonAndJohnson: 0,
+
+      // First doses of any vaccine, including J&J (which is not included in `initialDosesCumulative`).
+      atLeastPartiallyVaccinatedCumulative: atLeastPartiallyVaccinatedCumulative,
+      atLeastPartiallyVaccinatedPercent: percentForState(atLeastPartiallyVaccinatedCumulative, state),
+      atLeastPartiallyVaccinatedCumulativeBioNTech: main.initialDosesCumulativeBioNTech,
+      atLeastPartiallyVaccinatedCumulativeModerna: main.initialDosesCumulativeModerna,
+      atLeastPartiallyVaccinatedCumulativeAstraZeneca: main.initialDosesCumulativeAstraZeneca,
+      atLeastPartiallyVaccinatedCumulativeJohnsonAndJohnson: finalDosesCumulativeJohnsonAndJohnson,
 
       fullyVaccinatedCumulative: object.finalDosesCumulative,
       fullyVaccinatedPercent: percentForState(object.finalDosesCumulative, state),
       fullyVaccinatedCumulativeBioNTech: main.finalDosesCumulativeBioNTech,
       fullyVaccinatedCumulativeModerna: main.finalDosesCumulativeModerna,
       fullyVaccinatedCumulativeAstraZeneca: main.finalDosesCumulativeAstraZeneca,
-      fullyVaccinatedCumulativeJohnsonAndJohnson: main.finalDosesCumulativeJohnsonAndJohnson,
-
-      totalDosesCumulative: object.totalDosesCumulative,
+      fullyVaccinatedCumulativeJohnsonAndJohnson: finalDosesCumulativeJohnsonAndJohnson,
 
     };
     if (isBund) {
       entry.state = 'Bundeswehr';
+      entry.onlyPartiallyVaccinatedPercent = undefined;
       entry.atLeastPartiallyVaccinatedPercent = undefined;
       entry.fullyVaccinatedPercent = undefined;
     }
