@@ -272,14 +272,14 @@ const readDosesPerDayData = async () => {
       type: Date,
     },
 
-    // mindestens einmal geimpft
-    'mindestenseinmalgeimpft_1': {
-      prop: 'atleastPartiallyVaccinated',
+    // Erstimpfungen
+    'Erstimpfungen_1': {
+      prop: 'firstDoses',
       type: Number,
     },
-    // Vollständig geimpft
-    'vollständiggeimpt_2': {
-      prop: 'fullyVaccinated',
+    // Zweitimpfungen
+    'Zweitimpfungen_2': {
+      prop: 'secondDoses',
       type: Number,
     },
     // Gesamtzahl verabreichter Impfstoffdosen
@@ -290,16 +290,26 @@ const readDosesPerDayData = async () => {
   };
   const actualRecords = convertToObject(records, schema);
   const processed = processRecords(actualRecords).map((record) => {
-    if (record.finalDoses === undefined) {
-      record.finalDoses = 0;
-    }
-    return record;
+    return {
+      date: record.date,
+      // Note: The RKI is unclear about whether “Erstimpfungen” includes
+      // J&J doses or not. It would make sense to include it since it’s
+      // a “first (and only)” dose, but OTOH other sheets include it in
+      // “final” doses since it is the final dose.
+      // Until this is clarified, we’re assuming that “Erstimpfungen”
+      // refers to `initialDoses` (i.e. only first doses of two-dose
+      // vaccines), and that “Zweitimpfungen” refers to `finalDoses`
+      // (i.e. doses that complete a vaccination).
+      initialDoses: record.firstDoses || 0,
+      finalDoses: record.secondDoses || 0,
+      totalDoses: record.totalDoses || 0,
+    };
   });
   const data = [
     {
       date: '2020-12-26',
-      atleastPartiallyVaccinated: 0,
-      fullyVaccinated: 0,
+      initialDoses: 0,
+      finalDoses: 0,
       totalDoses: 0,
     },
     ...processed,
@@ -308,19 +318,7 @@ const readDosesPerDayData = async () => {
 };
 
 (async () => {
-  const dosesPerDayData = (await readDosesPerDayData()).map((entry) => {
-    // J&J doses are included in both reported metrics. Let’s fix that
-    // by computing the usual “initialDoses” vs. “finalDoses” instead.
-    const {atleastPartiallyVaccinated, totalDoses} = entry;
-    const fullyVaccinated = entry.fullyVaccinated || 0;
-    const johnsonDoses = atleastPartiallyVaccinated + fullyVaccinated - totalDoses;
-    return {
-      date: entry.date,
-      initialDoses: atleastPartiallyVaccinated - johnsonDoses,
-      finalDoses: fullyVaccinated,
-      totalDoses: entry.totalDoses,
-    };
-  });
+  const dosesPerDayData = await readDosesPerDayData();
 
   const pubDate = await readPubDate();
   const date = await readDate();
