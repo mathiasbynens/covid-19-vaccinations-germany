@@ -211,6 +211,11 @@
   <strong class="interesting-metric"><%= percentAdministeredPerVaccine(vaccineId) %>% of all administered vaccine doses</strong> (<%= currentDosesPerVaccine(vaccineId, 'administered') %> out of <%= currentDoses() %> doses) were <% print(formatVaccineId(vaccineId)) %> doses.
 
   A total of <strong class="interesting-metric"><%= currentDosesPerVaccine(vaccineId, 'administered') %> <% print(formatVaccineId(vaccineId)) %> doses have been administered</strong> so far — that’s <%= currentDosesPerTotalDosesDeliveredPerVaccine(vaccineId) %>% of the <%= currentDosesPerVaccine(vaccineId, 'delivered') %> total <% print(formatVaccineId(vaccineId)) %> doses that have been delivered to Germany <span class="has-tooltip" title="<%= latestDeliveryDate %> is the date of the latest delivery.">as of <%= latestDeliveryDate %></span>.
+
+</p>
+<p>
+  <strong class="interesting-metric"><% print(percentVaccinatedWithVaccineId(vaccineId, 'fullyVaccinated')) %>% of all fully vaccinated people in Germany</strong> (<% print(vaccinatedWithVaccineId(vaccineId, 'fullyVaccinated')) %> out of <%= fullyVaccinated() %> people) received <% print(formatVaccineId(vaccineId)) %> doses.
+  <% if ('JohnsonAndJohnson' !== vaccineId) { %><strong class="interesting-metric"><% print(percentVaccinatedWithVaccineId(vaccineId, 'onlyPartiallyVaccinated')) %>% of all partially vaccinated people awaiting their second shot</strong> (<% print(vaccinatedWithVaccineId(vaccineId, 'onlyPartiallyVaccinated')) %> out of <%= onlyPartiallyVaccinated() %> people) received a <% print(formatVaccineId(vaccineId)) %> dose.<% } %>
 </p>
 <div id="chart-per-vaccine-<% print(vaccineId.toLowerCase()) %>" class="chart"></div>
 <script type="module">
