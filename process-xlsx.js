@@ -66,8 +66,9 @@ const PATH_TO_SPREADSHEET = './tmp/data.xlsx';
 const processRecords = (records) => {
   const data = [];
   for (const row of records.rows) {
-    if (row.date instanceof Date) {
-      row.date = isoDate(row.date);
+    if (typeof row.date === 'string') {
+      const [dd, mm, yyyy] = row.date.split('.');
+      row.date = `${yyyy}-${mm}-${dd}`;
     } else if (
       row.state.startsWith('*') ||
       row.state.startsWith('**Impfungen, die aus') ||
@@ -76,6 +77,7 @@ const processRecords = (records) => {
       row.state.startsWith('Die Gesamtzahl ') ||
       row.state.startsWith('Für die Berechnung ') ||
       row.state.startsWith('HINWEIS:') ||
+      row.state.startsWith('Meldungen') ||
       row.state.startsWith('RS: ') ||
       row.state === 'Gesamt'
     ) {
@@ -258,27 +260,33 @@ const readDosesPerDayData = async () => {
     // avoid having to deal with typos and typofixes.
     headerRow[i] = `${ headerRow[i].replace(/\s+/g, '') }_${i}`;
   }
+  const goodRecords = [];
   for (const [index, record] of records.entries()) {
-    if (index === 0) continue;
     const maybeDate = record[0];
-    if (typeof maybeDate === 'string') {
-      records.splice(index, 1);
+    if (
+      index === 0 ||
+      (
+        typeof maybeDate === 'string' &&
+        maybeDate.length === 'dd.mm.yyyy'.length
+      )
+    ) {
+      goodRecords.push(record);
     }
   }
   const schema = {
     // Datum
     'Datum_0': {
       prop: 'date',
-      type: Date,
+      type: String,
     },
 
-    // Erstimpfungen
-    'Erstimpfungen_1': {
+    // Erstimpfung
+    'Erstimpfung_1': {
       prop: 'firstDoses',
       type: Number,
     },
-    // Zweitimpfungen
-    'Zweitimpfungen_2': {
+    // Zweitimpfung
+    'Zweitimpfung_2': {
       prop: 'secondDoses',
       type: Number,
     },
@@ -288,7 +296,7 @@ const readDosesPerDayData = async () => {
       type: Number,
     },
   };
-  const actualRecords = convertToObject(records, schema);
+  const actualRecords = convertToObject(goodRecords, schema);
   const processed = processRecords(actualRecords).map((record) => {
     return {
       date: record.date,
