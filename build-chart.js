@@ -319,6 +319,7 @@ let nationalCumulativeFullyVaccinated = 0;
 let nationalCumulativeTotalInitialDose = 0;
 let nationalCumulativeTotalFinalDose = 0;
 function generateNationalData() {
+  // TODO: refactor using `national-total.csv`.
   const labels = [
     // '2021-01-05',
     // '2021-01-06',
