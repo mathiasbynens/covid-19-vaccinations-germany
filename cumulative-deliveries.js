@@ -20,7 +20,6 @@ const getCumulativeDeliveries = ({ startDate, endDate }) => {
       map.get(date).set(state, currentCount);
     } else {
       map.set(date, new Map([
-        ['Bund', 0],
         [state, currentCount],
       ]));
     }
@@ -40,12 +39,12 @@ const getCumulativeDeliveries = ({ startDate, endDate }) => {
   // Fill the gaps in the data. (Missing days, usually over the weekend.)
 
   // Handle `map`.
-  let lastEntries;
+  let lastEntries = map[Symbol.iterator]().next().value[1];
   for (let date = startDate; date <= endDate; date = addDays(date, 1)) {
     if (map.has(date)) {
       const entries = map.get(date);
-      // We’re expecting 17 entries: 16 states + Bund.
-      if (entries.size !== 17) {
+      // We’re expecting 18 entries: 16 states + Bund + Companies.
+      if (entries.size !== 18) {
         // Add missing states, if any.
         for (const [k, v] of lastEntries) {
           if (!entries.has(k)) {
@@ -73,14 +72,14 @@ const getCumulativeDeliveries = ({ startDate, endDate }) => {
   }
 
   // Add national totals.
-  let latestSum = 0;
+  let max = 0;
   for (const entry of map.values()) {
     let sum = 0;
     for (const number of entry.values()) {
       sum += number;
     }
     entry.set('Total', sum);
-    latestSum = sum;
+    if (sum > max) max = sum;
   }
 
   const sortedMap = sortMapEntriesByKey(map);
@@ -89,7 +88,7 @@ const getCumulativeDeliveries = ({ startDate, endDate }) => {
   return {
     cumulativeDeliveryMap: sortedMap,
     latestDeliveryDate: latestDate,
-    cumulativeNationalDosesDelivered: latestSum,
+    cumulativeNationalDosesDelivered: max,
     cumulativeNationalDosesDeliveredPerVaccine: cumulativeNationalDosesDeliveredPerVaccine,
   };
 };
