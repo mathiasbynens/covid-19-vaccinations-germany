@@ -6,6 +6,7 @@ const template = require('lodash.template');
 const {addDays, readCsvFile, fillGaps} = require('./utils.js');
 const {POPULATION_GERMANY, POPULATION_PER_STATE} = require('./population.js');
 const getCumulativeDeliveries = require('./cumulative-deliveries.js');
+const {latestNationalData, pluckFromNationalCumulativeData} = require('./read-national-csv.js');
 
 const listFormatter = new Intl.ListFormat('en');
 const formatList = (items) => {
@@ -160,7 +161,7 @@ function percentOnlyPartiallyVaccinated(state) {
     const percent = latestStateEntries.onlyPartiallyVaccinatedPercent;
     return percentFormatter.format(percent);
   }
-  const percent = nationalCumulativeOnlyPartiallyVaccinated /
+  const percent = latestNationalData.onlyPartiallyVaccinatedCumulative /
     POPULATION_GERMANY * 100;
   return percentFormatter.format(percent);
 }
@@ -171,7 +172,7 @@ function percentAtLeastPartiallyVaccinated(state) {
     const percent = latestStateEntries.atLeastPartiallyVaccinatedPercent;
     return percentFormatter.format(percent);
   }
-  const percent = nationalCumulativeAtLeastPartiallyVaccinated /
+  const percent = latestNationalData.atLeastPartiallyVaccinatedCumulative /
     POPULATION_GERMANY * 100;
   return percentFormatter.format(percent);
 }
@@ -182,7 +183,7 @@ function percentFullyVaccinated(state) {
     const percent = latestStateEntries.fullyVaccinatedPercent;
     return percentFormatter.format(percent);
   }
-  const percent = nationalCumulativeFullyVaccinated /
+  const percent = latestNationalData.fullyVaccinatedCumulative /
     POPULATION_GERMANY * 100;
   return percentFormatter.format(percent);
 }
@@ -194,19 +195,19 @@ const intFormatter = new Intl.NumberFormat('en', {
 function onlyPartiallyVaccinated(state) {
   const current = state ?
     map.get(latestDate).get(state).onlyPartiallyVaccinatedCumulative :
-    nationalCumulativeOnlyPartiallyVaccinated;
+    latestNationalData.onlyPartiallyVaccinatedCumulative;
   return intFormatter.format(current);
 }
 function atLeastPartiallyVaccinated(state) {
   const current = state ?
     map.get(latestDate).get(state).atLeastPartiallyVaccinatedCumulative :
-    nationalCumulativeAtLeastPartiallyVaccinated;
+    latestNationalData.atLeastPartiallyVaccinatedCumulative;
   return intFormatter.format(current);
 }
 function fullyVaccinated(state) {
   const current = state ?
     map.get(latestDate).get(state).fullyVaccinatedCumulative :
-    nationalCumulativeFullyVaccinated;
+    latestNationalData.fullyVaccinatedCumulative;
   return intFormatter.format(current);
 }
 function population(state) {
@@ -218,7 +219,7 @@ function population(state) {
 function currentDoses(state) {
   const current = state ?
     map.get(latestDate).get(state).cumulativeTotal :
-    nationalCumulativeTotal;
+    latestNationalData.totalDosesCumulative;
   return intFormatter.format(current);
 }
 function currentDosesPerVaccine(vaccineId, metric) {
@@ -235,8 +236,8 @@ function percentVaccinatedWithVaccineId(vaccineId, metric) {
   // metric = fullyVaccinated | onlyPartiallyVaccinated
   const current = nationalCumulativePerVaccine[metric][vaccineId];
   const total = metric === 'fullyVaccinated' ?
-    nationalCumulativeOnlyPartiallyVaccinated :
-    nationalCumulativeOnlyPartiallyVaccinated;
+    latestNationalData.fullyVaccinatedCumulative :
+    latestNationalData.onlyPartiallyVaccinatedCumulative;
   const percent = current / total * 100;
   return percentFormatter.format(percent);
 }
@@ -247,7 +248,7 @@ function currentDosesPerTotalDosesDeliveredPerVaccine(vaccineId) {
 }
 function percentAdministeredPerVaccine(vaccineId) {
   const current = cumulativeDosesDeliveredVsAdministered[vaccineId].administered.slice(-1);
-  const percent = current / nationalCumulativeTotal * 100;
+  const percent = current / latestNationalData.totalDosesCumulative * 100;
   return percentFormatter.format(percent);
 }
 function percentDeliveredPerVaccine(vaccineId) {
@@ -262,7 +263,7 @@ function currentDosesPerTotalDosesDelivered(state) {
       const cumulativeDosesDelivered = cumulativeDeliveryMap.get(latestDate).get(state);
       return cumulativeTotal / cumulativeDosesDelivered * 100;
     }
-    return nationalCumulativeTotal / cumulativeNationalDosesDelivered * 100;
+    return latestNationalData.totalDosesCumulative / cumulativeNationalDosesDelivered * 100;
   })();
   return percentFormatter.format(percent);
 }
@@ -308,18 +309,11 @@ function sevenDayAverageDosesAsPercentage(state) {
   return percentFormatter.format(average / population * 100);
 }
 
-let nationalCumulativeTotal = 0;
-let nationalCumulativeOnlyPartiallyVaccinated = 0;
 let nationalCumulativePerVaccine = {
   onlyPartiallyVaccinated: {},
   fullyVaccinated: {},
 };
-let nationalCumulativeAtLeastPartiallyVaccinated = 0;
-let nationalCumulativeFullyVaccinated = 0;
-let nationalCumulativeTotalInitialDose = 0;
-let nationalCumulativeTotalFinalDose = 0;
 function generateNationalData() {
-  // TODO: refactor using `national-total.csv`.
   const labels = [
     // '2021-01-05',
     // '2021-01-06',
@@ -334,9 +328,6 @@ function generateNationalData() {
     // },
   ];
 
-  const countsTotal = [];
-  const countsInitialDose = [];
-  const countsFinalDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
     let onlyPartiallyVaccinated = 0;
@@ -349,9 +340,6 @@ function generateNationalData() {
     let fullyVaccinatedModerna = 0;
     let fullyVaccinatedAstraZeneca = 0;
     let fullyVaccinatedJohnsonAndJohnson = 0;
-    let totalDoses = 0;
-    let initialDoses = 0;
-    let finalDoses = 0;
     let availableDoses = 0;
     for (const data of entry.values()) {
       onlyPartiallyVaccinated += data.onlyPartiallyVaccinatedCumulative;
@@ -364,29 +352,17 @@ function generateNationalData() {
       fullyVaccinatedModerna += data.fullyVaccinatedCumulativeModerna;
       fullyVaccinatedAstraZeneca += data.fullyVaccinatedCumulativeAstraZeneca;
       fullyVaccinatedJohnsonAndJohnson += data.fullyVaccinatedCumulativeJohnsonAndJohnson;
-      totalDoses += data.cumulativeTotal;
-      initialDoses += data.cumulativeInitial;
-      finalDoses += data.cumulativeFinal;
       availableDoses = cumulativeDeliveryMap.get(date).get('Total');
     }
     if (date === latestDate) {
-      nationalCumulativeOnlyPartiallyVaccinated = onlyPartiallyVaccinated;
       nationalCumulativePerVaccine.onlyPartiallyVaccinated.BioNTech = onlyPartiallyVaccinatedBioNTech;
       nationalCumulativePerVaccine.onlyPartiallyVaccinated.Moderna = onlyPartiallyVaccinatedModerna;
       nationalCumulativePerVaccine.onlyPartiallyVaccinated.AstraZeneca = onlyPartiallyVaccinatedAstraZeneca;
-      nationalCumulativeAtLeastPartiallyVaccinated = atLeastPartiallyVaccinated;
-      nationalCumulativeFullyVaccinated = fullyVaccinated;
       nationalCumulativePerVaccine.fullyVaccinated.BioNTech = fullyVaccinatedBioNTech;
       nationalCumulativePerVaccine.fullyVaccinated.Moderna = fullyVaccinatedModerna;
       nationalCumulativePerVaccine.fullyVaccinated.AstraZeneca = fullyVaccinatedAstraZeneca;
       nationalCumulativePerVaccine.fullyVaccinated.JohnsonAndJohnson = fullyVaccinatedJohnsonAndJohnson;
-      nationalCumulativeTotal = totalDoses;
-      nationalCumulativeTotalInitialDose = initialDoses;
-      nationalCumulativeTotalFinalDose = finalDoses;
     }
-    countsTotal.push(totalDoses);
-    countsInitialDose.push(initialDoses);
-    countsFinalDose.push(finalDoses);
     countsAvailable.push(availableDoses);
   }
   datasets.push(
@@ -398,17 +374,17 @@ function generateNationalData() {
     {
       name: 'Total doses',
       chartType: 'line',
-      values: countsTotal,
+      values: pluckFromNationalCumulativeData('totalDosesCumulative'),
     },
     {
       name: 'Initial doses',
       chartType: 'line',
-      values: countsInitialDose,
+      values: pluckFromNationalCumulativeData('initialDosesCumulative'),
     },
     {
       name: 'Final doses',
       chartType: 'line',
-      values: countsFinalDose,
+      values: pluckFromNationalCumulativeData('finalDosesCumulative'),
     },
   );
 
