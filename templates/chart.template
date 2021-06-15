@@ -203,12 +203,16 @@
 <p><strong>Note:</strong> Based on the latest available data, at least one state has administered more than the available amount of doses, which is impossible. This usually means the delivery data is outdated (i.e. the vaccination data is more up-to-date than the delivery data). As soon as up-to-date delivery data becomes available, this page automatically gets updated.</p>
 <% } %>
 
-<h2 id="waiting-for-second-dose">People waiting for their second dose, per day</h2>
-<p>Across Germany, <strong class="interesting-metric"><span class="has-tooltip" title="<%= onlyPartiallyVaccinated() %> out of <%= population() %> people"><%= percentOnlyPartiallyVaccinated() %>%</span></strong> of inhabitants (<%= onlyPartiallyVaccinated() %> out of <%= population() %> people) are <span class="has-tooltip" title="They received exactly 1 dose of Pfizer/BioNTech, Moderna, Oxford/AstraZeneca, and still need a second dose to become fully vaccinated.">partially vaccinated but still need a second shot</span>.</p>
-<div id="chart-waiting-for-second-dose" class="chart"></div>
+<h2 id="partial-vs-full-vaccinations">Partial vs. full vaccinations, per day</h2>
+<p>
+  Across all of Germany, <strong class="interesting-metric"><%= percentFullyVaccinated() %>%</strong> of inhabitants (<%= fullyVaccinated() %> out of <%= population() %> people) are <span class="has-tooltip" title="They received either 1 dose of Johnson &amp; Johnson; or 2 doses of Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca.">fully vaccinated</span>.
+  <strong class="interesting-metric"><span class="has-tooltip" title="<%= onlyPartiallyVaccinated() %> out of <%= population() %> people"><%= percentOnlyPartiallyVaccinated() %>%</span></strong> (<%= onlyPartiallyVaccinated() %> people) are <span class="has-tooltip" title="They received exactly 1 dose of Pfizer/BioNTech, Moderna, Oxford/AstraZeneca, and still need a second dose to become fully vaccinated.">partially vaccinated but still need a second shot</span>.
+  Overall, <strong class="interesting-metric"><span class="has-tooltip" title="<%= atLeastPartiallyVaccinated() %> out of <%= population() %> people"><%= percentAtLeastPartiallyVaccinated() %>%</span></strong> (<%= atLeastPartiallyVaccinated() %> people) <span class="has-tooltip" title="They received at least 1 dose of Pfizer/BioNTech, Moderna, Oxford/AstraZeneca, or Johnson &amp; Johnson. This includes people who received 2 doses of Pfizer/BioNTech, Moderna, or Oxford/AstraZeneca.">received at least one vaccination</span>.
+</p>
+<div id="chart-partial-vs-full-vaccinations" class="chart"></div>
 <script type="module">
-  new Chart('#chart-waiting-for-second-dose', {
-    data: <%= generateWaitingForSecondDoseData() %>,
+  new Chart('#chart-partial-vs-full-vaccinations', {
+    data: <%= generatePartialVsFullVaccinationsData() %>,
     type: 'line',
     // https://xdgov.github.io/data-design-standards/components/colors#palette:~:text=Blue%20Palette
     colors: [

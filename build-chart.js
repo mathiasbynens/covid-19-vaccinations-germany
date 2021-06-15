@@ -531,7 +531,7 @@ function generateNationalDosesPerWeekData() {
   return stringified;
 }
 
-function generateWaitingForSecondDoseData() {
+function generatePartialVsFullVaccinationsData() {
   const labels = [
     // '2021-01-05',
     // '2021-01-06',
@@ -540,9 +540,19 @@ function generateWaitingForSecondDoseData() {
   ];
   const datasets = [
     {
+      name: 'People who received at least one dose',
+      type: 'line',
+      values: pluckFromNationalCumulativeData('atLeastPartiallyVaccinatedCumulative'),
+    },
+    {
       name: 'People waiting for second dose',
       type: 'line',
       values: pluckFromNationalCumulativeData('onlyPartiallyVaccinatedCumulative'),
+    },
+    {
+      name: 'People who are fully vaccinated',
+      type: 'line',
+      values: pluckFromNationalCumulativeData('fullyVaccinatedCumulative'),
     },
   ];
 
@@ -872,7 +882,7 @@ const createHtml = template(HTML_TEMPLATE, {
     generatePercentData,
     rolloutData,
     generateStateData,
-    generateWaitingForSecondDoseData,
+    generatePartialVsFullVaccinationsData,
   },
 });
 
