@@ -531,6 +531,44 @@ function generateNationalDosesPerWeekData() {
   return stringified;
 }
 
+function generateWaitingForSecondDoseData() {
+  const labels = [
+    // '2021-01-05',
+    // '2021-01-06',
+    // '2021-01-07',
+    ...sortedMap.keys(),
+  ];
+  const datasets = [
+    {
+      name: 'People waiting for second dose',
+      type: 'line',
+      values: pluckFromNationalCumulativeData('onlyPartiallyVaccinatedCumulative'),
+    },
+  ];
+
+  const data = {
+    labels,
+    datasets,
+    // This is a workaround that effectively sets minY and maxY.
+    // https://github.com/frappe/charts/issues/86
+    yMarkers: [
+      {
+        label: '',
+        value: 0,
+        type: 'solid'
+      },
+      // {
+      //   label: '',
+      //   value: Math.round(maxCount * 1.05),
+      //   type: 'solid'
+      // },
+    ],
+  };
+  const stringified = JSON.stringify(data, null, 2);
+  fs.writeFileSync(`./tmp/waiting-for-second-dose-data.json`, `${stringified}\n`);
+  return stringified;
+}
+
 function generatePercentData() {
   const labels = [
     // '2021-01-05',
@@ -834,6 +872,7 @@ const createHtml = template(HTML_TEMPLATE, {
     generatePercentData,
     rolloutData,
     generateStateData,
+    generateWaitingForSecondDoseData,
   },
 });
 
