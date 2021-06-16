@@ -67,6 +67,8 @@ Cumulative vaccination metrics cannot decrease over time, yet sometimes the repo
 | 2021-04-09 | Brandenburg            | total doses   |        554,574 |       536,065 | -18,509 |
 | 2021-04-28 | Brandenburg            | final doses   |        180,753 |       174,796 |  -5,957 |
 | 2021-06-09 | Sachsen-Anhalt         | initial doses |        956,099 |       936,310 | -19,789 |
+| 2021-06-15 | Bayern                 | initial doses |      5,953,005 |     5,860,235 | -92,770 |
+| 2021-06-15 | Bayern                 | total doses   |      9,460,419 |     9,459,403 |  -1,016 |
 <!-- END AUTO-UPDATED ANOMALIES SECTION -->
 
 These are not issues in our scripts!
