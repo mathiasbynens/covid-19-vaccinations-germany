@@ -69,6 +69,8 @@ Cumulative vaccination metrics cannot decrease over time, yet sometimes the repo
 | 2021-06-09 | Sachsen-Anhalt         | initial doses |        956,099 |       936,310 | -19,789 |
 | 2021-06-15 | Bayern                 | initial doses |      5,953,005 |     5,860,235 | -92,770 |
 | 2021-06-15 | Bayern                 | total doses   |      9,460,419 |     9,459,403 |  -1,016 |
+| 2021-07-01 | Sachsen                | initial doses |      1,910,506 |     1,880,100 | -30,406 |
+| 2021-07-01 | Sachsen                | total doses   |      3,382,361 |     3,370,828 | -11,533 |
 <!-- END AUTO-UPDATED ANOMALIES SECTION -->
 
 These are not issues in our scripts!
