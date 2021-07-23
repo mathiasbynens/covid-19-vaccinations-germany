@@ -95,6 +95,7 @@
       '#28A745',
       '#FFA00A',
       '#2E78D2',
+      'hotpink',
     ],
     tooltipOptions: {
       formatTooltipY: number => `${formatter.format(number)} doses`,

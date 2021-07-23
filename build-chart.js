@@ -411,6 +411,15 @@ function generateNationalData() {
   return stringified;
 }
 
+function average(numbers) {
+  let total = 0;
+  for (const number of numbers) {
+    total += number;
+  }
+  const result = total / numbers.length;
+  return Number(result.toFixed(0));
+}
+
 function generateNationalDosesPerDayData() {
   const labels = [];
   const countsTotal = [];
@@ -421,6 +430,11 @@ function generateNationalDosesPerDayData() {
     countsTotal.push(Number(totalDoses));
     countsFinalDose.push(Number(finalDoses));
     countsInitialDose.push(Number(initialDoses));
+  }
+  const sevenDayAverage = [];
+  for (const index of countsTotal.keys()) {
+    const slice = countsTotal.slice(Math.max(0, index - 6), index + 1);
+    sevenDayAverage.push(average(slice));
   }
   const datasets = [
     {
@@ -437,6 +451,11 @@ function generateNationalDosesPerDayData() {
       name: 'Final doses',
       chartType: 'bar',
       values: countsFinalDose,
+    },
+    {
+      name: '7-day average of total doses',
+      chartType: 'line',
+      values: sevenDayAverage,
     },
   ];
 
