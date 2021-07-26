@@ -105,7 +105,7 @@ const readMainData = async () => {
     }
     // Ensure every header cell’s content is unique. Remove spaces to
     // avoid having to deal with typos and typofixes.
-    headerRow[i] = `${ headerRow[i].replace(/\s+/g, '') }_${i}`;
+    headerRow[i] = `${ headerRow[i].replace(/\s+|\*/g, '') }_${i}`;
   }
   const recordsWithData = records.slice(2);
   const schema = {
@@ -156,7 +156,7 @@ const readMainData = async () => {
       type: Number,
     },
     // vollständig geimpft → Impfungen kumulativ → Janssen
-    'Janssen**_12': {
+    'Janssen_12': {
       prop: 'finalDosesCumulativeJohnsonAndJohnson',
       type: Number,
     },
@@ -176,7 +176,7 @@ const readPercentData = async () => {
     }
     // Ensure every header cell’s content is unique. Remove spaces to
     // avoid having to deal with typos and typofixes.
-    headerRow[i] = `${ headerRow[i].replace(/\s+/g, '') }_${i}`;
+    headerRow[i] = `${ headerRow[i].replace(/\s+|\*/g, '') }_${i}`;
   }
   const recordsWithData = records.slice(2);
   // Note: there can be several indications per vaccinated person
@@ -209,9 +209,9 @@ const readPercentData = async () => {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccinePercent',
       type: Number,
     },
-    // Impfquote mindestens einmal geimpft → <18 Jahre
-    '<18Jahre_6': {
-      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged0To17',
+    // Impfquote mindestens einmal geimpft → 12–17 Jahre
+    '12-17Jahre_6': {
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged12To17',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → 18-59 Jahre
@@ -230,9 +230,9 @@ const readPercentData = async () => {
       prop: 'fullyVaccinatedPercent',
       type: Number,
     },
-    // Impfquote vollständig geimpft → <18 Jahre
-    '<18Jahre_10': {
-      prop: 'fullyVaccinatedPercentOfPeopleAged0To17',
+    // Impfquote vollständig geimpft → 12–17 Jahre
+    '12-17Jahre_10': {
+      prop: 'fullyVaccinatedPercentOfPeopleAged12To17',
       type: Number,
     },
     // Impfquote vollständig geimpft → 18-59 Jahre
