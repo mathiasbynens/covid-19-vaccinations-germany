@@ -247,7 +247,6 @@
 </p>
 <p>
   <strong class="interesting-metric"><% print(percentVaccinatedWithVaccineId(vaccineId, 'fullyVaccinated')) %>% of all fully vaccinated people in Germany</strong> (<% print(vaccinatedWithVaccineId(vaccineId, 'fullyVaccinated')) %> out of <%= fullyVaccinated() %> people) received <% print(formatVaccineId(vaccineId)) %> doses.
-  <% if ('JohnsonAndJohnson' !== vaccineId) { %><strong class="interesting-metric"><% print(percentVaccinatedWithVaccineId(vaccineId, 'onlyPartiallyVaccinated')) %>% of all partially vaccinated people awaiting their second shot</strong> (<% print(vaccinatedWithVaccineId(vaccineId, 'onlyPartiallyVaccinated')) %> out of <%= onlyPartiallyVaccinated() %> people) received a <% print(formatVaccineId(vaccineId)) %> dose.<% } %>
 </p>
 <div id="chart-per-vaccine-<% print(vaccineId.toLowerCase()) %>" class="chart"></div>
 <script type="module">
