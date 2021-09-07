@@ -86,6 +86,18 @@ Cumulative vaccination metrics cannot decrease over time, yet sometimes the repo
 | 2021-08-20 | Sachsen                | available doses |      4,741,500 |     4,590,300 | -151,200 |
 | 2021-08-20 | Schleswig-Holstein     | available doses |      3,879,656 |     3,836,656 |  -43,000 |
 | 2021-08-20 | Thüringen              | available doses |      2,711,357 |     2,680,557 |  -30,800 |
+| 2021-09-03 | Baden-Württemberg      | available doses |     14,252,102 |    13,935,602 | -316,500 |
+| 2021-09-03 | Bayern                 | available doses |     16,757,713 |    16,711,213 |  -46,500 |
+| 2021-09-03 | Berlin                 | available doses |      5,137,020 |     5,063,120 |  -73,900 |
+| 2021-09-03 | Brandenburg            | available doses |      3,239,839 |     3,236,039 |   -3,800 |
+| 2021-09-03 | Bremen                 | available doses |        929,979 |       927,279 |   -2,700 |
+| 2021-09-03 | Hamburg                | available doses |      2,590,178 |     2,549,178 |  -41,000 |
+| 2021-09-03 | Hessen                 | available doses |      8,620,312 |     8,618,012 |   -2,300 |
+| 2021-09-03 | Mecklenburg-Vorpommern | available doses |      2,152,487 |     2,140,787 |  -11,700 |
+| 2021-09-03 | Niedersachsen          | available doses |     10,977,066 |    10,785,966 | -191,100 |
+| 2021-09-03 | Rheinland-Pfalz        | available doses |      5,169,921 |     5,146,721 |  -23,200 |
+| 2021-09-03 | Sachsen-Anhalt         | available doses |      2,777,221 |     2,735,521 |  -41,700 |
+| 2021-09-03 | Sachsen                | available doses |      4,671,506 |     4,671,006 |     -500 |
 <!-- END AUTO-UPDATED ANOMALIES SECTION -->
 
 These are not issues in our scripts!
