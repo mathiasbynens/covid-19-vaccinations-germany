@@ -53,10 +53,12 @@ const readPubDate = async () => {
 };
 
 const readDate = async () => {
-  const sheets = await readXlsxFile(PATH_TO_SPREADSHEET, { getSheets: true });
-  for (const sheet of sheets) {
-    if (sheet.name.startsWith('Impfquote_bis_einschl_')) {
-      return extractDate(sheet.name);
+  const infoRecords = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 1 });
+  for (const infoRecord of infoRecords) {
+    const cell = infoRecord[0];
+    if (cell && cell.startsWith('Anzahl Impfungen nach Impfstoff')) {
+      // e.g. 'Anzahl Impfungen nach Impfstoff über alle Impfstellen bis einschließlich 12.09.21 (Impfungen_Impfstoff)'
+      return extractDate(cell);
     }
   }
 }
@@ -93,7 +95,7 @@ const processRecords = (records) => {
 
 // “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
 // state, and lacks a total population count.
-const BUNDESWEHR = 'Bundesressorts';
+const BUNDESWEHR = 'Impfzentren Bund';
 
 const readMainData = async () => {
   const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 3 });
@@ -114,50 +116,71 @@ const readMainData = async () => {
       type: String,
     },
 
-    // mindestens einmal geimpft → Impfungen kumulativ → Gesamt
+    // Erstimpfungen → Impfungen kumulativ → Gesamt
     'Gesamt_2': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineCumulative',
       type: Number,
     },
-    // mindestens einmal geimpft → Impfungen kumulativ → BioNTech
+    // Erstimpfungen → Impfungen kumulativ → BioNTech
     'BioNTech_3': {
       prop: 'initialDosesCumulativeBioNTech',
       type: Number,
     },
-    // mindestens einmal geimpft → Impfungen kumulativ → Moderna
+    // Erstimpfungen → Impfungen kumulativ → Moderna
     'Moderna_4': {
       prop: 'initialDosesCumulativeModerna',
       type: Number,
     },
-    // mindestens einmal geimpft → Impfungen kumulativ → AstraZeneca
+    // Erstimpfungen → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_5': {
       prop: 'initialDosesCumulativeAstraZeneca',
       type: Number,
     },
+    // Erstimpfungen → Impfungen kumulativ → Janssen
+    'Janssen_6': {
+      prop: 'finalDosesCumulativeJohnsonAndJohnson',
+      type: Number,
+    },
 
-    // vollständig geimpft → Impfungen kumulativ → Gesamt
+    // Zweitimpfungen → Impfungen kumulativ → Gesamt
     'Gesamt_8': {
       prop: 'finalDosesCumulative',
       type: Number,
     },
-    // vollständig geimpft → Impfungen kumulativ → BioNTech
+    // Zweitimpfungen → Impfungen kumulativ → BioNTech
     'BioNTech_9': {
       prop: 'finalDosesCumulativeBioNTech',
       type: Number,
     },
-    // vollständig geimpft → Impfungen kumulativ → Moderna
+    // Zweitimpfungen → Impfungen kumulativ → Moderna
     'Moderna_10': {
       prop: 'finalDosesCumulativeModerna',
       type: Number,
     },
-    // vollständig geimpft → Impfungen kumulativ → AstraZeneca
+    // Zweitimpfungen → Impfungen kumulativ → AstraZeneca
     'AstraZeneca_11': {
       prop: 'finalDosesCumulativeAstraZeneca',
       type: Number,
     },
-    // vollständig geimpft → Impfungen kumulativ → Janssen
-    'Janssen_12': {
-      prop: 'finalDosesCumulativeJohnsonAndJohnson',
+
+    // Auffrischungsimpfungen → Impfungen kumulativ → Gesamt
+    'Gesamt_13': {
+      prop: 'firstBoosterDosesCumulative',
+      type: Number,
+    },
+    // Auffrischungsimpfungen → Impfungen kumulativ → BioNTech
+    'BioNTech_14': {
+      prop: 'firstBoosterDosesCumulativeBioNTech',
+      type: Number,
+    },
+    // Auffrischungsimpfungen → Impfungen kumulativ → Moderna
+    'Moderna_15': {
+      prop: 'firstBoosterDosesCumulativeModerna',
+      type: Number,
+    },
+    // Auffrischungsimpfungen → Impfungen kumulativ → Janssen
+    'Janssen_16': {
+      prop: 'firstBoosterDosesCumulativeJohnsonAndJohnson',
       type: Number,
     },
   };
@@ -175,8 +198,8 @@ const readPercentData = async () => {
       headerRow[i] = records[1][i] || records[0][i];
     }
     // Ensure every header cell’s content is unique. Remove spaces to
-    // avoid having to deal with typos and typofixes.
-    headerRow[i] = `${ headerRow[i].replace(/\s+|\*/g, '') }_${i}`;
+    // avoid having to deal with typos and typofixes
+    headerRow[i] = `${ (headerRow[i] || '').replace(/\s+|\*/g, '') }_${i}`;
   }
   const recordsWithData = records.slice(2);
   // Note: there can be several indications per vaccinated person
@@ -193,55 +216,59 @@ const readPercentData = async () => {
       prop: 'totalDosesCumulative',
       type: Number,
     },
-    // Gesamtzahl mindestens einmal geimpft
-    'Gesamtzahlmindestenseinmalgeimpft_3': {
+    // Gesamtzahl mindestens einmal Geimpfter
+    'GesamtzahlmindestenseinmalGeimpfter_3': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineCumulative',
       type: Number,
     },
-    // Gesamtzahl vollständig geimpft
-    'Gesamtzahlvollständiggeimpft_4': {
+    // Gesamtzahl vollständig Geimpfter*
+    'GesamtzahlvollständigGeimpfter_4': {
       prop: 'finalDosesCumulative',
       type: Number,
     },
-
+    // Gesamtzahl Personen mit Auffrischungs-impfung
+    'GesamtzahlPersonenmitAuffrischungs-impfung_5': {
+      prop: 'firstBoosterDosesCumulative',
+      type: Number,
+    },
     // Impfquote mindestens einmal geimpft → Gesamt
-    'Gesamt_5': {
+    'Gesamt_6': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccinePercent',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → 12–17 Jahre
-    '12-17Jahre_6': {
+    '12-17Jahre_7': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged12To17',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → 18-59 Jahre
-    '18-59Jahre_7': {
+    '18-59Jahre_9': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged18To59',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → 60+ Jahre
-    '60+Jahre_8': {
+    '60+Jahre_10': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged60AndUp',
       type: Number,
     },
 
     // Impfquote vollständig geimpft → Gesamt
-    'Gesamt_9': {
+    'Gesamt_11': {
       prop: 'fullyVaccinatedPercent',
       type: Number,
     },
     // Impfquote vollständig geimpft → 12–17 Jahre
-    '12-17Jahre_10': {
+    '12-17Jahre_12': {
       prop: 'fullyVaccinatedPercentOfPeopleAged12To17',
       type: Number,
     },
     // Impfquote vollständig geimpft → 18-59 Jahre
-    '18-59Jahre_11': {
+    '18-59Jahre_14': {
       prop: 'fullyVaccinatedPercentOfPeopleAged18To59',
       type: Number,
     },
     // Impfquote vollständig geimpft → 60+ Jahre
-    '60+Jahre_12': {
+    '60+Jahre_15': {
       prop: 'fullyVaccinatedPercentOfPeopleAged60AndUp',
       type: Number,
     },
@@ -290,8 +317,13 @@ const readDosesPerDayData = async () => {
       prop: 'secondDoses',
       type: Number,
     },
+    // Auffrischungsimpfung
+    'Auffrischungsimpfung_3': {
+      prop: 'firstBoosterDoses',
+      type: Number,
+    },
     // Gesamtzahl verabreichter Impfstoffdosen
-    'GesamtzahlverabreichterImpfstoffdosen_3': {
+    'GesamtzahlverabreichterImpfstoffdosen_4': {
       prop: 'totalDoses',
       type: Number,
     },
@@ -310,6 +342,7 @@ const readDosesPerDayData = async () => {
       // (i.e. doses that complete a vaccination).
       initialDoses: record.firstDoses || 0,
       finalDoses: record.secondDoses || 0,
+      firstBoosterDoses: record.firstBoosterDoses || 0,
       totalDoses: record.totalDoses || 0,
     };
   });
@@ -318,6 +351,7 @@ const readDosesPerDayData = async () => {
       date: '2020-12-26',
       initialDoses: 0,
       finalDoses: 0,
+      firstBoosterDoses: 0,
       totalDoses: 0,
     },
     ...processed,
