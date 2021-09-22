@@ -95,7 +95,7 @@ const processRecords = (records) => {
 
 // “Bund (Einsatzkräfte Bundeswehr, Bundespolizei)” is not a real
 // state, and lacks a total population count.
-const BUNDESWEHR = 'Impfzentren Bund';
+const BUNDESWEHR = 'Bundesressorts';
 
 const readMainData = async () => {
   const records = await readXlsxFile(PATH_TO_SPREADSHEET, { sheet: 3 });
