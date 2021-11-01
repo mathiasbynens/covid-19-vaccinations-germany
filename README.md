@@ -98,6 +98,22 @@ Cumulative vaccination metrics cannot decrease over time, yet sometimes the repo
 | 2021-09-03 | Rheinland-Pfalz        | available doses |      5,169,921 |     5,146,721 |  -23,200 |
 | 2021-09-03 | Sachsen-Anhalt         | available doses |      2,777,221 |     2,735,521 |  -41,700 |
 | 2021-09-03 | Sachsen                | available doses |      4,671,506 |     4,671,006 |     -500 |
+| 2021-09-26 | Niedersachsen          | available doses |     11,049,130 |    11,039,530 |   -9,600 |
+| 2021-10-25 | Baden-Württemberg      | available doses |     14,739,722 |    14,248,422 | -491,300 |
+| 2021-10-25 | Bayern                 | available doses |     18,055,997 |    17,738,697 | -317,300 |
+| 2021-10-25 | Brandenburg            | available doses |      3,413,943 |     3,222,943 | -191,000 |
+| 2021-10-25 | Bremen                 | available doses |      1,035,484 |     1,005,484 |  -30,000 |
+| 2021-10-25 | Hamburg                | available doses |      2,746,380 |     2,665,280 |  -81,100 |
+| 2021-10-25 | Hessen                 | available doses |      9,205,501 |     8,857,501 | -348,000 |
+| 2021-10-25 | Mecklenburg-Vorpommern | available doses |      2,241,718 |     2,162,418 |  -79,300 |
+| 2021-10-25 | Niedersachsen          | available doses |     11,396,313 |    10,985,913 | -410,400 |
+| 2021-10-25 | Nordrhein-Westfalen    | available doses |     25,555,079 |    25,201,179 | -353,900 |
+| 2021-10-25 | Rheinland-Pfalz        | available doses |      5,491,217 |     5,413,417 |  -77,800 |
+| 2021-10-25 | Saarland               | available doses |      1,528,556 |     1,483,456 |  -45,100 |
+| 2021-10-25 | Sachsen-Anhalt         | available doses |      2,909,248 |     2,861,048 |  -48,200 |
+| 2021-10-25 | Sachsen                | available doses |      4,983,650 |     4,912,850 |  -70,800 |
+| 2021-10-25 | Schleswig-Holstein     | available doses |      4,202,133 |     4,142,133 |  -60,000 |
+| 2021-10-25 | Thüringen              | available doses |      2,942,825 |     2,794,025 | -148,800 |
 <!-- END AUTO-UPDATED ANOMALIES SECTION -->
 
 These are not issues in our scripts!
