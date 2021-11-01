@@ -2360,15 +2360,15 @@ date,state,type,doses
 2021-09-12,Bayern,Pfizer/BioNTech,70200
 2021-09-12,Berlin,Pfizer/BioNTech,29250
 2021-09-12,Brandenburg,Pfizer/BioNTech,0
-2021-09-12,Bremen,Pfizer/BioNTech,11700
-2021-09-12,Hamburg,Pfizer/BioNTech,23400
+2021-09-12,Bremen,Pfizer/BioNTech,29250
+2021-09-12,Hamburg,Pfizer/BioNTech,35100
 2021-09-12,Hessen,Pfizer/BioNTech,122850
 2021-09-12,Mecklenburg-Vorpommern,Pfizer/BioNTech,0
 2021-09-12,Niedersachsen,Pfizer/BioNTech,0
 2021-09-12,Nordrhein-Westfalen,Pfizer/BioNTech,0
 2021-09-12,Rheinland-Pfalz,Pfizer/BioNTech,58500
 2021-09-12,Saarland,Pfizer/BioNTech,0
-2021-09-12,Sachsen,Pfizer/BioNTech,29250
+2021-09-12,Sachsen,Pfizer/BioNTech,35100
 2021-09-12,Sachsen-Anhalt,Pfizer/BioNTech,0
 2021-09-12,Schleswig-Holstein,Pfizer/BioNTech,0
 2021-09-12,Thüringen,Pfizer/BioNTech,0
@@ -2438,3 +2438,456 @@ date,state,type,doses
 2021-09-19,Sachsen-Anhalt,Pfizer/BioNTech,0
 2021-09-19,Schleswig-Holstein,Pfizer/BioNTech,0
 2021-09-19,Thüringen,Pfizer/BioNTech,11700
+2021-09-20,Baden-Württemberg,Pfizer/BioNTech,97200
+2021-09-20,Baden-Württemberg,Oxford/AstraZeneca,310
+2021-09-20,Baden-Württemberg,Johnson & Johnson,3415
+2021-09-20,Bayern,Pfizer/BioNTech,95328
+2021-09-20,Bayern,Oxford/AstraZeneca,430
+2021-09-20,Bayern,Johnson & Johnson,4655
+2021-09-20,Berlin,Pfizer/BioNTech,40236
+2021-09-20,Berlin,Oxford/AstraZeneca,120
+2021-09-20,Berlin,Johnson & Johnson,2290
+2021-09-20,Brandenburg,Pfizer/BioNTech,23490
+2021-09-20,Brandenburg,Oxford/AstraZeneca,60
+2021-09-20,Brandenburg,Johnson & Johnson,2040
+2021-09-20,Bremen,Pfizer/BioNTech,6036
+2021-09-20,Bremen,Oxford/AstraZeneca,10
+2021-09-20,Bremen,Johnson & Johnson,280
+2021-09-20,Companies,Pfizer/BioNTech,14742
+2021-09-20,Hamburg,Pfizer/BioNTech,20868
+2021-09-20,Hamburg,Oxford/AstraZeneca,100
+2021-09-20,Hamburg,Johnson & Johnson,790
+2021-09-20,Hessen,Pfizer/BioNTech,59298
+2021-09-20,Hessen,Oxford/AstraZeneca,250
+2021-09-20,Hessen,Johnson & Johnson,2130
+2021-09-20,Mecklenburg-Vorpommern,Pfizer/BioNTech,13350
+2021-09-20,Mecklenburg-Vorpommern,Oxford/AstraZeneca,70
+2021-09-20,Mecklenburg-Vorpommern,Johnson & Johnson,610
+2021-09-20,Niedersachsen,Pfizer/BioNTech,78816
+2021-09-20,Niedersachsen,Oxford/AstraZeneca,140
+2021-09-20,Niedersachsen,Johnson & Johnson,2950
+2021-09-20,Nordrhein-Westfalen,Pfizer/BioNTech,218346
+2021-09-20,Nordrhein-Westfalen,Oxford/AstraZeneca,710
+2021-09-20,Nordrhein-Westfalen,Johnson & Johnson,8785
+2021-09-20,Rheinland-Pfalz,Pfizer/BioNTech,35736
+2021-09-20,Rheinland-Pfalz,Oxford/AstraZeneca,30
+2021-09-20,Rheinland-Pfalz,Johnson & Johnson,855
+2021-09-20,Saarland,Pfizer/BioNTech,9138
+2021-09-20,Saarland,Oxford/AstraZeneca,30
+2021-09-20,Saarland,Johnson & Johnson,615
+2021-09-20,Sachsen,Pfizer/BioNTech,30732
+2021-09-20,Sachsen,Oxford/AstraZeneca,210
+2021-09-20,Sachsen,Johnson & Johnson,1240
+2021-09-20,Sachsen-Anhalt,Pfizer/BioNTech,20112
+2021-09-20,Sachsen-Anhalt,Oxford/AstraZeneca,50
+2021-09-20,Sachsen-Anhalt,Johnson & Johnson,1190
+2021-09-20,Schleswig-Holstein,Pfizer/BioNTech,26496
+2021-09-20,Schleswig-Holstein,Oxford/AstraZeneca,80
+2021-09-20,Schleswig-Holstein,Johnson & Johnson,370
+2021-09-20,Thüringen,Pfizer/BioNTech,14274
+2021-09-20,Thüringen,Oxford/AstraZeneca,200
+2021-09-20,Thüringen,Johnson & Johnson,1060
+2021-09-22,Baden-Württemberg,Johnson & Johnson,0
+2021-09-22,Bayern,Johnson & Johnson,0
+2021-09-22,Berlin,Johnson & Johnson,0
+2021-09-22,Brandenburg,Johnson & Johnson,0
+2021-09-22,Bremen,Johnson & Johnson,2400
+2021-09-22,Companies,Johnson & Johnson,120
+2021-09-22,Hamburg,Johnson & Johnson,0
+2021-09-22,Hessen,Johnson & Johnson,0
+2021-09-22,Mecklenburg-Vorpommern,Johnson & Johnson,0
+2021-09-22,Niedersachsen,Johnson & Johnson,0
+2021-09-22,Nordrhein-Westfalen,Johnson & Johnson,0
+2021-09-22,Rheinland-Pfalz,Johnson & Johnson,0
+2021-09-22,Saarland,Johnson & Johnson,0
+2021-09-22,Sachsen,Johnson & Johnson,0
+2021-09-22,Sachsen-Anhalt,Johnson & Johnson,0
+2021-09-22,Schleswig-Holstein,Johnson & Johnson,0
+2021-09-22,Thüringen,Johnson & Johnson,0
+2021-09-26,Baden-Württemberg,Pfizer/BioNTech,0
+2021-09-26,Baden-Württemberg,Moderna,0
+2021-09-26,Bayern,Pfizer/BioNTech,134550
+2021-09-26,Bayern,Moderna,0
+2021-09-26,Berlin,Pfizer/BioNTech,0
+2021-09-26,Berlin,Moderna,0
+2021-09-26,Brandenburg,Pfizer/BioNTech,0
+2021-09-26,Brandenburg,Moderna,0
+2021-09-26,Bremen,Pfizer/BioNTech,0
+2021-09-26,Bremen,Moderna,0
+2021-09-26,Hamburg,Pfizer/BioNTech,0
+2021-09-26,Hamburg,Moderna,0
+2021-09-26,Hessen,Pfizer/BioNTech,0
+2021-09-26,Hessen,Moderna,0
+2021-09-26,Mecklenburg-Vorpommern,Pfizer/BioNTech,0
+2021-09-26,Mecklenburg-Vorpommern,Moderna,0
+2021-09-26,Niedersachsen,Pfizer/BioNTech,11700
+2021-09-26,Niedersachsen,Moderna,-21300
+2021-09-26,Nordrhein-Westfalen,Pfizer/BioNTech,0
+2021-09-26,Nordrhein-Westfalen,Moderna,0
+2021-09-26,Rheinland-Pfalz,Pfizer/BioNTech,0
+2021-09-26,Rheinland-Pfalz,Moderna,0
+2021-09-26,Saarland,Pfizer/BioNTech,5850
+2021-09-26,Saarland,Moderna,0
+2021-09-26,Sachsen,Pfizer/BioNTech,0
+2021-09-26,Sachsen,Moderna,0
+2021-09-26,Sachsen-Anhalt,Pfizer/BioNTech,0
+2021-09-26,Sachsen-Anhalt,Moderna,0
+2021-09-26,Schleswig-Holstein,Pfizer/BioNTech,42120
+2021-09-26,Schleswig-Holstein,Moderna,0
+2021-09-26,Thüringen,Pfizer/BioNTech,23400
+2021-09-26,Thüringen,Moderna,0
+2021-09-27,Baden-Württemberg,Pfizer/BioNTech,95358
+2021-09-27,Baden-Württemberg,Oxford/AstraZeneca,150
+2021-09-27,Baden-Württemberg,Johnson & Johnson,4175
+2021-09-27,Bayern,Pfizer/BioNTech,91182
+2021-09-27,Bayern,Oxford/AstraZeneca,670
+2021-09-27,Bayern,Johnson & Johnson,4055
+2021-09-27,Berlin,Pfizer/BioNTech,42678
+2021-09-27,Berlin,Oxford/AstraZeneca,120
+2021-09-27,Berlin,Johnson & Johnson,3785
+2021-09-27,Brandenburg,Pfizer/BioNTech,22908
+2021-09-27,Brandenburg,Oxford/AstraZeneca,140
+2021-09-27,Brandenburg,Johnson & Johnson,1710
+2021-09-27,Bremen,Pfizer/BioNTech,5070
+2021-09-27,Bremen,Oxford/AstraZeneca,10
+2021-09-27,Bremen,Johnson & Johnson,140
+2021-09-27,Companies,Pfizer/BioNTech,9636
+2021-09-27,Companies,Johnson & Johnson,130
+2021-09-27,Hamburg,Pfizer/BioNTech,20976
+2021-09-27,Hamburg,Oxford/AstraZeneca,20
+2021-09-27,Hamburg,Johnson & Johnson,555
+2021-09-27,Hessen,Pfizer/BioNTech,56796
+2021-09-27,Hessen,Oxford/AstraZeneca,140
+2021-09-27,Hessen,Johnson & Johnson,2280
+2021-09-27,Mecklenburg-Vorpommern,Pfizer/BioNTech,12510
+2021-09-27,Mecklenburg-Vorpommern,Oxford/AstraZeneca,50
+2021-09-27,Mecklenburg-Vorpommern,Johnson & Johnson,740
+2021-09-27,Niedersachsen,Pfizer/BioNTech,76422
+2021-09-27,Niedersachsen,Oxford/AstraZeneca,130
+2021-09-27,Niedersachsen,Johnson & Johnson,3145
+2021-09-27,Nordrhein-Westfalen,Pfizer/BioNTech,191646
+2021-09-27,Nordrhein-Westfalen,Oxford/AstraZeneca,610
+2021-09-27,Nordrhein-Westfalen,Johnson & Johnson,7240
+2021-09-27,Rheinland-Pfalz,Pfizer/BioNTech,34104
+2021-09-27,Rheinland-Pfalz,Oxford/AstraZeneca,30
+2021-09-27,Rheinland-Pfalz,Johnson & Johnson,860
+2021-09-27,Saarland,Pfizer/BioNTech,7860
+2021-09-27,Saarland,Oxford/AstraZeneca,0
+2021-09-27,Saarland,Johnson & Johnson,355
+2021-09-27,Sachsen,Pfizer/BioNTech,28830
+2021-09-27,Sachsen,Oxford/AstraZeneca,70
+2021-09-27,Sachsen,Johnson & Johnson,1120
+2021-09-27,Sachsen-Anhalt,Pfizer/BioNTech,18882
+2021-09-27,Sachsen-Anhalt,Oxford/AstraZeneca,10
+2021-09-27,Sachsen-Anhalt,Johnson & Johnson,1105
+2021-09-27,Schleswig-Holstein,Pfizer/BioNTech,30102
+2021-09-27,Schleswig-Holstein,Oxford/AstraZeneca,10
+2021-09-27,Schleswig-Holstein,Johnson & Johnson,440
+2021-09-27,Thüringen,Pfizer/BioNTech,13446
+2021-09-27,Thüringen,Oxford/AstraZeneca,10
+2021-09-27,Thüringen,Johnson & Johnson,815
+2021-09-29,Baden-Württemberg,Johnson & Johnson,0
+2021-09-29,Bayern,Johnson & Johnson,0
+2021-09-29,Berlin,Johnson & Johnson,0
+2021-09-29,Brandenburg,Johnson & Johnson,0
+2021-09-29,Bremen,Johnson & Johnson,0
+2021-09-29,Hamburg,Johnson & Johnson,0
+2021-09-29,Hessen,Johnson & Johnson,0
+2021-09-29,Mecklenburg-Vorpommern,Johnson & Johnson,0
+2021-09-29,Niedersachsen,Johnson & Johnson,5650
+2021-09-29,Nordrhein-Westfalen,Johnson & Johnson,0
+2021-09-29,Rheinland-Pfalz,Johnson & Johnson,0
+2021-09-29,Saarland,Johnson & Johnson,0
+2021-09-29,Sachsen,Johnson & Johnson,0
+2021-09-29,Sachsen-Anhalt,Johnson & Johnson,0
+2021-09-29,Schleswig-Holstein,Johnson & Johnson,0
+2021-09-29,Thüringen,Johnson & Johnson,0
+2021-10-03,Baden-Württemberg,Pfizer/BioNTech,0
+2021-10-03,Bayern,Pfizer/BioNTech,134550
+2021-10-03,Berlin,Pfizer/BioNTech,0
+2021-10-03,Brandenburg,Pfizer/BioNTech,0
+2021-10-03,Bremen,Pfizer/BioNTech,0
+2021-10-03,Hamburg,Pfizer/BioNTech,0
+2021-10-03,Hessen,Pfizer/BioNTech,0
+2021-10-03,Mecklenburg-Vorpommern,Pfizer/BioNTech,0
+2021-10-03,Niedersachsen,Pfizer/BioNTech,0
+2021-10-03,Nordrhein-Westfalen,Pfizer/BioNTech,0
+2021-10-03,Rheinland-Pfalz,Pfizer/BioNTech,0
+2021-10-03,Saarland,Pfizer/BioNTech,5850
+2021-10-03,Sachsen,Pfizer/BioNTech,0
+2021-10-03,Sachsen-Anhalt,Pfizer/BioNTech,0
+2021-10-03,Schleswig-Holstein,Pfizer/BioNTech,42120
+2021-10-03,Thüringen,Pfizer/BioNTech,23400
+2021-10-05,Baden-Württemberg,Pfizer/BioNTech,109794
+2021-10-05,Baden-Württemberg,Moderna,11040
+2021-10-05,Baden-Württemberg,Oxford/AstraZeneca,60
+2021-10-05,Baden-Württemberg,Johnson & Johnson,3835
+2021-10-05,Bayern,Pfizer/BioNTech,159204
+2021-10-05,Bayern,Moderna,5380
+2021-10-05,Bayern,Oxford/AstraZeneca,370
+2021-10-05,Bayern,Johnson & Johnson,5505
+2021-10-05,Berlin,Pfizer/BioNTech,48204
+2021-10-05,Berlin,Moderna,2510
+2021-10-05,Berlin,Oxford/AstraZeneca,60
+2021-10-05,Berlin,Johnson & Johnson,2990
+2021-10-05,Brandenburg,Pfizer/BioNTech,24300
+2021-10-05,Brandenburg,Moderna,1320
+2021-10-05,Brandenburg,Oxford/AstraZeneca,140
+2021-10-05,Brandenburg,Johnson & Johnson,2375
+2021-10-05,Bremen,Pfizer/BioNTech,5526
+2021-10-05,Bremen,Moderna,70
+2021-10-05,Bremen,Oxford/AstraZeneca,0
+2021-10-05,Bremen,Johnson & Johnson,145
+2021-10-05,Hamburg,Pfizer/BioNTech,17526
+2021-10-05,Hamburg,Moderna,1150
+2021-10-05,Hamburg,Oxford/AstraZeneca,0
+2021-10-05,Hamburg,Johnson & Johnson,405
+2021-10-05,Hessen,Pfizer/BioNTech,68928
+2021-10-05,Hessen,Moderna,3750
+2021-10-05,Hessen,Oxford/AstraZeneca,380
+2021-10-05,Hessen,Johnson & Johnson,3485
+2021-10-05,Mecklenburg-Vorpommern,Pfizer/BioNTech,8988
+2021-10-05,Mecklenburg-Vorpommern,Moderna,240
+2021-10-05,Mecklenburg-Vorpommern,Oxford/AstraZeneca,70
+2021-10-05,Mecklenburg-Vorpommern,Johnson & Johnson,550
+2021-10-05,Niedersachsen,Pfizer/BioNTech,85170
+2021-10-05,Niedersachsen,Moderna,3140
+2021-10-05,Niedersachsen,Oxford/AstraZeneca,180
+2021-10-05,Niedersachsen,Johnson & Johnson,3130
+2021-10-05,Nordrhein-Westfalen,Pfizer/BioNTech,200520
+2021-10-05,Nordrhein-Westfalen,Moderna,16710
+2021-10-05,Nordrhein-Westfalen,Oxford/AstraZeneca,440
+2021-10-05,Nordrhein-Westfalen,Johnson & Johnson,7060
+2021-10-05,Rheinland-Pfalz,Pfizer/BioNTech,42516
+2021-10-05,Rheinland-Pfalz,Moderna,1460
+2021-10-05,Rheinland-Pfalz,Oxford/AstraZeneca,10
+2021-10-05,Rheinland-Pfalz,Johnson & Johnson,845
+2021-10-05,Saarland,Pfizer/BioNTech,8886
+2021-10-05,Saarland,Moderna,1220
+2021-10-05,Saarland,Oxford/AstraZeneca,80
+2021-10-05,Saarland,Johnson & Johnson,490
+2021-10-05,Sachsen,Pfizer/BioNTech,32376
+2021-10-05,Sachsen,Moderna,2400
+2021-10-05,Sachsen,Oxford/AstraZeneca,40
+2021-10-05,Sachsen,Johnson & Johnson,1205
+2021-10-05,Sachsen-Anhalt,Pfizer/BioNTech,20184
+2021-10-05,Sachsen-Anhalt,Moderna,1740
+2021-10-05,Sachsen-Anhalt,Oxford/AstraZeneca,60
+2021-10-05,Sachsen-Anhalt,Johnson & Johnson,990
+2021-10-05,Schleswig-Holstein,Pfizer/BioNTech,28938
+2021-10-05,Schleswig-Holstein,Moderna,1350
+2021-10-05,Schleswig-Holstein,Oxford/AstraZeneca,0
+2021-10-05,Schleswig-Holstein,Johnson & Johnson,2050
+2021-10-05,Thüringen,Pfizer/BioNTech,12606
+2021-10-05,Thüringen,Moderna,610
+2021-10-05,Thüringen,Oxford/AstraZeneca,0
+2021-10-05,Thüringen,Johnson & Johnson,625
+2021-10-12,Baden-Württemberg,Pfizer/BioNTech,103134
+2021-10-12,Baden-Württemberg,Moderna,5280
+2021-10-12,Baden-Württemberg,Oxford/AstraZeneca,190
+2021-10-12,Baden-Württemberg,Johnson & Johnson,4565
+2021-10-12,Bayern,Pfizer/BioNTech,131826
+2021-10-12,Bayern,Moderna,15510
+2021-10-12,Bayern,Oxford/AstraZeneca,230
+2021-10-12,Bayern,Johnson & Johnson,10065
+2021-10-12,Berlin,Pfizer/BioNTech,38250
+2021-10-12,Berlin,Moderna,2630
+2021-10-12,Berlin,Oxford/AstraZeneca,20
+2021-10-12,Berlin,Johnson & Johnson,2155
+2021-10-12,Brandenburg,Pfizer/BioNTech,18606
+2021-10-12,Brandenburg,Moderna,590
+2021-10-12,Brandenburg,Oxford/AstraZeneca,20
+2021-10-12,Brandenburg,Johnson & Johnson,1325
+2021-10-12,Bremen,Pfizer/BioNTech,4452
+2021-10-12,Bremen,Moderna,30
+2021-10-12,Bremen,Oxford/AstraZeneca,0
+2021-10-12,Bremen,Johnson & Johnson,165
+2021-10-12,Companies,Johnson & Johnson,50
+2021-10-12,Hamburg,Pfizer/BioNTech,21888
+2021-10-12,Hamburg,Moderna,1030
+2021-10-12,Hamburg,Oxford/AstraZeneca,10
+2021-10-12,Hamburg,Johnson & Johnson,740
+2021-10-12,Hessen,Pfizer/BioNTech,53652
+2021-10-12,Hessen,Moderna,2360
+2021-10-12,Hessen,Oxford/AstraZeneca,220
+2021-10-12,Hessen,Johnson & Johnson,2285
+2021-10-12,Mecklenburg-Vorpommern,Pfizer/BioNTech,11958
+2021-10-12,Mecklenburg-Vorpommern,Moderna,320
+2021-10-12,Mecklenburg-Vorpommern,Oxford/AstraZeneca,50
+2021-10-12,Mecklenburg-Vorpommern,Johnson & Johnson,350
+2021-10-12,Niedersachsen,Pfizer/BioNTech,89490
+2021-10-12,Niedersachsen,Moderna,1390
+2021-10-12,Niedersachsen,Oxford/AstraZeneca,60
+2021-10-12,Niedersachsen,Johnson & Johnson,3575
+2021-10-12,Nordrhein-Westfalen,Pfizer/BioNTech,177738
+2021-10-12,Nordrhein-Westfalen,Moderna,9830
+2021-10-12,Nordrhein-Westfalen,Oxford/AstraZeneca,630
+2021-10-12,Nordrhein-Westfalen,Johnson & Johnson,9210
+2021-10-12,Rheinland-Pfalz,Pfizer/BioNTech,38790
+2021-10-12,Rheinland-Pfalz,Moderna,830
+2021-10-12,Rheinland-Pfalz,Oxford/AstraZeneca,20
+2021-10-12,Rheinland-Pfalz,Johnson & Johnson,2935
+2021-10-12,Saarland,Pfizer/BioNTech,19566
+2021-10-12,Saarland,Moderna,400
+2021-10-12,Saarland,Oxford/AstraZeneca,0
+2021-10-12,Saarland,Johnson & Johnson,240
+2021-10-12,Sachsen,Pfizer/BioNTech,30684
+2021-10-12,Sachsen,Moderna,1720
+2021-10-12,Sachsen,Oxford/AstraZeneca,90
+2021-10-12,Sachsen,Johnson & Johnson,1575
+2021-10-12,Sachsen-Anhalt,Pfizer/BioNTech,18348
+2021-10-12,Sachsen-Anhalt,Moderna,560
+2021-10-12,Sachsen-Anhalt,Oxford/AstraZeneca,30
+2021-10-12,Sachsen-Anhalt,Johnson & Johnson,990
+2021-10-12,Schleswig-Holstein,Pfizer/BioNTech,25158
+2021-10-12,Schleswig-Holstein,Moderna,1020
+2021-10-12,Schleswig-Holstein,Oxford/AstraZeneca,20
+2021-10-12,Schleswig-Holstein,Johnson & Johnson,225
+2021-10-12,Thüringen,Pfizer/BioNTech,12030
+2021-10-12,Thüringen,Moderna,370
+2021-10-12,Thüringen,Oxford/AstraZeneca,40
+2021-10-12,Thüringen,Johnson & Johnson,805
+2021-10-19,Baden-Württemberg,Pfizer/BioNTech,113982
+2021-10-19,Baden-Württemberg,Moderna,6100
+2021-10-19,Baden-Württemberg,Oxford/AstraZeneca,100
+2021-10-19,Baden-Württemberg,Johnson & Johnson,3385
+2021-10-19,Bayern,Pfizer/BioNTech,132606
+2021-10-19,Bayern,Moderna,8860
+2021-10-19,Bayern,Oxford/AstraZeneca,330
+2021-10-19,Bayern,Johnson & Johnson,9990
+2021-10-19,Berlin,Pfizer/BioNTech,36324
+2021-10-19,Berlin,Moderna,840
+2021-10-19,Berlin,Oxford/AstraZeneca,20
+2021-10-19,Berlin,Johnson & Johnson,1925
+2021-10-19,Brandenburg,Pfizer/BioNTech,21000
+2021-10-19,Brandenburg,Moderna,510
+2021-10-19,Brandenburg,Oxford/AstraZeneca,60
+2021-10-19,Brandenburg,Johnson & Johnson,970
+2021-10-19,Bremen,Pfizer/BioNTech,4320
+2021-10-19,Bremen,Moderna,40
+2021-10-19,Bremen,Oxford/AstraZeneca,0
+2021-10-19,Bremen,Johnson & Johnson,75
+2021-10-19,Hamburg,Pfizer/BioNTech,21594
+2021-10-19,Hamburg,Moderna,660
+2021-10-19,Hamburg,Oxford/AstraZeneca,0
+2021-10-19,Hamburg,Johnson & Johnson,650
+2021-10-19,Hessen,Pfizer/BioNTech,67170
+2021-10-19,Hessen,Moderna,1260
+2021-10-19,Hessen,Oxford/AstraZeneca,110
+2021-10-19,Hessen,Johnson & Johnson,2365
+2021-10-19,Mecklenburg-Vorpommern,Pfizer/BioNTech,15522
+2021-10-19,Mecklenburg-Vorpommern,Moderna,450
+2021-10-19,Mecklenburg-Vorpommern,Oxford/AstraZeneca,30
+2021-10-19,Mecklenburg-Vorpommern,Johnson & Johnson,1110
+2021-10-19,Niedersachsen,Pfizer/BioNTech,80016
+2021-10-19,Niedersachsen,Moderna,1360
+2021-10-19,Niedersachsen,Oxford/AstraZeneca,50
+2021-10-19,Niedersachsen,Johnson & Johnson,3875
+2021-10-19,Nordrhein-Westfalen,Pfizer/BioNTech,196674
+2021-10-19,Nordrhein-Westfalen,Moderna,9860
+2021-10-19,Nordrhein-Westfalen,Oxford/AstraZeneca,390
+2021-10-19,Nordrhein-Westfalen,Johnson & Johnson,7335
+2021-10-19,Rheinland-Pfalz,Pfizer/BioNTech,40476
+2021-10-19,Rheinland-Pfalz,Moderna,790
+2021-10-19,Rheinland-Pfalz,Oxford/AstraZeneca,0
+2021-10-19,Rheinland-Pfalz,Johnson & Johnson,2900
+2021-10-19,Saarland,Pfizer/BioNTech,11460
+2021-10-19,Saarland,Moderna,270
+2021-10-19,Saarland,Oxford/AstraZeneca,10
+2021-10-19,Saarland,Johnson & Johnson,230
+2021-10-19,Sachsen,Pfizer/BioNTech,21378
+2021-10-19,Sachsen,Moderna,1800
+2021-10-19,Sachsen,Oxford/AstraZeneca,80
+2021-10-19,Sachsen,Johnson & Johnson,1080
+2021-10-19,Sachsen-Anhalt,Pfizer/BioNTech,19482
+2021-10-19,Sachsen-Anhalt,Moderna,650
+2021-10-19,Sachsen-Anhalt,Oxford/AstraZeneca,120
+2021-10-19,Sachsen-Anhalt,Johnson & Johnson,790
+2021-10-19,Schleswig-Holstein,Pfizer/BioNTech,32856
+2021-10-19,Schleswig-Holstein,Moderna,2080
+2021-10-19,Schleswig-Holstein,Oxford/AstraZeneca,30
+2021-10-19,Schleswig-Holstein,Johnson & Johnson,2485
+2021-10-19,Thüringen,Pfizer/BioNTech,12414
+2021-10-19,Thüringen,Moderna,240
+2021-10-19,Thüringen,Oxford/AstraZeneca,10
+2021-10-19,Thüringen,Johnson & Johnson,605
+2021-10-25,Baden-Württemberg,Moderna,-491300
+2021-10-25,Bayern,Moderna,-317300
+2021-10-25,Berlin,Moderna,0
+2021-10-25,Brandenburg,Moderna,-191000
+2021-10-25,Bremen,Moderna,-30000
+2021-10-25,Hamburg,Moderna,-81100
+2021-10-25,Hessen,Moderna,-348000
+2021-10-25,Mecklenburg-Vorpommern,Moderna,-79300
+2021-10-25,Niedersachsen,Moderna,-410400
+2021-10-25,Nordrhein-Westfalen,Moderna,-353900
+2021-10-25,Rheinland-Pfalz,Moderna,-77800
+2021-10-25,Saarland,Moderna,-45100
+2021-10-25,Sachsen,Moderna,-70800
+2021-10-25,Sachsen-Anhalt,Moderna,-48200
+2021-10-25,Schleswig-Holstein,Moderna,-60000
+2021-10-25,Thüringen,Moderna,-148800
+2021-10-26,Baden-Württemberg,Pfizer/BioNTech,133956
+2021-10-26,Baden-Württemberg,Moderna,5380
+2021-10-26,Baden-Württemberg,Oxford/AstraZeneca,190
+2021-10-26,Baden-Württemberg,Johnson & Johnson,3600
+2021-10-26,Bayern,Pfizer/BioNTech,189738
+2021-10-26,Bayern,Moderna,6920
+2021-10-26,Bayern,Oxford/AstraZeneca,210
+2021-10-26,Bayern,Johnson & Johnson,6730
+2021-10-26,Berlin,Pfizer/BioNTech,68916
+2021-10-26,Berlin,Moderna,7300
+2021-10-26,Berlin,Oxford/AstraZeneca,20
+2021-10-26,Berlin,Johnson & Johnson,1450
+2021-10-26,Brandenburg,Pfizer/BioNTech,30798
+2021-10-26,Brandenburg,Moderna,940
+2021-10-26,Brandenburg,Oxford/AstraZeneca,130
+2021-10-26,Brandenburg,Johnson & Johnson,1190
+2021-10-26,Bremen,Pfizer/BioNTech,7962
+2021-10-26,Bremen,Moderna,200
+2021-10-26,Bremen,Oxford/AstraZeneca,0
+2021-10-26,Bremen,Johnson & Johnson,355
+2021-10-26,Hamburg,Pfizer/BioNTech,29640
+2021-10-26,Hamburg,Moderna,860
+2021-10-26,Hamburg,Oxford/AstraZeneca,10
+2021-10-26,Hamburg,Johnson & Johnson,580
+2021-10-26,Hessen,Pfizer/BioNTech,104640
+2021-10-26,Hessen,Moderna,2240
+2021-10-26,Hessen,Oxford/AstraZeneca,160
+2021-10-26,Hessen,Johnson & Johnson,3650
+2021-10-26,Mecklenburg-Vorpommern,Pfizer/BioNTech,22458
+2021-10-26,Mecklenburg-Vorpommern,Moderna,1990
+2021-10-26,Mecklenburg-Vorpommern,Oxford/AstraZeneca,80
+2021-10-26,Mecklenburg-Vorpommern,Johnson & Johnson,340
+2021-10-26,Niedersachsen,Pfizer/BioNTech,120312
+2021-10-26,Niedersachsen,Moderna,2060
+2021-10-26,Niedersachsen,Oxford/AstraZeneca,70
+2021-10-26,Niedersachsen,Johnson & Johnson,2290
+2021-10-26,Nordrhein-Westfalen,Pfizer/BioNTech,304194
+2021-10-26,Nordrhein-Westfalen,Moderna,12300
+2021-10-26,Nordrhein-Westfalen,Oxford/AstraZeneca,120
+2021-10-26,Nordrhein-Westfalen,Johnson & Johnson,6055
+2021-10-26,Rheinland-Pfalz,Pfizer/BioNTech,59526
+2021-10-26,Rheinland-Pfalz,Moderna,510
+2021-10-26,Rheinland-Pfalz,Oxford/AstraZeneca,10
+2021-10-26,Rheinland-Pfalz,Johnson & Johnson,1990
+2021-10-26,Saarland,Pfizer/BioNTech,10332
+2021-10-26,Saarland,Moderna,350
+2021-10-26,Saarland,Oxford/AstraZeneca,30
+2021-10-26,Saarland,Johnson & Johnson,200
+2021-10-26,Sachsen,Pfizer/BioNTech,26256
+2021-10-26,Sachsen,Moderna,1820
+2021-10-26,Sachsen,Oxford/AstraZeneca,20
+2021-10-26,Sachsen,Johnson & Johnson,555
+2021-10-26,Sachsen-Anhalt,Pfizer/BioNTech,15948
+2021-10-26,Sachsen-Anhalt,Moderna,730
+2021-10-26,Sachsen-Anhalt,Oxford/AstraZeneca,40
+2021-10-26,Sachsen-Anhalt,Johnson & Johnson,365
+2021-10-26,Schleswig-Holstein,Pfizer/BioNTech,38856
+2021-10-26,Schleswig-Holstein,Moderna,1790
+2021-10-26,Schleswig-Holstein,Oxford/AstraZeneca,10
+2021-10-26,Schleswig-Holstein,Johnson & Johnson,670
+2021-10-26,Thüringen,Pfizer/BioNTech,10548
+2021-10-26,Thüringen,Moderna,120
+2021-10-26,Thüringen,Oxford/AstraZeneca,20
+2021-10-26,Thüringen,Johnson & Johnson,470
