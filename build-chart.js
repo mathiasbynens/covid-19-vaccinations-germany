@@ -433,11 +433,13 @@ function generateNationalDosesPerDayData() {
   const countsTotal = [];
   const countsInitialDose = [];
   const countsFinalDose = [];
-  for (const {date, initialDoses, finalDoses, totalDoses} of dosesPerDayRecords) {
+  const countsBoosterDose = [];
+  for (const {date, initialDoses, finalDoses, firstBoosterDoses, totalDoses} of dosesPerDayRecords) {
     labels.push(date);
     countsTotal.push(Number(totalDoses));
-    countsFinalDose.push(Number(finalDoses));
     countsInitialDose.push(Number(initialDoses));
+    countsFinalDose.push(Number(finalDoses));
+    countsBoosterDose.push(Number(firstBoosterDoses));
   }
   const sevenDayAverage = [];
   for (const index of countsTotal.keys()) {
@@ -459,6 +461,11 @@ function generateNationalDosesPerDayData() {
       name: 'Final doses',
       chartType: 'bar',
       values: countsFinalDose,
+    },
+    {
+      name: 'Booster doses',
+      chartType: 'bar',
+      values: countsBoosterDose,
     },
     {
       name: '7-day average of total doses',
@@ -495,24 +502,29 @@ function generateNationalDosesPerWeekData() {
   const countsTotal = [];
   const countsInitialDose = [];
   const countsFinalDose = [];
+  const countsBoosterDose = [];
   let weeklyTotal = 0;
   let weeklyInitialDose = 0;
   let weeklyFinalDose = 0;
+  let weeklyBoosterDose = 0;
   let monday = '2020-12-21';
   let nextSunday = '2020-12-27';
-  for (const {date, initialDoses, finalDoses, totalDoses} of dosesPerDayRecords) {
+  for (const {date, initialDoses, finalDoses, firstBoosterDoses, totalDoses} of dosesPerDayRecords) {
     weeklyTotal += Number(totalDoses);
     weeklyInitialDose += Number(initialDoses);
     weeklyFinalDose += Number(finalDoses);
+    weeklyBoosterDose += Number(firstBoosterDoses);
     if (date === nextSunday || date === latestDate) {
       // `Week from ${monday} to ${nextSunday}`
       labels.push(monday);
       countsTotal.push(weeklyTotal);
-      countsFinalDose.push(weeklyFinalDose);
       countsInitialDose.push(weeklyInitialDose);
+      countsFinalDose.push(weeklyFinalDose);
+      countsBoosterDose.push(weeklyBoosterDose);
       weeklyTotal = 0;
       weeklyInitialDose = 0;
       weeklyFinalDose = 0;
+      weeklyBoosterDose = 0;
       monday = addDays(date, 1);
       nextSunday = addDays(date, 7);
     }
@@ -532,6 +544,11 @@ function generateNationalDosesPerWeekData() {
       name: 'Final doses',
       chartType: 'bar',
       values: countsFinalDose,
+    },
+    {
+      name: 'Booster doses',
+      chartType: 'bar',
+      values: countsBoosterDose,
     },
   ];
 

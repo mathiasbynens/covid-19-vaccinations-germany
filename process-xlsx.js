@@ -317,8 +317,8 @@ const readDosesPerDayData = async () => {
       prop: 'secondDoses',
       type: Number,
     },
-    // Auffrischungsimpfung
-    'Auffrischungsimpfung_3': {
+    // Auffrischimpfung
+    'Auffrischimpfung_3': {
       prop: 'firstBoosterDoses',
       type: Number,
     },
