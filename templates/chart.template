@@ -41,6 +41,7 @@
 <div id="chart-cumulative-germany" class="chart"></div>
 <script type="module">
   import { Chart } from 'https://unpkg.com/frappe-charts@2.0.0-rc19/dist/frappe-charts.esm.js';
+  //import { Chart } from './frappe-charts.esm.js';
 
   const formatter = new Intl.NumberFormat('en');
 

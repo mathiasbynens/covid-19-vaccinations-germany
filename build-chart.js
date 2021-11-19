@@ -53,15 +53,16 @@ let maxCount = 0;
 let oldestDate = '9001-12-31';
 let latestDate = '1970-01-01';
 let latestPubDate = '1970-01-01';
-for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, fullyVaccinatedCumulative, fullyVaccinatedPercent, totalDosesCumulative, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent, initialDosesCumulativeBioNTech, finalDosesCumulativeBioNTech, initialDosesCumulativeModerna, finalDosesCumulativeModerna, initialDosesCumulativeAstraZeneca, finalDosesCumulativeAstraZeneca, finalDosesCumulativeJohnsonAndJohnson, onlyPartiallyVaccinatedCumulativeBioNTech, onlyPartiallyVaccinatedCumulativeModerna, onlyPartiallyVaccinatedCumulativeAstraZeneca, fullyVaccinatedCumulativeBioNTech, fullyVaccinatedCumulativeModerna, fullyVaccinatedCumulativeAstraZeneca, fullyVaccinatedCumulativeJohnsonAndJohnson} of records) {
+for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartiallyVaccinatedPercent, atLeastPartiallyVaccinatedCumulative, atLeastPartiallyVaccinatedPercent, fullyVaccinatedCumulative, fullyVaccinatedPercent, totalDosesCumulative, initialDosesCumulative, finalDosesCumulative, initialDosesPercent, finalDosesPercent, initialDosesCumulativeBioNTech, finalDosesCumulativeBioNTech, initialDosesCumulativeModerna, finalDosesCumulativeModerna, initialDosesCumulativeAstraZeneca, finalDosesCumulativeAstraZeneca, finalDosesCumulativeJohnsonAndJohnson, boosterDosesCumulative, boosterDosesCumulativeBioNTech, boosterDosesCumulativeModerna, boosterDosesCumulativeJohnsonAndJohnson, onlyPartiallyVaccinatedCumulativeBioNTech, onlyPartiallyVaccinatedCumulativeModerna, onlyPartiallyVaccinatedCumulativeAstraZeneca, fullyVaccinatedCumulativeBioNTech, fullyVaccinatedCumulativeModerna, fullyVaccinatedCumulativeAstraZeneca, fullyVaccinatedCumulativeJohnsonAndJohnson} of records) {
   if (state !== BUNDESWEHR) states.add(state);
   const countInitialDoses = Number(initialDosesCumulative);
   const countFinalDoses = Number(finalDosesCumulative);
+  const countBoosterDoses = Number(boosterDosesCumulative);
   const countTotal = Number(totalDosesCumulative);
-  const countBioNTech = Number(initialDosesCumulativeBioNTech) + Number(finalDosesCumulativeBioNTech);
-  const countModerna = Number(initialDosesCumulativeModerna) + Number(finalDosesCumulativeModerna);
+  const countBioNTech = Number(initialDosesCumulativeBioNTech) + Number(finalDosesCumulativeBioNTech) + Number(boosterDosesCumulativeBioNTech);
+  const countModerna = Number(initialDosesCumulativeModerna) + Number(finalDosesCumulativeModerna) + Number(boosterDosesCumulativeModerna);
   const countAstraZeneca = Number(initialDosesCumulativeAstraZeneca) + Number(finalDosesCumulativeAstraZeneca);
-  const countJohnsonAndJohnson = Number(finalDosesCumulativeJohnsonAndJohnson);
+  const countJohnsonAndJohnson = Number(finalDosesCumulativeJohnsonAndJohnson) +  + Number(boosterDosesCumulativeJohnsonAndJohnson);
   if (countTotal > maxCount) {
     maxCount = countTotal;
   }
@@ -83,6 +84,7 @@ for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartial
     cumulativeTotal: countTotal,
     cumulativeInitial: countInitialDoses,
     cumulativeFinal: countFinalDoses,
+    cumulativeBooster: countBoosterDoses,
     cumulativeTotalBioNTech: countBioNTech,
     cumulativeTotalModerna: countModerna,
     cumulativeTotalAstraZeneca: countAstraZeneca,
@@ -102,6 +104,7 @@ for (const {date, pubDate, state, onlyPartiallyVaccinatedCumulative, onlyPartial
     fullyVaccinatedCumulativeModerna: Number(fullyVaccinatedCumulativeModerna),
     fullyVaccinatedCumulativeAstraZeneca: Number(fullyVaccinatedCumulativeAstraZeneca),
     fullyVaccinatedCumulativeJohnsonAndJohnson: Number(fullyVaccinatedCumulativeJohnsonAndJohnson),
+
   });
 }
 
@@ -781,12 +784,14 @@ function generateStateData(desiredState) {
   const countsTotal = [];
   const countsInitialDose = [];
   const countsFinalDose = [];
+  const countsBoosterDose = [];
   const countsAvailable = [];
   for (const [date, entry] of sortedMap) {
     const data = entry.get(desiredState);
     countsTotal.push(data.cumulativeTotal);
     countsInitialDose.push(data.cumulativeInitial);
     countsFinalDose.push(data.cumulativeFinal);
+    countsBoosterDose.push(data.cumulativeBooster);
     const availableDoses = cumulativeDeliveryMap.get(date).get(desiredState);
     countsAvailable.push(availableDoses);
   }
@@ -810,6 +815,11 @@ function generateStateData(desiredState) {
       name: 'Final doses',
       chartType: 'line',
       values: countsFinalDose,
+    },
+    {
+      name: 'Booster doses',
+      chartType: 'line',
+      values: countsBoosterDose,
     },
   );
 
