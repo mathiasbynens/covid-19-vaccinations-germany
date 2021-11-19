@@ -407,6 +407,11 @@ const readDosesPerDayData = async () => {
       finalDosesCumulativeAstraZeneca: main.finalDosesCumulativeAstraZeneca,
       finalDosesCumulativeJohnsonAndJohnson: finalDosesCumulativeJohnsonAndJohnson,
 
+      firstBoosterDosesCumulative: main.firstBoosterDosesCumulative,
+      firstBoosterDosesCumulativeBioNTech: main.firstBoosterDosesCumulativeBioNTech,
+      firstBoosterDosesCumulativeModerna: main.firstBoosterDosesCumulativeModerna,
+      firstBoosterDosesCumulativeJohnsonAndJohnson: main.firstBoosterDosesCumulativeJohnsonAndJohnson,
+
       // initialDoses - finalDoses
       onlyPartiallyVaccinatedCumulative: onlyPartiallyVaccinatedCumulative,
       onlyPartiallyVaccinatedPercent: percentForState(onlyPartiallyVaccinatedCumulative, state),
