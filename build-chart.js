@@ -389,6 +389,11 @@ function generateNationalData() {
       chartType: 'line',
       values: pluckFromNationalCumulativeData('finalDosesCumulative'),
     },
+    {
+      name: 'Booster doses',
+      chartType: 'line',
+      values: pluckFromNationalCumulativeData('boosterDosesCumulative'),
+    },
   );
 
   const data = {

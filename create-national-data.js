@@ -26,6 +26,10 @@ for (const record of records) {
     entry.finalDosesCumulativeModerna += Number(record.finalDosesCumulativeModerna);
     entry.finalDosesCumulativeAstraZeneca += Number(record.finalDosesCumulativeAstraZeneca);
     entry.finalDosesCumulativeJohnsonAndJohnson += Number(record.finalDosesCumulativeJohnsonAndJohnson);
+    entry.boosterDosesCumulative += Number(record.boosterDosesCumulative);
+    entry.boosterDosesCumulativeBioNTech += Number(record.boosterDosesCumulativeBioNTech);
+    entry.boosterDosesCumulativeModerna += Number(record.boosterDosesCumulativeModerna);
+    entry.boosterDosesCumulativeJohnsonAndJohnson += Number(record.boosterDosesCumulativeJohnsonAndJohnson);
     entry.onlyPartiallyVaccinatedCumulative += Number(record.onlyPartiallyVaccinatedCumulative);
     //entry.onlyPartiallyVaccinatedPercent += 0;
     entry.onlyPartiallyVaccinatedCumulativeBioNTech += Number(record.onlyPartiallyVaccinatedCumulativeBioNTech);
@@ -57,6 +61,10 @@ for (const record of records) {
       finalDosesCumulativeModerna: Number(record.finalDosesCumulativeModerna),
       finalDosesCumulativeAstraZeneca: Number(record.finalDosesCumulativeAstraZeneca),
       finalDosesCumulativeJohnsonAndJohnson: Number(record.finalDosesCumulativeJohnsonAndJohnson),
+      boosterDosesCumulative: Number(record.boosterDosesCumulative),
+      boosterDosesCumulativeBioNTech: Number(record.boosterDosesCumulativeBioNTech),
+      boosterDosesCumulativeModerna: Number(record.boosterDosesCumulativeModerna),
+      boosterDosesCumulativeJohnsonAndJohnson: Number(record.boosterDosesCumulativeJohnsonAndJohnson),
       onlyPartiallyVaccinatedCumulative: Number(record.onlyPartiallyVaccinatedCumulative),
       onlyPartiallyVaccinatedPercent: -1,
       onlyPartiallyVaccinatedCumulativeBioNTech: Number(record.onlyPartiallyVaccinatedCumulativeBioNTech),
