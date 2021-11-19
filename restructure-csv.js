@@ -29,6 +29,11 @@ for (const record of records) {
     finalDosesCumulativeAstraZeneca: record.finalDosesCumulativeAstraZeneca,
     finalDosesCumulativeJohnsonAndJohnson: record.finalDosesCumulativeJohnsonAndJohnson,
 
+    boosterDosesCumulative: record.boosterDosesCumulative || 0,
+    boosterDosesCumulativeBioNTech: record.boosterDosesCumulativeBioNTech || 0,
+    boosterDosesCumulativeModerna: record.boosterDosesCumulativeModerna || 0,
+    boosterDosesCumulativeJohnsonAndJohnson: record.boosterDosesCumulativeJohnsonAndJohnson || 0,
+
     onlyPartiallyVaccinatedCumulative: record.onlyPartiallyVaccinatedCumulative,
     onlyPartiallyVaccinatedPercent: record.onlyPartiallyVaccinatedPercent,
     onlyPartiallyVaccinatedCumulativeBioNTech: record.onlyPartiallyVaccinatedCumulativeBioNTech,
