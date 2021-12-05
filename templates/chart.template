@@ -169,7 +169,7 @@
     height: 400,
   });
 </script>
-<p><strong>Note:</strong> This does not equal the percentage of inhabitants that received a dose, since some vaccines require two doses.</p>
+<p><strong>Note:</strong> This does not equal the percentage of inhabitants that received a dose, since some vaccines require two doses, and some doses are booster shots.</p>
 
 <h2 id="rollout">COVID-19 vaccination rollout competence: doses administered per 100 doses delivered to each German state</h2>
 <p><a href="https://twitter.com/jfkirkegaard/status/1352027138929680390">Context</a>.</p>
