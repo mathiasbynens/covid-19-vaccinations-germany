@@ -3149,3 +3149,53 @@ date,state,type,doses
 2021-11-23,Thüringen,Moderna,3850
 2021-11-23,Thüringen,Oxford/AstraZeneca,0
 2021-11-23,Thüringen,Johnson & Johnson,295
+2021-11-30,Baden-Württemberg,Pfizer/BioNTech,555384
+2021-11-30,Baden-Württemberg,Moderna,469350
+2021-11-30,Baden-Württemberg,Johnson & Johnson,16205
+2021-11-30,Bayern,Pfizer/BioNTech,591834
+2021-11-30,Bayern,Moderna,593520
+2021-11-30,Bayern,Johnson & Johnson,15430
+2021-11-30,Berlin,Pfizer/BioNTech,160572
+2021-11-30,Berlin,Moderna,175350
+2021-11-30,Berlin,Johnson & Johnson,6025
+2021-11-30,Brandenburg,Pfizer/BioNTech,106866
+2021-11-30,Brandenburg,Moderna,72070
+2021-11-30,Brandenburg,Johnson & Johnson,1420
+2021-11-30,Bremen,Pfizer/BioNTech,34044
+2021-11-30,Bremen,Moderna,11850
+2021-11-30,Bremen,Johnson & Johnson,180
+2021-11-30,Companies,Moderna,80
+2021-11-30,Companies,Johnson & Johnson,75
+2021-11-30,Hamburg,Pfizer/BioNTech,67752
+2021-11-30,Hamburg,Moderna,42540
+2021-11-30,Hamburg,Johnson & Johnson,1155
+2021-11-30,Hessen,Pfizer/BioNTech,329442
+2021-11-30,Hessen,Moderna,309770
+2021-11-30,Hessen,Johnson & Johnson,7075
+2021-11-30,Mecklenburg-Vorpommern,Pfizer/BioNTech,76236
+2021-11-30,Mecklenburg-Vorpommern,Moderna,58680
+2021-11-30,Mecklenburg-Vorpommern,Johnson & Johnson,560
+2021-11-30,Niedersachsen,Pfizer/BioNTech,369618
+2021-11-30,Niedersachsen,Moderna,276820
+2021-11-30,Niedersachsen,Johnson & Johnson,6785
+2021-11-30,Nordrhein-Westfalen,Pfizer/BioNTech,823800
+2021-11-30,Nordrhein-Westfalen,Moderna,1221970
+2021-11-30,Nordrhein-Westfalen,Johnson & Johnson,29280
+2021-11-30,Rheinland-Pfalz,Pfizer/BioNTech,184884
+2021-11-30,Rheinland-Pfalz,Moderna,90290
+2021-11-30,Rheinland-Pfalz,Johnson & Johnson,5975
+2021-11-30,Saarland,Pfizer/BioNTech,45420
+2021-11-30,Saarland,Moderna,30520
+2021-11-30,Saarland,Johnson & Johnson,890
+2021-11-30,Sachsen,Pfizer/BioNTech,164880
+2021-11-30,Sachsen,Moderna,61380
+2021-11-30,Sachsen,Johnson & Johnson,1080
+2021-11-30,Sachsen-Anhalt,Pfizer/BioNTech,89184
+2021-11-30,Sachsen-Anhalt,Moderna,95890
+2021-11-30,Sachsen-Anhalt,Johnson & Johnson,2075
+2021-11-30,Schleswig-Holstein,Pfizer/BioNTech,129090
+2021-11-30,Schleswig-Holstein,Moderna,76550
+2021-11-30,Schleswig-Holstein,Johnson & Johnson,2585
+2021-11-30,Thüringen,Pfizer/BioNTech,86730
+2021-11-30,Thüringen,Moderna,60830
+2021-11-30,Thüringen,Johnson & Johnson,1695
