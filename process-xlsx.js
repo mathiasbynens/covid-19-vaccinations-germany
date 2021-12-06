@@ -26,7 +26,10 @@ const writeCsv = async (file, data) => {
 const updateCsv = async (file, data, pubDate, date) => {
   const old = fs.readFileSync(file, 'utf8').toString().trim();
   const previous = removeRowsForDates(old, pubDate, date);
-  const output = previous + '\n' + stringifyCsv(data);
+  const completed = previous + '\n' + stringifyCsv(data).trim();
+  const [header, ...lines] = completed.split('\n');
+  lines.sort();
+  const output = [header, ...lines].join('\n') + '\n';
   fs.writeFileSync(file, output);
 };
 
