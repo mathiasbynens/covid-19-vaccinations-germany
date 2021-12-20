@@ -114,6 +114,8 @@ Cumulative vaccination metrics cannot decrease over time, yet sometimes the repo
 | 2021-10-25 | Sachsen                | available doses |      4,983,650 |     4,912,850 |  -70,800 |
 | 2021-10-25 | Schleswig-Holstein     | available doses |      4,202,133 |     4,142,133 |  -60,000 |
 | 2021-10-25 | Thüringen              | available doses |      2,942,825 |     2,794,025 | -148,800 |
+| 2021-12-19 | Berlin                 | final doses     |      2,633,169 |     2,590,531 |  -42,638 |
+| 2021-12-19 | Berlin                 | initial doses   |      2,597,809 |     2,592,364 |   -5,445 |
 <!-- END AUTO-UPDATED ANOMALIES SECTION -->
 
 These are not issues in our scripts!
