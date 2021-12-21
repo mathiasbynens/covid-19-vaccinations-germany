@@ -197,7 +197,7 @@ const readPercentData = async () => {
   const headerRow = records[2];
   for (let i = 0; i < headerRow.length; i++) {
     if (headerRow[i] === null) {
-      // If C3 is empty, fall back to the contents of B3, A3.
+      // If C3 is empty, fall back to the contents of C2, C1.
       headerRow[i] = records[1][i] || records[0][i];
     }
     // Ensure every header cell’s content is unique. Remove spaces to
@@ -219,63 +219,77 @@ const readPercentData = async () => {
       prop: 'totalDosesCumulative',
       type: Number,
     },
-    // Gesamtzahl mindestens einmal Geimpfter
-    'GesamtzahlmindestenseinmalGeimpfter_3': {
+    // Gesamtzahl mindestens einmal Geimpfter* → Gesamt
+    'Gesamt_3': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineCumulative',
       type: Number,
     },
+    // Gesamtzahl mindestens einmal Geimpfter* → davon bei 5-11 Jahre
+    'davonbei5-11Jahre_4': {
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineCumulativeOfPeopleAged5To11',
+      type: Number,
+    },
     // Gesamtzahl vollständig Geimpfter*
-    'GesamtzahlvollständigGeimpfter_4': {
+    'GesamtzahlvollständigGeimpfter_5': {
       prop: 'finalDosesCumulative',
       type: Number,
     },
-    // Gesamtzahl Personen mit Auffrischungs-impfung
-    'GesamtzahlPersonenmitAuffrischungs-impfung_5': {
+    // Gesamtzahl Personen mit Auffrischungsimpfung*
+    'GesamtzahlPersonenmitAuffrischimpfung_6': {
       prop: 'firstBoosterDosesCumulative',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → Gesamt
-    'Gesamt_6': {
+    'Gesamt_7': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccinePercent',
       type: Number,
     },
     // Impfquote mindestens einmal geimpft → 12–17 Jahre
-    '12-17Jahre_7': {
+    '12-17Jahre_8': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged12To17',
       type: Number,
     },
-    // Impfquote mindestens einmal geimpft → 18-59 Jahre
-    '18-59Jahre_9': {
+    // Impfquote mindestens einmal geimpft → 18+ Jahre → Gesamt
+    'Gesamt_9': {
+      prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged18AndUp',
+      type: Number,
+    },
+    // Impfquote mindestens einmal geimpft → 18+ Jahre → 18-59 Jahre**
+    '18-59Jahre_10': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged18To59',
       type: Number,
     },
-    // Impfquote mindestens einmal geimpft → 60+ Jahre
-    '60+Jahre_10': {
+    // Impfquote mindestens einmal geimpft → 18+ Jahre → 60+ Jahre**
+    '60+Jahre_11': {
       prop: 'vaccinatedWithExactlyOneDoseOfAnyVaccineOfPeopleAged60AndUp',
       type: Number,
     },
 
     // Impfquote vollständig geimpft → Gesamt
-    'Gesamt_11': {
+    'Gesamt_12': {
       prop: 'fullyVaccinatedPercent',
       type: Number,
     },
     // Impfquote vollständig geimpft → 12–17 Jahre
-    '12-17Jahre_12': {
+    '12-17Jahre_13': {
       prop: 'fullyVaccinatedPercentOfPeopleAged12To17',
       type: Number,
     },
-    // Impfquote vollständig geimpft → 18-59 Jahre
-    '18-59Jahre_14': {
+    // Impfquote vollständig geimpft → 18+ Jahre → Gesamt
+    'Gesamt_14': {
+      prop: 'fullyVaccinatedPercentOfPeopleAged18AndUp',
+      type: Number,
+    },
+    // Impfquote vollständig geimpft → 18+ Jahre → 18-59 Jahre
+    '18-59Jahre_15': {
       prop: 'fullyVaccinatedPercentOfPeopleAged18To59',
       type: Number,
     },
-    // Impfquote vollständig geimpft → 60+ Jahre
-    '60+Jahre_15': {
+    // Impfquote vollständig geimpft → 18+ Jahre → 60+ Jahre
+    '60+Jahre_16': {
       prop: 'fullyVaccinatedPercentOfPeopleAged60AndUp',
       type: Number,
     },
-
   };
   const actualRecords = convertToObject(recordsWithData, schema);
   const data = processRecords(actualRecords);
