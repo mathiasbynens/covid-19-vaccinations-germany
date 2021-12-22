@@ -164,8 +164,7 @@ function percentOnlyPartiallyVaccinated(state) {
     const percent = latestStateEntries.onlyPartiallyVaccinatedPercent;
     return percentFormatter.format(percent);
   }
-  const percent = latestNationalData.onlyPartiallyVaccinatedCumulative /
-    POPULATION_GERMANY * 100;
+  const percent = latestNationalData.onlyPartiallyVaccinatedPercent;
   return percentFormatter.format(percent);
 }
 function percentAtLeastPartiallyVaccinated(state) {
@@ -175,8 +174,7 @@ function percentAtLeastPartiallyVaccinated(state) {
     const percent = latestStateEntries.atLeastPartiallyVaccinatedPercent;
     return percentFormatter.format(percent);
   }
-  const percent = latestNationalData.atLeastPartiallyVaccinatedCumulative /
-    POPULATION_GERMANY * 100;
+  const percent = latestNationalData.atLeastPartiallyVaccinatedPercent;
   return percentFormatter.format(percent);
 }
 function percentFullyVaccinated(state) {
@@ -186,8 +184,7 @@ function percentFullyVaccinated(state) {
     const percent = latestStateEntries.fullyVaccinatedPercent;
     return percentFormatter.format(percent);
   }
-  const percent = latestNationalData.fullyVaccinatedCumulative /
-    POPULATION_GERMANY * 100;
+  const percent = latestNationalData.fullyVaccinatedPercent;
   return percentFormatter.format(percent);
 }
 
