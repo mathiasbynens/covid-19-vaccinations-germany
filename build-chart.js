@@ -157,16 +157,6 @@ const percentFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
-function percentAtLeastPartiallyVaccinated(state) {
-  if (state) {
-    const latestEntries = sortedMap.get(latestDate);
-    const latestStateEntries = latestEntries.get(state);
-    const percent = latestStateEntries.atLeastPartiallyVaccinatedPercent;
-    return percentFormatter.format(percent);
-  }
-  const percent = latestNationalData.atLeastPartiallyVaccinatedPercent;
-  return percentFormatter.format(percent);
-}
 
 function getMetric(metric, state) {
   const current = state ?
@@ -897,7 +887,6 @@ const createHtml = template(HTML_TEMPLATE, {
     population,
     getMetric,
     getPercentage,
-    percentAtLeastPartiallyVaccinated,
     onlyPartiallyVaccinated,
     atLeastPartiallyVaccinated,
     sevenDayAverageDoses,
