@@ -186,12 +186,6 @@ function onlyPartiallyVaccinated(state) {
     latestNationalData.onlyPartiallyVaccinatedCumulative;
   return intFormatter.format(current);
 }
-function atLeastPartiallyVaccinated(state) {
-  const current = state ?
-    map.get(latestDate).get(state).atLeastPartiallyVaccinatedCumulative :
-    latestNationalData.atLeastPartiallyVaccinatedCumulative;
-  return intFormatter.format(current);
-}
 function population(state) {
   const number = state ?
     POPULATION_PER_STATE.get(state) :
@@ -888,7 +882,6 @@ const createHtml = template(HTML_TEMPLATE, {
     getMetric,
     getPercentage,
     onlyPartiallyVaccinated,
-    atLeastPartiallyVaccinated,
     sevenDayAverageDoses,
     sevenDayAverageDosesAsPercentage,
     currentDoses,
