@@ -180,12 +180,6 @@ const intFormatter = new Intl.NumberFormat('en', {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
-function onlyPartiallyVaccinated(state) {
-  const current = state ?
-    map.get(latestDate).get(state).onlyPartiallyVaccinatedCumulative :
-    latestNationalData.onlyPartiallyVaccinatedCumulative;
-  return intFormatter.format(current);
-}
 function population(state) {
   const number = state ?
     POPULATION_PER_STATE.get(state) :
@@ -881,7 +875,6 @@ const createHtml = template(HTML_TEMPLATE, {
     population,
     getMetric,
     getPercentage,
-    onlyPartiallyVaccinated,
     sevenDayAverageDoses,
     sevenDayAverageDosesAsPercentage,
     currentDoses,
