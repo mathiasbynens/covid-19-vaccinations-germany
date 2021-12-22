@@ -13,6 +13,10 @@ for (const record of records) {
   record.finalDosesCumulativeModerna = Number(record.finalDosesCumulativeModerna);
   record.finalDosesCumulativeAstraZeneca = Number(record.finalDosesCumulativeAstraZeneca);
   record.finalDosesCumulativeJohnsonAndJohnson = Number(record.finalDosesCumulativeJohnsonAndJohnson);
+  record.boosterDosesCumulative = Number(record.boosterDosesCumulative);
+  record.boosterDosesCumulativeBioNTech = Number(record.boosterDosesCumulativeBioNTech);
+  record.boosterDosesCumulativeModerna = Number(record.boosterDosesCumulativeModerna);
+  record.boosterDosesCumulativeJohnsonAndJohnson = Number(record.boosterDosesCumulativeJohnsonAndJohnson);
   record.onlyPartiallyVaccinatedCumulative = Number(record.onlyPartiallyVaccinatedCumulative);
   record.onlyPartiallyVaccinatedPercent = Number(record.onlyPartiallyVaccinatedPercent);
   record.onlyPartiallyVaccinatedCumulativeBioNTech = Number(record.onlyPartiallyVaccinatedCumulativeBioNTech);
