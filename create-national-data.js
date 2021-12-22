@@ -47,6 +47,11 @@ for (const record of records) {
     entry.fullyVaccinatedCumulativeModerna += Number(record.fullyVaccinatedCumulativeModerna);
     entry.fullyVaccinatedCumulativeAstraZeneca += Number(record.fullyVaccinatedCumulativeAstraZeneca);
     entry.fullyVaccinatedCumulativeJohnsonAndJohnson += Number(record.fullyVaccinatedCumulativeJohnsonAndJohnson);
+    entry.boostedOnceCumulative += Number(record.boosterDosesCumulative),
+    //entry.boostedOncePercent += 0;
+    entry.boostedOnceCumulativeBioNTech += Number(record.boosterDosesCumulativeBioNTech);
+    entry.boostedOnceCumulativeModerna += Number(record.boosterDosesCumulativeModerna);
+    entry.boostedOnceCumulativeJohnsonAndJohnson += Number(record.boosterDosesCumulativeJohnsonAndJohnson);
   } else {
     map.set(date, {
       date: date,
@@ -82,6 +87,11 @@ for (const record of records) {
       fullyVaccinatedCumulativeModerna: Number(record.fullyVaccinatedCumulativeModerna),
       fullyVaccinatedCumulativeAstraZeneca: Number(record.fullyVaccinatedCumulativeAstraZeneca),
       fullyVaccinatedCumulativeJohnsonAndJohnson: Number(record.fullyVaccinatedCumulativeJohnsonAndJohnson),
+      boostedOnceCumulative: Number(record.boosterDosesCumulative),
+      boostedOncePercent: -1,
+      boostedOnceCumulativeBioNTech: Number(record.boosterDosesCumulativeBioNTech),
+      boostedOnceCumulativeModerna: Number(record.boosterDosesCumulativeModerna),
+      boostedOnceCumulativeJohnsonAndJohnson: Number(record.boosterDosesCumulativeJohnsonAndJohnson),
     });
   }
 }
@@ -91,6 +101,7 @@ for (const entry of map.values()) {
   entry.onlyPartiallyVaccinatedPercent = percentNationally(entry.onlyPartiallyVaccinatedCumulative);
   entry.atLeastPartiallyVaccinatedPercent = percentNationally(entry.atLeastPartiallyVaccinatedCumulative);
   entry.fullyVaccinatedPercent = percentNationally(entry.fullyVaccinatedCumulative);
+  entry.boostedOncePercent = percentNationally(entry.boostedOnceCumulative);
   newRecords.push(entry);
 }
 
