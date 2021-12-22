@@ -177,14 +177,22 @@ function percentAtLeastPartiallyVaccinated(state) {
   const percent = latestNationalData.atLeastPartiallyVaccinatedPercent;
   return percentFormatter.format(percent);
 }
-function percentFullyVaccinated(state) {
+
+function getMetric(metric, state) {
+  const current = state ?
+    map.get(latestDate).get(state)[metric] :
+    latestNationalData[metric];
+  return intFormatter.format(current);
+}
+
+function getPercentage(metric, state) {
   if (state) {
     const latestEntries = sortedMap.get(latestDate);
     const latestStateEntries = latestEntries.get(state);
-    const percent = latestStateEntries.fullyVaccinatedPercent;
+    const percent = latestStateEntries[metric];
     return percentFormatter.format(percent);
   }
-  const percent = latestNationalData.fullyVaccinatedPercent;
+  const percent = latestNationalData[metric];
   return percentFormatter.format(percent);
 }
 
@@ -202,12 +210,6 @@ function atLeastPartiallyVaccinated(state) {
   const current = state ?
     map.get(latestDate).get(state).atLeastPartiallyVaccinatedCumulative :
     latestNationalData.atLeastPartiallyVaccinatedCumulative;
-  return intFormatter.format(current);
-}
-function fullyVaccinated(state) {
-  const current = state ?
-    map.get(latestDate).get(state).fullyVaccinatedCumulative :
-    latestNationalData.fullyVaccinatedCumulative;
   return intFormatter.format(current);
 }
 function population(state) {
@@ -903,12 +905,12 @@ const createHtml = template(HTML_TEMPLATE, {
     dataAnomalyWarning,
     isDeliveryDataDefinitelyOutdated,
     population,
+    getMetric,
+    getPercentage,
     percentOnlyPartiallyVaccinated,
     percentAtLeastPartiallyVaccinated,
-    percentFullyVaccinated,
     onlyPartiallyVaccinated,
     atLeastPartiallyVaccinated,
-    fullyVaccinated,
     sevenDayAverageDoses,
     sevenDayAverageDosesAsPercentage,
     currentDoses,
