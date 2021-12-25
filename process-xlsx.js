@@ -400,8 +400,6 @@ const readDosesPerDayData = async () => {
     const isBund = state === BUNDESWEHR;
 
     const initialDosesCumulative = main.initialDosesCumulativeBioNTech + main.initialDosesCumulativeModerna + main.initialDosesCumulativeAstraZeneca;
-    const finalDosesOfTwoDoseVaccines = main.finalDosesCumulativeBioNTech + main.finalDosesCumulativeModerna + main.finalDosesCumulativeAstraZeneca;
-    const onlyPartiallyVaccinatedCumulative = initialDosesCumulative - finalDosesOfTwoDoseVaccines;
     const finalDosesCumulativeJohnsonAndJohnson = main.finalDosesCumulativeJohnsonAndJohnson;
     const atLeastPartiallyVaccinatedCumulative = initialDosesCumulative + finalDosesCumulativeJohnsonAndJohnson;
 
@@ -429,14 +427,6 @@ const readDosesPerDayData = async () => {
       firstBoosterDosesCumulativeModerna: main.firstBoosterDosesCumulativeModerna,
       firstBoosterDosesCumulativeJohnsonAndJohnson: main.firstBoosterDosesCumulativeJohnsonAndJohnson,
 
-      // initialDoses - finalDoses
-      onlyPartiallyVaccinatedCumulative: onlyPartiallyVaccinatedCumulative,
-      onlyPartiallyVaccinatedPercent: percentForState(onlyPartiallyVaccinatedCumulative, state),
-      onlyPartiallyVaccinatedCumulativeBioNTech: main.initialDosesCumulativeBioNTech - main.finalDosesCumulativeBioNTech,
-      onlyPartiallyVaccinatedCumulativeModerna: main.initialDosesCumulativeModerna - main.finalDosesCumulativeModerna,
-      onlyPartiallyVaccinatedCumulativeAstraZeneca: main.initialDosesCumulativeAstraZeneca - main.finalDosesCumulativeAstraZeneca,
-      //onlyPartiallyVaccinatedCumulativeJohnsonAndJohnson: 0,
-
       // First doses of any vaccine, including J&J (which is not included in `initialDosesCumulative`).
       atLeastPartiallyVaccinatedCumulative: atLeastPartiallyVaccinatedCumulative,
       atLeastPartiallyVaccinatedPercent: percentForState(atLeastPartiallyVaccinatedCumulative, state),
@@ -452,6 +442,11 @@ const readDosesPerDayData = async () => {
       fullyVaccinatedCumulativeAstraZeneca: main.finalDosesCumulativeAstraZeneca,
       fullyVaccinatedCumulativeJohnsonAndJohnson: finalDosesCumulativeJohnsonAndJohnson,
 
+      boostedOnceCumulative: main.firstBoosterDosesCumulative,
+      boostedOncePercent: percentForState(main.firstBoosterDosesCumulative, state),
+      boostedOnceCumulativeBioNTech: main.firstBoosterDosesCumulativeBioNTech,
+      boostedOnceCumulativeModerna: main.firstBoosterDosesCumulativeModerna,
+      boostedOnceCumulativeJohnsonAndJohnson: main.firstBoosterDosesCumulativeJohnsonAndJohnson,
     };
     if (isBund) {
       entry.state = 'Bundeswehr';
