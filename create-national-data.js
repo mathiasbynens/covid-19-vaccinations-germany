@@ -21,10 +21,12 @@ for (const record of records) {
     entry.initialDosesCumulativeBioNTech += Number(record.initialDosesCumulativeBioNTech);
     entry.initialDosesCumulativeModerna += Number(record.initialDosesCumulativeModerna);
     entry.initialDosesCumulativeAstraZeneca += Number(record.initialDosesCumulativeAstraZeneca);
+    entry.initialDosesCumulativeNovavax += Number(record.initialDosesCumulativeNovavax);
     entry.finalDosesCumulative += Number(record.finalDosesCumulative);
     entry.finalDosesCumulativeBioNTech += Number(record.finalDosesCumulativeBioNTech);
     entry.finalDosesCumulativeModerna += Number(record.finalDosesCumulativeModerna);
     entry.finalDosesCumulativeAstraZeneca += Number(record.finalDosesCumulativeAstraZeneca);
+    entry.finalDosesCumulativeNovavax += Number(record.finalDosesCumulativeNovavax);
     entry.finalDosesCumulativeJohnsonAndJohnson += Number(record.finalDosesCumulativeJohnsonAndJohnson);
     entry.boosterDosesCumulative += Number(record.boosterDosesCumulative);
     entry.boosterDosesCumulativeBioNTech += Number(record.boosterDosesCumulativeBioNTech);
@@ -61,10 +63,12 @@ for (const record of records) {
       initialDosesCumulativeBioNTech: Number(record.initialDosesCumulativeBioNTech),
       initialDosesCumulativeModerna: Number(record.initialDosesCumulativeModerna),
       initialDosesCumulativeAstraZeneca: Number(record.initialDosesCumulativeAstraZeneca),
+      initialDosesCumulativeNovavax: Number(record.initialDosesCumulativeNovavax),
       finalDosesCumulative: Number(record.finalDosesCumulative),
       finalDosesCumulativeBioNTech: Number(record.finalDosesCumulativeBioNTech),
       finalDosesCumulativeModerna: Number(record.finalDosesCumulativeModerna),
       finalDosesCumulativeAstraZeneca: Number(record.finalDosesCumulativeAstraZeneca),
+      finalDosesCumulativeNovavax: Number(record.finalDosesCumulativeNovavax),
       finalDosesCumulativeJohnsonAndJohnson: Number(record.finalDosesCumulativeJohnsonAndJohnson),
       boosterDosesCumulative: Number(record.boosterDosesCumulative),
       boosterDosesCumulativeBioNTech: Number(record.boosterDosesCumulativeBioNTech),

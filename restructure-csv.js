@@ -22,11 +22,13 @@ for (const record of records) {
     initialDosesCumulativeBioNTech: record.initialDosesCumulativeBioNTech,
     initialDosesCumulativeModerna: record.initialDosesCumulativeModerna,
     initialDosesCumulativeAstraZeneca: record.initialDosesCumulativeAstraZeneca,
+    initialDosesCumulativeNovavax: record.initialDosesCumulativeNovavax || 0,
 
     finalDosesCumulative: record.finalDosesCumulative,
     finalDosesCumulativeBioNTech: record.finalDosesCumulativeBioNTech,
     finalDosesCumulativeModerna: record.finalDosesCumulativeModerna,
     finalDosesCumulativeAstraZeneca: record.finalDosesCumulativeAstraZeneca,
+    finalDosesCumulativeNovavax: record.finalDosesCumulativeNovavax || 0,
     finalDosesCumulativeJohnsonAndJohnson: record.finalDosesCumulativeJohnsonAndJohnson,
 
     boosterDosesCumulative: record.boosterDosesCumulative || 0,
