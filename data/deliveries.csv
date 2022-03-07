@@ -3780,3 +3780,51 @@ date,state,type,doses
 2022-02-22,Thüringen,Pfizer/BioNTech,15784
 2022-02-22,Thüringen,Moderna,2330
 2022-02-22,Thüringen,Johnson & Johnson,5
+2022-03-01,Baden-Württemberg,Pfizer/BioNTech,75310
+2022-03-01,Baden-Württemberg,Moderna,26520
+2022-03-01,Baden-Württemberg,Johnson & Johnson,285
+2022-03-01,Bayern,Pfizer/BioNTech,71500
+2022-03-01,Bayern,Moderna,23070
+2022-03-01,Bayern,Johnson & Johnson,545
+2022-03-01,Berlin,Pfizer/BioNTech,37312
+2022-03-01,Berlin,Moderna,7670
+2022-03-01,Berlin,Johnson & Johnson,85
+2022-03-01,Brandenburg,Pfizer/BioNTech,22306
+2022-03-01,Brandenburg,Moderna,6100
+2022-03-01,Brandenburg,Johnson & Johnson,0
+2022-03-01,Bremen,Pfizer/BioNTech,5462
+2022-03-01,Bremen,Moderna,1020
+2022-03-01,Bremen,Johnson & Johnson,45
+2022-03-01,Hamburg,Pfizer/BioNTech,16404
+2022-03-01,Hamburg,Moderna,4000
+2022-03-01,Hamburg,Johnson & Johnson,5
+2022-03-01,Hessen,Pfizer/BioNTech,62410
+2022-03-01,Hessen,Moderna,7940
+2022-03-01,Hessen,Johnson & Johnson,80
+2022-03-01,Mecklenburg-Vorpommern,Pfizer/BioNTech,15694
+2022-03-01,Mecklenburg-Vorpommern,Moderna,3780
+2022-03-01,Mecklenburg-Vorpommern,Johnson & Johnson,30
+2022-03-01,Niedersachsen,Pfizer/BioNTech,90908
+2022-03-01,Niedersachsen,Moderna,16790
+2022-03-01,Niedersachsen,Johnson & Johnson,220
+2022-03-01,Nordrhein-Westfalen,Pfizer/BioNTech,189672
+2022-03-01,Nordrhein-Westfalen,Moderna,53700
+2022-03-01,Nordrhein-Westfalen,Johnson & Johnson,160
+2022-03-01,Rheinland-Pfalz,Pfizer/BioNTech,37702
+2022-03-01,Rheinland-Pfalz,Moderna,5680
+2022-03-01,Rheinland-Pfalz,Johnson & Johnson,90
+2022-03-01,Saarland,Pfizer/BioNTech,11560
+2022-03-01,Saarland,Moderna,3020
+2022-03-01,Saarland,Johnson & Johnson,10
+2022-03-01,Sachsen,Pfizer/BioNTech,31690
+2022-03-01,Sachsen,Moderna,6830
+2022-03-01,Sachsen,Johnson & Johnson,55
+2022-03-01,Sachsen-Anhalt,Pfizer/BioNTech,22144
+2022-03-01,Sachsen-Anhalt,Moderna,2970
+2022-03-01,Sachsen-Anhalt,Johnson & Johnson,30
+2022-03-01,Schleswig-Holstein,Pfizer/BioNTech,36862
+2022-03-01,Schleswig-Holstein,Moderna,7940
+2022-03-01,Schleswig-Holstein,Johnson & Johnson,65
+2022-03-01,Thüringen,Pfizer/BioNTech,14372
+2022-03-01,Thüringen,Moderna,1730
+2022-03-01,Thüringen,Johnson & Johnson,10
