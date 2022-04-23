@@ -3,6 +3,7 @@ const vaccineIdToLabel = new Map([
   ['comirnaty', 'Pfizer/BioNTech'],
   ['johnson', 'Johnson & Johnson'],
   ['moderna', 'Moderna'],
+  ['novavax', 'Novavax'],
 ]);
 
 const vaccineLabels = [...vaccineIdToLabel.values()];
