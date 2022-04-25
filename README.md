@@ -117,7 +117,9 @@ Cumulative vaccination metrics cannot decrease over time, yet sometimes the repo
 | 2021-12-19 | Berlin                 | final doses     |      2,633,169 |     2,590,531 |  -42,638 |
 | 2021-12-19 | Berlin                 | initial doses   |      2,597,809 |     2,592,364 |   -5,445 |
 | 2022-02-27 | Hessen                 | initial doses   |      4,561,233 |     4,558,716 |   -2,517 |
+| 2022-04-12 | Rheinland-Pfalz        | available doses |      8,649,124 |     8,438,314 | -210,810 |
 | 2022-04-19 | Thüringen              | initial doses   |      1,392,742 |     1,392,721 |      -21 |
+| 2022-04-20 | Nordrhein-Westfalen    | available doses |     45,016,664 |    44,887,814 | -128,850 |
 <!-- END AUTO-UPDATED ANOMALIES SECTION -->
 
 These are not issues in our scripts!
