@@ -4173,7 +4173,7 @@ date,state,type,doses
 2022-04-12,Nordrhein-Westfalen,Johnson & Johnson,65
 2022-04-12,Nordrhein-Westfalen,Novavax,2740
 2022-04-12,Rheinland-Pfalz,Pfizer/BioNTech,29860
-2022-04-12,Rheinland-Pfalz,Moderna,4030
+2022-04-12,Rheinland-Pfalz,Moderna,-240970
 2022-04-12,Rheinland-Pfalz,Johnson & Johnson,0
 2022-04-12,Rheinland-Pfalz,Novavax,300
 2022-04-12,Saarland,Pfizer/BioNTech,9664
@@ -4196,3 +4196,70 @@ date,state,type,doses
 2022-04-12,Thüringen,Moderna,860
 2022-04-12,Thüringen,Johnson & Johnson,0
 2022-04-12,Thüringen,Novavax,200
+2022-04-19,Baden-Württemberg,Pfizer/BioNTech,46882
+2022-04-19,Baden-Württemberg,Moderna,9750
+2022-04-19,Baden-Württemberg,Johnson & Johnson,550
+2022-04-19,Baden-Württemberg,Novavax,1440
+2022-04-19,Bayern,Pfizer/BioNTech,54566
+2022-04-19,Bayern,Moderna,10190
+2022-04-19,Bayern,Johnson & Johnson,110
+2022-04-19,Bayern,Novavax,1010
+2022-04-19,Berlin,Pfizer/BioNTech,20520
+2022-04-19,Berlin,Moderna,3490
+2022-04-19,Berlin,Johnson & Johnson,105
+2022-04-19,Berlin,Novavax,740
+2022-04-19,Brandenburg,Pfizer/BioNTech,10710
+2022-04-19,Brandenburg,Moderna,2120
+2022-04-19,Brandenburg,Johnson & Johnson,30
+2022-04-19,Brandenburg,Novavax,170
+2022-04-19,Bremen,Pfizer/BioNTech,4602
+2022-04-19,Bremen,Moderna,730
+2022-04-19,Bremen,Johnson & Johnson,25
+2022-04-19,Bremen,Novavax,40
+2022-04-19,Companies,Moderna,20
+2022-04-19,Hamburg,Pfizer/BioNTech,15654
+2022-04-19,Hamburg,Moderna,2050
+2022-04-19,Hamburg,Johnson & Johnson,5
+2022-04-19,Hamburg,Novavax,240
+2022-04-19,Hessen,Pfizer/BioNTech,37242
+2022-04-19,Hessen,Moderna,5490
+2022-04-19,Hessen,Johnson & Johnson,20
+2022-04-19,Hessen,Novavax,840
+2022-04-19,Mecklenburg-Vorpommern,Pfizer/BioNTech,19208
+2022-04-19,Mecklenburg-Vorpommern,Moderna,4130
+2022-04-19,Mecklenburg-Vorpommern,Johnson & Johnson,0
+2022-04-19,Mecklenburg-Vorpommern,Novavax,130
+2022-04-19,Niedersachsen,Pfizer/BioNTech,66296
+2022-04-19,Niedersachsen,Moderna,10820
+2022-04-19,Niedersachsen,Johnson & Johnson,20
+2022-04-19,Niedersachsen,Novavax,1860
+2022-04-19,Nordrhein-Westfalen,Pfizer/BioNTech,146348
+2022-04-19,Nordrhein-Westfalen,Moderna,23880
+2022-04-19,Nordrhein-Westfalen,Johnson & Johnson,55
+2022-04-19,Nordrhein-Westfalen,Novavax,1270
+2022-04-19,Rheinland-Pfalz,Pfizer/BioNTech,21506
+2022-04-19,Rheinland-Pfalz,Moderna,2180
+2022-04-19,Rheinland-Pfalz,Johnson & Johnson,0
+2022-04-19,Rheinland-Pfalz,Novavax,180
+2022-04-19,Saarland,Pfizer/BioNTech,4554
+2022-04-19,Saarland,Moderna,780
+2022-04-19,Saarland,Johnson & Johnson,0
+2022-04-19,Saarland,Novavax,30
+2022-04-19,Sachsen,Pfizer/BioNTech,9484
+2022-04-19,Sachsen,Moderna,2570
+2022-04-19,Sachsen,Johnson & Johnson,0
+2022-04-19,Sachsen,Novavax,410
+2022-04-19,Sachsen-Anhalt,Pfizer/BioNTech,13606
+2022-04-19,Sachsen-Anhalt,Moderna,2480
+2022-04-19,Sachsen-Anhalt,Johnson & Johnson,5
+2022-04-19,Sachsen-Anhalt,Novavax,180
+2022-04-19,Schleswig-Holstein,Pfizer/BioNTech,21570
+2022-04-19,Schleswig-Holstein,Moderna,3360
+2022-04-19,Schleswig-Holstein,Johnson & Johnson,0
+2022-04-19,Schleswig-Holstein,Novavax,170
+2022-04-19,Thüringen,Pfizer/BioNTech,4942
+2022-04-19,Thüringen,Moderna,470
+2022-04-19,Thüringen,Johnson & Johnson,0
+2022-04-19,Thüringen,Novavax,140
+2022-04-20,Nordrhein-Westfalen,Pfizer/BioNTech,5850
+2022-04-20,Nordrhein-Westfalen,Moderna,-134700
