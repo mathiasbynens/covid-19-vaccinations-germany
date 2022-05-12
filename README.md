@@ -1,5 +1,9 @@
 # COVID-19 vaccination doses administered in Germany, per state
 
+Archived; see <https://github.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland> instead.
+
+----------
+
 The year is 2021. The RKI is [sharing vaccination statistics](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html) through [an Excel spreadsheet](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquotenmonitoring.xlsx?__blob=publicationFile). The spreadsheet only contains detailed data for a single day at a time — meaning historical data is lost every time the sheet gets updated.
 
 This repository aims to…
